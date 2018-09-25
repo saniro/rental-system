@@ -13,6 +13,12 @@
 		case 'dashboard':
 			require("view/a_dashboard.php");
 			break;
+		case 'bill_type':
+			require("view/a_bill_type.php");
+			break;
+		case 'register':
+			require("view/a_register.php");
+			break;
 		default:
 			echo '<br>'.$_GET['route'];
 			break;
