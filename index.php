@@ -5,13 +5,31 @@
 	}
 	switch (filter($_GET['route'])) {
 		case '':
-			require("view/a_login.php");
+			require("view/login.php");
 			break;
 		case 'login':
-			require("view/a_login.php");
+			require("view/login.php");
 			break;
 		case 'dashboard':
 			require("view/a_dashboard.php");
+			break;
+		case 'rooms':
+			require("view/a_rooms.php");
+			break;
+		case 'applicants':
+			require("view/a_applicants.php");
+			break;
+		case 'tenants':
+			require("view/a_tenants.php");
+			break;
+		case 'payments':
+			require("view/a_payments.php");
+			break;
+		case 'complaints':
+			require("view/a_complaints.php");
+			break;
+		case 'notifications':
+			require("view/a_notifications.php");
 			break;
 		case 'bill_type':
 			require("view/a_bill_type.php");
