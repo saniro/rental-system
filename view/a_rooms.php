@@ -56,11 +56,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h4 class="floortitle">First Floor</h4>
-                            <?php $rowCount = room_check(1); ?>
-                            <button class="room <?php echo $rowCount; ?> leftcorner" data-id="1">Room 01</button>
-                            <button class="room" data-id="2">Room 02</button>
-                            <button class="room" data-id="3">Room 03</button>
-                            <button class="room" data-id="4">Room 04</button>
+                            <button class="room <?php if(room_check(1) == 1){ echo 'occupied'; }; ?> leftcorner" data-id="1">Room 01</button>
+                            <button class="room <?php if(room_check(2) == 1){ echo 'occupied'; }; ?>" data-id="2">Room 02</button>
+                            <button class="room <?php if(room_check(3) == 1){ echo 'occupied'; }; ?>" data-id="3">Room 03</button>
+                            <button class="room <?php if(room_check(4) == 1){ echo 'occupied'; }; ?>" data-id="4">Room 04</button>
                             <br>
                     </div>
                 </div>
@@ -70,10 +69,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h4 class="floortitle">Second Floor</h4>
-                            <button class="room leftcorner" data-id="5">Room 05</button>
-                            <button class="room">Room 06</button>
-                            <button class="room">Room 07</button>
-                            <button class="room">Room 08</button>
+                            <button class="room <?php if(room_check(5) == 1){ echo 'occupied'; }; ?> leftcorner" data-id="5">Room 05</button>
+                            <button class="room <?php if(room_check(6) == 1){ echo 'occupied'; }; ?>" data-id="6">Room 06</button>
+                            <button class="room <?php if(room_check(7) == 1){ echo 'occupied'; }; ?>" data-id="7">Room 07</button>
+                            <button class="room <?php if(room_check(8) == 1){ echo 'occupied'; }; ?>" data-id="8">Room 08</button>
                             <br>
                     </div>
                 </div>
@@ -83,10 +82,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h4 class="floortitle">Third Floor</h4>
-                            <button class="room occupied leftcorner">Room 09</button>
-                            <button class="room">Room 10</button>
-                            <button class="room">Room 11</button>
-                            <button class="room">Room 12</button>
+                            <button class="room <?php if(room_check(9) == 1){ echo 'occupied'; }; ?> leftcorner" data-id="9">Room 09</button>
+                            <button class="room <?php if(room_check(10) == 1){ echo 'occupied'; }; ?>" data-id="10">Room 10</button>
+                            <button class="room <?php if(room_check(11) == 1){ echo 'occupied'; }; ?>" data-id="11">Room 11</button>
+                            <button class="room <?php if(room_check(12) == 1){ echo 'occupied'; }; ?>" data-id="12">Room 12</button>
                             <br>
                     </div>
                 </div>
@@ -96,10 +95,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h4 class="floortitle">Fourth Floor</h4>
-                            <button class="room leftcorner">Room 13</button>
-                            <button class="room">Room 14</button>
-                            <button class="room">Room 15</button>
-                            <button class="room">Room 16</button>
+                            <button class="room <?php if(room_check(13) == 1){ echo 'occupied'; }; ?> leftcorner" data-id="13">Room 13</button>
+                            <button class="room <?php if(room_check(14) == 1){ echo 'occupied'; }; ?>" data-id="14">Room 14</button>
+                            <button class="room <?php if(room_check(15) == 1){ echo 'occupied'; }; ?>" data-id="15">Room 15</button>
+                            <button class="room <?php if(room_check(16) == 1){ echo 'occupied'; }; ?>" data-id="16">Room 16</button>
                             <br>
                     </div>
                 </div>
@@ -109,10 +108,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h4 class="floortitle">Fifth Floor</h4>
-                            <button class="room leftcorner">Room 17</button>
-                            <button class="room">Room 18</button>
-                            <button class="room">Room 19</button>
-                            <button class="room">Room 20</button>
+                            <button class="room <?php if(room_check(17) == 1){ echo 'occupied'; }; ?> leftcorner" data-id="17">Room 17</button>
+                            <button class="room <?php if(room_check(18) == 1){ echo 'occupied'; }; ?>" data-id="18">Room 18</button>
+                            <button class="room <?php if(room_check(19) == 1){ echo 'occupied'; }; ?>" data-id="19">Room 19</button>
+                            <button class="room <?php if(room_check(20) == 1){ echo 'occupied'; }; ?>" data-id="20">Room 20</button>
                             <br>
                     </div>
                 </div>
