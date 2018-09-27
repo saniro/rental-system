@@ -1,8 +1,10 @@
+<?php
+    require("functions/select_all_function.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,7 +56,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h4 class="floortitle">First Floor</h4>
-                            <button class="room leftcorner" data-id="1">Room 01</button>
+                            <?php $rowCount = room_check(1); ?>
+                            <button class="room <?php echo $rowCount; ?> leftcorner" data-id="1">Room 01</button>
                             <button class="room" data-id="2">Room 02</button>
                             <button class="room" data-id="3">Room 03</button>
                             <button class="room" data-id="4">Room 04</button>
@@ -295,13 +298,39 @@
                     </div>
                 </div>
                 <div class = "modal-footer">
-                    <button type="button" class = "btn btn-danger" data-dismiss = "modal">TERMINATE </button>
+                    <button type="button" class = "btn btn-danger" id="btnTerminate" data-dismiss = "modal">TERMINATE </button>
                     <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id = "modalTerminate" class = "modal fade"  role = "dialog">
+        <div class = "modal-dialog">
+            <div class="modal-content">
+                <div class = "modal-header">
+                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                    <h4 class ="modal-title"> Terminate Rental </h4>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <td> Room name: </td>
+                            <td id = "c_room_name"></td>
+                        </tr>
+                        <tr>
+                            <td> Name: </td>
+                            <td id = "c_name"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class = "modal-footer">
+                    <button type="button" class = "btn btn-success" id="SubmitTerminate" data-dismiss = "modal"> YES </button>
+                    <button type ="button" class = "btn btn-danger" data-dismiss = "modal"> NO </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -354,7 +383,7 @@
                                 $("#o_gender").html(data.gender);
                                 $("#o_contactno").html(data.contact_no);
                                 $("#o_email").html(data.email);
-                                //$("#SubmitDelete").attr('data-id', data.user_id);
+                                $("#btnTerminate").attr('data-id', data.rental_id);
                                 $('#modalOccupiedRoom').modal('show');
                             }
                             else if (data.status == "vacant"){
@@ -420,6 +449,52 @@
                     }
                 });
             });
+
+            $(document).on('click', '#btnTerminate', function(){
+                var rental_id = $(this).attr('data-id');
+                var rental_terminate = 'selected';
+                $.ajax({
+                    url: 'functions/select_delete_function.php',
+                    method: 'POST',
+                    data: {
+                        rental_terminate_data: rental_terminate,
+                        rental_id_data: rental_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        $("#c_room_name").html(data.room_name);
+                        $("#c_name").html(data.user_name);
+                        $("#SubmitTerminate").attr('data-id', data.rental_id);
+                        $('#modalTerminate').modal('show');
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
+
+            $(document).on('click', '#SubmitTerminate', function(){
+                var rental_id = $(this).attr('data-id');
+                var rental_terminate = 'selected';
+                $.ajax({
+                    url: 'functions/delete_function.php',
+                    method: 'POST',
+                    data: {
+                        rental_terminate_data: rental_terminate,
+                        rental_id_data: rental_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
+
         });
     </script>
 </body>
