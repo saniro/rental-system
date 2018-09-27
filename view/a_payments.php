@@ -1,3 +1,6 @@
+<?php
+    require("functions/select_all_function.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,23 +64,31 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>Email</th>
                                         <th>Contact No.</th>
-                                        <th>Room No.</th>
+                                        <th>Room Name</th>
+                                        <th>Due Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="odd gradeX">
-                                        <td>Trident</td>
-                                        <td>Internet Explorer 4.0</td>
-                                        <td>Win 95+</td>
-                                        <td class="center">4</td>
-                                        <td class="center">X</td>
-                                        <td class="center">
-                                            <button title="View Full Details" class="btn btn-info"><span class="fa fa-file-text-o"></span></button>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                        $all_payments = all_payments();
+                                        $all_payments = json_decode($all_payments);
+                                        foreach ($all_payments as $value) {
+                                        ?>
+                                        <tr class="odd gradeX" id = "<?php echo $value -> {'m_rent_id'}; ?>">
+                                            <td><?php echo $value -> {'m_rent_id'}; ?></td>
+                                            <td><?php echo $value -> {'user_name'}; ?></td>
+                                            <td><?php echo $value -> {'contact_no'}; ?></td>
+                                            <td class="center"><?php echo $value -> {'room_name'}; ?></td>
+                                            <td class="center"><?php echo $value -> {'due_date'}; ?></td>
+                                            <td class="center">
+                                                <button title="View Full Details" class="btn btn-info"><span class="fa fa-file-text-o"></span></button>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

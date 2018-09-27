@@ -38,7 +38,7 @@
 		$stmt->execute();
 
 		$query = "UPDATE rental_tbl 
-					SET status = 0 
+					SET status = 0, end_date = CURDATE() 
 					WHERE rental_id = :rental_id";
 		$stmt = $con->prepare($query);
 		$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);

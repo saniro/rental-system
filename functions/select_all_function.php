@@ -32,9 +32,9 @@
 		// }
 	}
 
-	function all_tenants(){
+	function all_payments(){
 		require("./connection/connection.php");
-		$query = "SELECT user_id, concat(last_name,  ', ', first_name, ' ', middle_name) AS name, email, contact_no, (SELECT room_name FROM room_tbl WHERE room_id = (SELECT room_id FROM rental_tbl AS RL WHERE RL.user_id = UR.user_id)) AS room_name FROM user_tbl AS UR WHERE user_type = 0 AND flag = 1";
+		$query = "SELECT m_rent_id, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = MT.rental_id)) AS user_name, (SELECT contact_no FROM user_tbl AS UR WHERE UR.user_id = (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = MT.rental_id)) AS contact_no, (SELECT room_name FROM room_tbl AS RM WHERE room_id = (SELECT room_id FROM rental_tbl AS RL WHERE RL.rental_id = MT.rental_id)) AS room_name, payables, due_date FROM monthly_rent_tbl AS MT";
 		$stmt = $con->prepare($query);
 		$stmt->execute();
 		$results = $stmt->fetchAll();
