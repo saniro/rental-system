@@ -1,4 +1,9 @@
 <?php
+    if(!isset($_SESSION['user_id'])){
+        header("location:index");
+    }
+?>
+<?php
     require("functions/select_all_function.php");
 ?>
 <!DOCTYPE html>

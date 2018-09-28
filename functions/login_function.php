@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require("../connection/connection.php");
 	if(isset($_POST['email_data']) && isset($_POST['password_data'])){
 		$email = $_POST['email_data'];
@@ -19,6 +20,7 @@
 				echo $output;
 			}
 			else{
+				$_SESSION["user_id"] = $row['user_id'];
 				$data = array("success" => "true", "first_name" => $row['first_name']);
 				$output = json_encode($data);
 				echo $output;

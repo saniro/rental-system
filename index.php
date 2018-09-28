@@ -3,12 +3,13 @@
 	if(!isset($_GET['route'])){
 		$_GET['route'] = "";
 	}
+	session_start();
 	switch (filter($_GET['route'])) {
 		case '':
-			require("view/login.php");
+			require("view/a_login.php");
 			break;
 		case 'login':
-			require("view/login.php");
+			require("view/a_login.php");
 			break;
 		case 'dashboard':
 			require("view/a_dashboard.php");
@@ -37,8 +38,11 @@
 		case 'register':
 			require("view/a_register.php");
 			break;
+		case 'logout':
+			require("view/logout.php");
+			break;
 		default:
-			echo '<br>'.$_GET['route'];
+			require("view/a_error404.php");
 			break;
 	}
 ?>
