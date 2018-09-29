@@ -15,6 +15,7 @@
     <meta name="author" content="">
 
     <title>Apartment Rental</title>
+    <link rel="icon" href="img/apicon.png">
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -77,7 +78,7 @@
                                         <td>Dessa Alba sent you an application form.</td>
                                         <td class="center">
                                             <center>
-                                                <button title="Mark as Read" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span></button>
+                                                <button data-toggle="tooltip" title="Mark as Read" class="btn btn-primary" id="btnRead"><span class="glyphicon glyphicon-check"></span></button>
                                             </center>
                                         </td>
                                     </tr>
@@ -121,39 +122,47 @@
             responsive: true
         });
 
-        $(document).on('click', '#btnCompleted', function(){
-            $('#modalCompleted').modal('show');
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $(document).on('click', '#btnRead', function(){
+            $('#modalRead').modal('show');
         });
 
     });
     </script>
 
     
-<!-- This is the Modal that will be called for completed btn -->
-          <div id = "modalCompleted" class = "modal fade"  role = "dialog">
+
+    
+<!-- This is the Modal that will be called for read btn -->
+          <div id = "modalRead" class = "modal fade"  role = "dialog">
             <div class = "modal-dialog">
 
               <div class="modal-content">
                 <div class = "modal-header">
                   <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                        <h4 class ="modal-title"> Mark as Completed </h4>
+                        <h4 class ="modal-title"> Mark as Read </h4>
                       </div>
                       <div class="modal-body">
                         <form>
                             <table>
                             <tr>
-                                <td> Tenant's Name: </td>
-                                <td> Name Tenant</td>
+                                <td> Date Generated: </td>
+                                <td> Jan 23 2019</td>
                             </tr>
                             <tr>
-                                <td> Room Number: </td>
-                                <td> 18</td>
+                                <td> Subject: </td>
+                                <td> Change Room Request</td>
+                            </tr>
+                            <tr>
+                                <td> Message: </td>
+                                <td> Change Room Request approved. You can transfer to room 01 tomorrow.</td>
                             </tr>
                         </table>
                       </form>
                       </div>
                       <div class = "modal-footer">
-                        <button type="button" class = "btn btn-primary" data-dismiss = "modal">COMPLETED </button>
+                        <button type="button" class = "btn btn-primary" data-dismiss = "modal">MARK AS READ </button>
                         <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
                       </div>
                     </div>

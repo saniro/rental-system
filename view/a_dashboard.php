@@ -15,6 +15,7 @@
     <meta name="author" content="">
 
     <title>Apartment Rental</title>
+    <link rel="icon" href="img/apicon.png">
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

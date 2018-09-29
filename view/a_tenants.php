@@ -15,6 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Apartment Rental</title>
+    <link rel="icon" href="img/apicon.png">
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
@@ -74,9 +75,9 @@
                                             <td class="center"><?php echo $value -> {'contact_no'}; ?></td>
                                             <td class="center"><?php echo $value -> {'room_name'}; ?></td>
                                             <td class="center">
-                                                <button data-id = "<?php echo $value -> {'user_id'}; ?>" title="View Full Details" class="btn btn-info btn_details" id = "btnDetails"><span class="fa fa-file-text-o"></span></button>
-                                                <button data-id = "<?php echo $value -> {'user_id'}; ?>" title="Edit" class="btn btn-success btn_edit" id="btnEdit"><span class="fa fa-edit"></span></button>
-                                                <button data-id = "<?php echo $value -> {'user_id'}; ?>" title="Delete" class="btn btn-danger" id="btnDelete"><span class="glyphicon glyphicon-trash"></span></button>
+                                                <button data-toggle="tooltip" data-id = "<?php echo $value -> {'user_id'}; ?>" title="View Full Details" class="btn btn-info btn_details" id = "btnDetails"><span class="fa fa-file-text-o"></span></button>
+                                                <button data-toggle="tooltip" data-id = "<?php echo $value -> {'user_id'}; ?>" title="Edit" class="btn btn-success btn_edit" id="btnEdit"><span class="fa fa-edit"></span></button>
+                                                <button data-toggle="tooltip" data-id = "<?php echo $value -> {'user_id'}; ?>" title="Deactivate" class="btn btn-danger" id="btnDelete"><span class="glyphicon glyphicon-trash"></span></button>
                                             </td>
                                         </tr>
                                         <?php
@@ -130,6 +131,60 @@
         </div>
 
  -->
+
+ <!-- This is the Modal that will be called for view column -->
+    <div id = "modalDetails" class = "modal fade"  role = "dialog">
+        <div class = "modal-dialog">
+            <div class="modal-content">
+                <div class = "modal-header">
+                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                    <h4 class ="modal-title"> Tenant's Information </h4>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <td>Profile Picture: </td>
+                            <!-- <td id = view_profilepic></td> -->
+                        </tr>
+                        <tr>
+                            <td> ID: </td>
+                            <!-- <td id = "view_id"></td> -->
+                        </tr>
+                        <tr>
+                            <td> Name: </td>
+                            <!-- <td id = "view_name"></td> -->
+                        </tr>
+                        <tr>
+                            <td> Room name: </td>
+                            <!-- <td id = "view_roomname"></td> -->
+                        </tr>
+                        <tr>
+                            <td> Birthdate: </td>
+                            <!-- <td id = "view_birthdate"></td> -->
+                        </tr>
+                        <tr>
+                            <td> Gender: </td>
+                            <!-- <td id = "view_gender"></td> -->
+                        </tr>
+                        <tr>
+                            <td> Contact No: </td>
+                            <!-- <td id = "view_contactno"></td> -->
+                        </tr>
+                        <tr>
+                            <td> Email: </td>
+                            <!-- <td id = "view_email"></td> -->
+                        </tr>
+                    </table>
+                </div>
+                <div class = "modal-footer">
+                    <!-- <button type="button" class = "btn btn-success" data-dismiss = "modal" id="SubmitEdit">SAVE CHANGES</button> -->
+                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- This is the Modal that will be called for edit column -->
     <div id = "modalEdit" class = "modal fade"  role = "dialog">
         <div class = "modal-dialog">
@@ -176,11 +231,66 @@
                 </div>
                 <div class = "modal-footer">
                     <button type="button" class = "btn btn-success" data-dismiss = "modal" id="SubmitEdit">SAVE CHANGES</button>
-                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CANCEL </button>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+    <!-- This is the Modal that will be called for edit column -->
+   <!--  <div id = "modalEdit" class = "modal fade"  role = "dialog">
+        <div class = "modal-dialog">
+            <div class="modal-content">
+                <div class = "modal-header">
+                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                    <h4 class ="modal-title"> Edit Tenant's Information </h4>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <td>Profile Picture: </td>
+                            <td id = view_profilepic><input type="file" name=""></td>
+                        </tr>
+                        <tr>
+                            <td> ID: </td>
+                            <td id = "view_id"><input type="" name="" disabled="true"></td>
+                        </tr>
+                        <tr>
+                            <td> Name: </td>
+                            <td id = "view_name"><input type="text" name=""></td>
+                        </tr>
+                        <tr>
+                            <td> Room name: </td>
+                            <td id = "view_roomname"><input type="text" name=""></td>
+                        </tr>
+                        <tr>
+                            <td> Birthdate: </td>
+                            <td id = "view_birthdate"><input type="date" name=""></td>
+                        </tr>
+                        <tr>
+                            <td> Gender: </td>
+                            <td id = "view_gender"></td>
+                        </tr>
+                        <tr>
+                            <td> Contact No: </td>
+                            <td id = "view_contactno"><input type="text" name=""></td>
+                        </tr>
+                        <tr>
+                            <td> Email: </td>
+                            <td id = "view_email"><input type="text" name=""></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class = "modal-footer">
+                    <button type="button" class = "btn btn-success" data-dismiss = "modal" id="SubmitEdit">SAVE CHANGES</button>
+                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CANCEL </button>
+                </div>
+            </div>
+        </div>
+    </div>
+ -->
 
         <!-- This is the Modal that will be called for delete column -->
     <div id = "modalDelete" class = "modal fade"  role = "dialog">
@@ -228,7 +338,7 @@
                 </div>
                 <div class = "modal-footer">
                     <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitDelete">DEACTIVATE </button>
-                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CANCEL </button>
                 </div>
             </div>
         </div>
@@ -257,8 +367,10 @@
                 responsive: true
             });
 
-            $(document).on('click', '#btnAdd', function(){
-                $('#modalAdd').modal('show');
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $(document).on('click', '#btnDetails', function(){
+                $('#modalDetails').modal('show');
             });
 
             $(document).on('click', '#btnEdit', function(){

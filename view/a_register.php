@@ -7,6 +7,7 @@
 <html>
 <head>
 	<title>Register</title>
+    <link rel="icon" href="img/apicon.png">
 	<script type="text/javascript" src = "lib\jQuery-3.3.1\jquery-3.3.1.min.js"></script>
 </head>
 <body>

@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">Apartment Rental</a>
+        <a class="navbar-brand" href="index.html"><img style="display:inline-block;margin-right:5px;" src="img/apicon.png" class="fa-fw">Apartment Rental</a>
     </div>
     <!-- /.navbar-header -->
 
@@ -35,7 +35,7 @@
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
-                <li class="sidebar-search" style="text-align:center;">
+                <li class="sidebar-search">
                     <div class="input-group custom-search-form">
                         <!-- <input type="text" class="form-control" placeholder="Search..."> -->
                         <!-- <span class="input-group-btn"> -->
@@ -43,7 +43,8 @@
                             <!-- <i class="fa fa-search"></i> -->
                         <!-- </button> -->
                     <!-- </span> -->
-					<label>ADMINISTRATOR</label>
+                    <img style="display:inline-block;margin-right:5px;width:13%;height:8%;" src="users/default-profile-picture.png" class="fa-fw">
+					<label style="text-align:center;">ADMINISTRATOR</label>
                     </div>
                     <!-- /input-group -->
                 </li>
@@ -51,22 +52,30 @@
                     <a href="index?route=dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="index?route=rooms"><i class="fa fa-table fa-fw"></i> Rooms</a>
+                    <a href="#"><i class="glyphicon glyphicon-home fa-fw"></i> Rooms<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="index?route=rooms">Rooms Map</a>
+                        </li>
+                        <li>
+                            <a href="index?route=roomstable">Rooms Table</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="index?route=applicants"><i class="fa fa-table fa-fw"></i> Applicants</a>
+                    <a href="index?route=applicants"><i class="fa fa-plus-square fa-fw"></i> Applicants</a>
                 </li>
                 <li>
-                    <a href="index?route=tenants"><i class="fa fa-table fa-fw"></i> Tenants</a>
+                    <a href="index?route=tenants"><i class="fa fa-group fa-fw"></i> Tenants</a>
                 </li>
                 <li>
-                    <a href="index?route=payments"><i class="fa fa-table fa-fw"></i> Payments</a>
+                    <a href="index?route=payments"><i class="fa fa-ruble fa-fw"></i> Payments</a>
                 </li>
                 <li>
-                    <a href="index?route=complaints"><i class="fa fa-table fa-fw"></i> Complaints</a>
+                    <a href="index?route=complaints"><i class="fa fa-exclamation-triangle fa-fw"></i> Complaints</a>
                 </li>
                 <li>
-                    <a href="index?route=notifications"><i class="fa fa-table fa-fw"></i> Notifications</a>
+                    <a href="index?route=notifications"><i class="fa fa-bell fa-fw"></i> Notifications</a>
                 </li>
                 <!-- <li>
                     <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>

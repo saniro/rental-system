@@ -15,6 +15,7 @@
     <meta name="author" content="">
 
     <title>Apartment Rental</title>
+    <link rel="icon" href="img/apicon.png">
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -80,9 +81,9 @@
                                         <td class="center">4</td>
                                         <td class="center">X</td>
                                         <td class="center">
-                                            <button title="View Full Details" class="btn btn-info"><span class="fa fa-file-text-o"></span></button>
-                                            <button title="Approve" class="btn btn-primary" id="btnApprove"><span class="fa fa-check"></span></button>
-                                            <button title="Reject" class="btn btn-danger" id="btnReject"><span class="fa fa-times"></span></button>
+                                            <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnView"><span class="fa fa-file-text-o"></span></button>
+                                            <button data-toggle="tooltip" title="Approve" class="btn btn-primary" id="btnApprove"><span class="fa fa-check"></span></button>
+                                            <button data-toggle="tooltip" title="Reject" class="btn btn-danger" id="btnReject"><span class="fa fa-times"></span></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -125,9 +126,11 @@
             responsive: true
         });
 
-        // $(document).on('click', '#btnAdd', function(){
-        //     $('#modalAdd').modal('show');
-        // });
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $(document).on('click', '#btnView', function(){
+            $('#modalView').modal('show');
+        });
 
         $(document).on('click', '#btnApprove', function(){
             $('#modalApprove').modal('show');
@@ -139,96 +142,270 @@
     });
     </script>
 
-    <!-- This is the Modal that will be called for add column -->
-      <!-- <div class = "modal fade" id = "modalAdd" role = "dialog">
+    <!-- This is the Modal that will be called for view btn -->
+      <div class = "modal fade" id = "modalView" role = "dialog">
         <div class = "modal-dialog">
 
           <div class="modal-content">
             <div class = "modal-header">
               <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                    <h4 class ="modal-title"> Add New Tenant </h4>
+                    <h4 class ="modal-title"> Application Details </h4>
                   </div>
                   <div class="modal-body">
-                    <form>
-
-                      <div class = "form-group">
-                        <table>
-                            <tr>
-                                <td> Tenant Name: </td>
-                                <td><input type="text" placeholder="Enter Tenant Name" required></td>
-                            </tr>
-                        </table>
-                      </div><br>
-
-                    </form>
-                  </div>
+                    <div class="panel-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#room" data-toggle="tab" aria-expanded="false">Room</a>
+                            </li>
+                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Tenant</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="room">
+                                <h4>Room Information</h4>
+                                <table>
+                                    <tr>
+                                        <td> Picture: </td>
+                                        <td><label id="o_room_picture"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> ID: </td>
+                                        <td><label id="o_room_id"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Room Name: </td>
+                                        <td><label id="o_room_name"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Rent Rate: </td>
+                                        <td><label id="o_rent_rate"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Description: </td>
+                                        <td><label id="o_room_description"></label></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="profile">
+                                <h4>Tenant</h4>
+                                <table>
+                                    <tr>
+                                        <td>Profile Picture: </td>
+                                        <td id="o_profile_picture"></td>
+                                    </tr>
+                                    <tr>
+                                        <td> ID: </td>
+                                        <td><label id="o_user_id"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Name: </td>
+                                        <td><label id="o_name"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Birthdate: </td>
+                                        <td><label id="o_birthdate"></label> </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Gender: </td>
+                                        <td><label id="o_gender"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Contact No: </td>
+                                        <td><label id="o_contactno"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Email: </td>
+                                        <td><label id="o_email"></label></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                   <div class = "modal-footer">
-                    <button type ="button" class= "btn btn-success" data-dismiss="modal" id="SubmitAdd">ADD </button>
+                    <!-- <button type ="button" class= "btn btn-success" data-dismiss="modal" id="SubmitAdd">ADD </button> -->
                     <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
                   </div>
                 </div>
           </div>
         </div>
 
- -->
-    <!-- This is the Modal that will be called for edit column -->
+
+    <!-- This is the Modal that will be called for approve btn -->
       <div id = "modalApprove" class = "modal fade"  role = "dialog">
         <div class = "modal-dialog">
 
           <div class="modal-content">
             <div class = "modal-header">
               <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                    <h4 class ="modal-title"> Edit Tenant's Information </h4>
+                    <h4 class ="modal-title"> Approve Application </h4>
                   </div>
                   <div class="modal-body">
-                    <form>
-                            <table>
-                            <tr>
-                                <td> Tenant's Name: </td>
-                                <td> Name Tenant</td>
-                            </tr>
-                            <tr>
-                                <td> Room Number: </td>
-                                <td> 18</td>
-                            </tr>
-                        </table>
-                  </form>
-                  </div>
+                    <div class="panel-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#room" data-toggle="tab" aria-expanded="false">Room</a>
+                            </li>
+                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Tenant</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="room">
+                                <h4>Room Information</h4>
+                                <table>
+                                    <tr>
+                                        <td> Picture: </td>
+                                        <td><label id="o_room_picture"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> ID: </td>
+                                        <td><label id="o_room_id"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Room Name: </td>
+                                        <td><label id="o_room_name"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Rent Rate: </td>
+                                        <td><label id="o_rent_rate"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Description: </td>
+                                        <td><label id="o_room_description"></label></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="profile">
+                                <h4>Tenant</h4>
+                                <table>
+                                    <tr>
+                                        <td>Profile Picture: </td>
+                                        <td id="o_profile_picture"></td>
+                                    </tr>
+                                    <tr>
+                                        <td> ID: </td>
+                                        <td><label id="o_user_id"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Name: </td>
+                                        <td><label id="o_name"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Birthdate: </td>
+                                        <td><label id="o_birthdate"></label> </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Gender: </td>
+                                        <td><label id="o_gender"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Contact No: </td>
+                                        <td><label id="o_contactno"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Email: </td>
+                                        <td><label id="o_email"></label></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                   <div class = "modal-footer">
-                    <button type="button" class = "btn btn-primary" data-dismiss = "modal" id="SubmitEdit">APPROVE</button>
-                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                    <button type="button" class = "btn btn-primary" data-dismiss = "modal" id="SubmitApprove">APPROVE</button>
+                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CANCEL </button>
                   </div>
                 </div>
           </div>
         </div>
 
 
-        <!-- This is the Modal that will be called for delete column -->
+        <!-- This is the Modal that will be called for reject btn -->
           <div id = "modalReject" class = "modal fade"  role = "dialog">
             <div class = "modal-dialog">
 
               <div class="modal-content">
                 <div class = "modal-header">
                   <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                        <h4 class ="modal-title"> Deactivate Tenant </h4>
+                        <h4 class ="modal-title"> Reject Application </h4>
                       </div>
                       <div class="modal-body">
-                        <form>
-                            <table>
-                            <tr>
-                                <td> Tenant's Name: </td>
-                                <td> Name Tenant</td>
-                            </tr>
-                            <tr>
-                                <td> Room Number: </td>
-                                <td> 18</td>
-                            </tr>
-                        </table>
-                      </form>
-                      </div>
+                    <div class="panel-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#room" data-toggle="tab" aria-expanded="false">Room</a>
+                            </li>
+                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Tenant</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="room">
+                                <h4>Room Information</h4>
+                                <table>
+                                    <tr>
+                                        <td> Picture: </td>
+                                        <td><label id="o_room_picture"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> ID: </td>
+                                        <td><label id="o_room_id"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Room Name: </td>
+                                        <td><label id="o_room_name"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Rent Rate: </td>
+                                        <td><label id="o_rent_rate"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Description: </td>
+                                        <td><label id="o_room_description"></label></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="profile">
+                                <h4>Tenant</h4>
+                                <table>
+                                    <tr>
+                                        <td>Profile Picture: </td>
+                                        <td id="o_profile_picture"></td>
+                                    </tr>
+                                    <tr>
+                                        <td> ID: </td>
+                                        <td><label id="o_user_id"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Name: </td>
+                                        <td><label id="o_name"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Birthdate: </td>
+                                        <td><label id="o_birthdate"></label> </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Gender: </td>
+                                        <td><label id="o_gender"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Contact No: </td>
+                                        <td><label id="o_contactno"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Email: </td>
+                                        <td><label id="o_email"></label></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                       <div class = "modal-footer">
                         <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitDelete">REJECT </button>
-                        <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                        <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CANCEL </button>
                       </div>
                     </div>
               </div>

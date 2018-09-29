@@ -54,75 +54,69 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Rooms Map</h1>
+                    <h1 class="page-header">Rooms Table</h1>
                     <div class="floordivider"></div>
                 </div>
             </div>
-            <div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4 class="floortitle">First Floor</h4>
-                            <button class="room <?php if(room_check(1) == 1){ echo 'occupied'; }; ?> leftcorner" data-id="1">Room 01</button>
-                            <button class="room <?php if(room_check(2) == 1){ echo 'occupied'; }; ?>" data-id="2">Room 02</button>
-                            <button class="room <?php if(room_check(3) == 1){ echo 'occupied'; }; ?>" data-id="3">Room 03</button>
-                            <button class="room <?php if(room_check(4) == 1){ echo 'occupied'; }; ?>" data-id="4">Room 04</button>
-                            <br>
-                    </div>
+            
+
+<!-- room table start -->
+<div class="row">
+                <div class="col-lg-12">
+                   <!--  <h1 class="page-header">Complaints</h1> -->
                 </div>
-
-                <div class="floordivider"><br></div>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4 class="floortitle">Second Floor</h4>
-                            <button class="room <?php if(room_check(5) == 1){ echo 'occupied'; }; ?> leftcorner" data-id="5">Room 05</button>
-                            <button class="room <?php if(room_check(6) == 1){ echo 'occupied'; }; ?>" data-id="6">Room 06</button>
-                            <button class="room <?php if(room_check(7) == 1){ echo 'occupied'; }; ?>" data-id="7">Room 07</button>
-                            <button class="room <?php if(room_check(8) == 1){ echo 'occupied'; }; ?>" data-id="8">Room 08</button>
-                            <br>
-                    </div>
-                </div>
-
-                <div class="floordivider"><br></div>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4 class="floortitle">Third Floor</h4>
-                            <button class="room <?php if(room_check(9) == 1){ echo 'occupied'; }; ?> leftcorner" data-id="9">Room 09</button>
-                            <button class="room <?php if(room_check(10) == 1){ echo 'occupied'; }; ?>" data-id="10">Room 10</button>
-                            <button class="room <?php if(room_check(11) == 1){ echo 'occupied'; }; ?>" data-id="11">Room 11</button>
-                            <button class="room <?php if(room_check(12) == 1){ echo 'occupied'; }; ?>" data-id="12">Room 12</button>
-                            <br>
-                    </div>
-                </div>
-
-                <div class="floordivider"><br></div>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4 class="floortitle">Fourth Floor</h4>
-                            <button class="room <?php if(room_check(13) == 1){ echo 'occupied'; }; ?> leftcorner" data-id="13">Room 13</button>
-                            <button class="room <?php if(room_check(14) == 1){ echo 'occupied'; }; ?>" data-id="14">Room 14</button>
-                            <button class="room <?php if(room_check(15) == 1){ echo 'occupied'; }; ?>" data-id="15">Room 15</button>
-                            <button class="room <?php if(room_check(16) == 1){ echo 'occupied'; }; ?>" data-id="16">Room 16</button>
-                            <br>
-                    </div>
-                </div>
-
-                <div class="floordivider"><br></div>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4 class="floortitle">Fifth Floor</h4>
-                            <button class="room <?php if(room_check(17) == 1){ echo 'occupied'; }; ?> leftcorner" data-id="17">Room 17</button>
-                            <button class="room <?php if(room_check(18) == 1){ echo 'occupied'; }; ?>" data-id="18">Room 18</button>
-                            <button class="room <?php if(room_check(19) == 1){ echo 'occupied'; }; ?>" data-id="19">Room 19</button>
-                            <button class="room <?php if(room_check(20) == 1){ echo 'occupied'; }; ?>" data-id="20">Room 20</button>
-                            <br>
-                    </div>
-                </div>
+                <!-- /.col-lg-12 -->
             </div>
-            <div class="floordivider"><br></div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <!-- <button data-toggle="tooltip" title="Add Complaint" class="btn btn-info" id="btnAdd"><span class="glyphicon glyphicon-plus"></span> Add</button> -->
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="tblroom">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Room Name</th>
+                                        <th>Room Rate</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd gradeX">
+                                        <td>1</td>
+                                        <td>Room 01</td>
+                                        <td>10000</td>
+                                        <td>Located at fourth floor, right corner. In good condition to be rented.</td>
+                                        <td>Vacant</td>
+                                        <td class="center">
+                                            <center>
+                                                <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails"><span class="fa fa-file-text-o"></span></button>
+                                                <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit"><span class="fa fa-edit"></span></button>
+                                                <!-- <button data-toggle="tooltip" title="Delete" class="btn btn-danger" id="btnCancel"><span class="glyphicon glyphicon-remove"></span></button> -->
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
+<!-- room table end -->
+
+
+
+
         </div>
         <!-- /#page-wrapper -->
     </div>
@@ -337,6 +331,152 @@
         </div>
     </div>
 
+
+<!-- modalViewDetails -->
+    <div id = "modalViewDetails" class = "modal fade"  role = "dialog">
+        <div class = "modal-dialog">
+            <div class="modal-content">
+                <div class = "modal-header">
+                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                    <h4 class ="modal-title"> Room Details </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#room" data-toggle="tab" aria-expanded="false">Room</a>
+                            </li>
+                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Tenant</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="room">
+                                <h4>Room Information</h4>
+                                <table>
+                                    <tr>
+                                        <td> Picture: </td>
+                                        <td><label id="o_room_picture"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> ID: </td>
+                                        <td><label id="o_room_id"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Room Name: </td>
+                                        <td><label id="o_room_name"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Rent Rate: </td>
+                                        <td><label id="o_rent_rate"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Description: </td>
+                                        <td><label id="o_room_description"></label></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="profile">
+                                <h4>Tenant</h4>
+                                <table>
+                                    <tr>
+                                        <td>Profile Picture: </td>
+                                        <td id="o_profile_picture"></td>
+                                    </tr>
+                                    <tr>
+                                        <td> ID: </td>
+                                        <td><label id="o_user_id"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Name: </td>
+                                        <td><label id="o_name"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Birthdate: </td>
+                                        <td><label id="o_birthdate"></label> </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Gender: </td>
+                                        <td><label id="o_gender"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Contact No: </td>
+                                        <td><label id="o_contactno"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td> Email: </td>
+                                        <td><label id="o_email"></label></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "modal-footer">
+                    <button type="button" class = "btn btn-danger" id="btnTerminate" data-dismiss = "modal">TERMINATE </button>
+                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+ <!-- modalEditRoomDetails -->
+      <div class = "modal fade" id = "modalEditRoomDetails" role = "dialog">
+        <div class = "modal-dialog">
+
+          <div class="modal-content">
+            <div class = "modal-header">
+              <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                    <h4 class ="modal-title"> Edit Room Details </h4>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+
+                      <div class = "form-group">
+                        <table>
+                            <tr>
+                                <td> Room ID: </td>
+                                <td><input type="text" value="1" disabled="true"></td>
+                            </tr>
+                            <tr>
+                                <td> Room Name: </td>
+                                <td><input type="text" placeholder="Enter Room Name" required></td>
+                            </tr>
+                            <tr>
+                                <td> Room Rate: </td>
+                                <td><input type="text" placeholder="Enter Room Rate" required></td>
+                            </tr>
+                            <tr>
+                                <td> Description: </td>
+                                <td><textarea placeholder="Describe here..."></textarea></td>
+                            </tr>
+                            <tr>
+                                <td> Status: </td>
+                                <td>
+                                    <select>
+                                        <option>Vacant</option>
+                                        <option>Occupied</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                      </div><br>
+
+                    </form>
+                  </div>
+                  <div class = "modal-footer">
+                    <button type ="button" class= "btn btn-success" data-dismiss="modal" id="SubmitEdit">EDIT </button>
+                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CANCEL </button>
+                  </div>
+                </div>
+          </div>
+        </div>
+
+
+
+
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
 
@@ -357,9 +497,20 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
         $(document).ready(function() {
-            $('#dataTables-example').DataTable({
+            $('#tblroom').DataTable({
                 responsive: true
             });
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $(document).on('click', '#btnViewDetails', function(){
+            $('#modalViewDetails').modal('show');
+        });
+
+        $(document).on('click', '#btnEdit', function(){
+            $('#modalEditRoomDetails').modal('show');
+        });
+
 
             $(document).on('click', '.room', function(){
                 var room_id = $(this).attr('data-id');

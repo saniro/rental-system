@@ -17,6 +17,9 @@
 		case 'rooms':
 			require("view/a_rooms.php");
 			break;
+		case 'roomstable':
+			require("view/a_roomstable.php");
+			break;
 		case 'applicants':
 			require("view/a_applicants.php");
 			break;

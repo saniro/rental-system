@@ -15,6 +15,7 @@
     <meta name="author" content="">
 
     <title>Apartment Rental</title>
+    <link rel="icon" href="img/apicon.png">
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -64,7 +65,9 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th>Complaint ID</th>
+                                        <th>ID</th>
+                                        <th>Subject</th>
+                                        <th>Date</th>
                                         <th>Complainant</th>
                                         <th>Description</th>
                                         <th>Actions</th>
@@ -73,12 +76,14 @@
                                 <tbody>
                                     <tr class="odd gradeX">
                                         <td>1</td>
+                                        <td>Neighbor</td>
+                                        <td>Jan 23 2019</td>
                                         <td>Dessuh Albuh</td>
-                                        <td>Ako ay nag-iisa. Oo, walang katulad. Princess Dessuhhhhh~~  MABANGIS!!!</td>
+                                        <td>Noisy neighbor room 03</td>
                                         <td class="center">
                                             <center>
-                                                <button title="View Full Details" class="btn btn-info"><span class="fa fa-file-text-o"></span></button>
-                                                <button title="Completed" class="btn btn-primary" id="btnCompleted"><span class="fa fa-check"></span></button>
+                                                <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnDetails"><span class="fa fa-file-text-o"></span></button>
+                                                <button data-toggle="tooltip" title="Completed" class="btn btn-primary" id="btnCompleted"><span class="fa fa-check"></span></button>
                                             </center>
                                         </td>
                                     </tr>
@@ -122,8 +127,14 @@
             responsive: true
         });
 
+        $('[data-toggle="tooltip"]').tooltip();
+
         $(document).on('click', '#btnCompleted', function(){
             $('#modalCompleted').modal('show');
+        });
+
+        $(document).on('click', '#btnDetails', function(){
+            $('#modalDetails').modal('show');
         });
 
     });
@@ -143,18 +154,70 @@
                         <form>
                             <table>
                             <tr>
-                                <td> Tenant's Name: </td>
-                                <td> Name Tenant</td>
+                                <td> ID: </td>
+                                <td> 1</td>
                             </tr>
                             <tr>
-                                <td> Room Number: </td>
-                                <td> 18</td>
+                                <td> Subject: </td>
+                                <td> Neighbor</td>
+                            </tr>
+                            <tr>
+                                <td> Date: </td>
+                                <td> Jan 18 2019</td>
+                            </tr>
+                            <tr>
+                                <td> Complainant: </td>
+                                <td> Dessuh Desu</td>
                             </tr>
                         </table>
                       </form>
                       </div>
                       <div class = "modal-footer">
                         <button type="button" class = "btn btn-primary" data-dismiss = "modal">COMPLETED </button>
+                        <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                      </div>
+                    </div>
+              </div>
+            </div>
+
+   
+<!-- This is the Modal that will be called for view btn -->
+          <div id = "modalDetails" class = "modal fade"  role = "dialog">
+            <div class = "modal-dialog">
+
+              <div class="modal-content">
+                <div class = "modal-header">
+                  <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                        <h4 class ="modal-title"> Complaint Details </h4>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+                            <table>
+                            <tr>
+                                <td> ID: </td>
+                                <td> 1</td>
+                            </tr>
+                            <tr>
+                                <td> Subject: </td>
+                                <td> Neighbor</td>
+                            </tr>
+                            <tr>
+                                <td> Date: </td>
+                                <td> Jan 18 2019</td>
+                            </tr>
+                            <tr>
+                                <td> Complainant: </td>
+                                <td> Dessuh Desu</td>
+                            </tr>
+                            <tr>
+                                <td> Description: </td>
+                                <td> Noisy neigbor room 03</td>
+                            </tr>
+                        </table>
+                      </form>
+                      </div>
+                      <div class = "modal-footer">
+                        <!-- <button type="button" class = "btn btn-primary" data-dismiss = "modal">COMPLETED </button> -->
                         <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
                       </div>
                     </div>

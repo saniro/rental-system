@@ -18,6 +18,7 @@
     <meta name="author" content="">
 
     <title>Apartment Rental</title>
+    <link rel="icon" href="img/apicon.png">
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -88,7 +89,7 @@
                                             <td class="center"><?php echo $value -> {'room_name'}; ?></td>
                                             <td class="center"><?php echo $value -> {'due_date'}; ?></td>
                                             <td class="center">
-                                                <button title="View Full Details" class="btn btn-info"><span class="fa fa-file-text-o"></span></button>
+                                                <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnDetails"><span class="fa fa-file-text-o"></span></button>
                                             </td>
                                         </tr>
                                         <?php
@@ -134,10 +135,60 @@
             responsive: true
         });
 
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $(document).on('click', '#btnDetails', function(){
+            $('#modalDetails').modal('show');
+        });
+
     });
     </script>
 
     
+
+<!-- This is the Modal that will be called for view btn -->
+          <div id = "modalDetails" class = "modal fade"  role = "dialog">
+            <div class = "modal-dialog">
+
+              <div class="modal-content">
+                <div class = "modal-header">
+                  <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                        <h4 class ="modal-title"> Payment Details </h4>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+                            <table>
+                            <tr>
+                                <td> ID: </td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td> Name: </td>
+                                <td> Dessuh Desu</td>
+                            </tr>
+                            <tr>
+                                <td> Contact No: </td>
+                                <td> 09065221642</td>
+                            </tr>
+                            <tr>
+                                <td> Room Name: </td>
+                                <td> Room 02</td>
+                            </tr>
+                            <tr>
+                                <td> Due Date: </td>
+                                <td> Jan 23 2019</td>
+                            </tr>
+                        </table>
+                      </form>
+                      </div>
+                      <div class = "modal-footer">
+                        <!-- <button type="button" class = "btn btn-primary" data-dismiss = "modal">MARK AS READ </button> -->
+                        <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                      </div>
+                    </div>
+              </div>
+            </div>
+
 
 
 
