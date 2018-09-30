@@ -145,21 +145,19 @@
                       </div>
                       <div class="modal-body">
                         <form>
-                            <table>
-                            <tr>
-                                <td> Date Generated: </td>
-                                <td> Jan 23 2019</td>
-                            </tr>
-                            <tr>
-                                <td> Subject: </td>
-                                <td> Change Room Request</td>
-                            </tr>
-                            <tr>
-                                <td> Message: </td>
-                                <td> Change Room Request approved. You can transfer to room 01 tomorrow.</td>
-                            </tr>
-                        </table>
-                      </form>
+                            <div class="form-group">
+                                <label> Date Generated: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Subject: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Message: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                        </form>
                       </div>
                       <div class = "modal-footer">
                         <button type="button" class = "btn btn-primary" data-dismiss = "modal">MARK AS READ </button>

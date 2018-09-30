@@ -157,28 +157,26 @@
                       </div>
                       <div class="modal-body">
                         <form>
-                            <table>
-                            <tr>
-                                <td> ID: </td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td> Name: </td>
-                                <td> Dessuh Desu</td>
-                            </tr>
-                            <tr>
-                                <td> Contact No: </td>
-                                <td> 09065221642</td>
-                            </tr>
-                            <tr>
-                                <td> Room Name: </td>
-                                <td> Room 02</td>
-                            </tr>
-                            <tr>
-                                <td> Due Date: </td>
-                                <td> Jan 23 2019</td>
-                            </tr>
-                        </table>
+                            <div class="form-group">
+                                <label> ID: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Name: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Contact No: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Room Name: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Due Date: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
                       </form>
                       </div>
                       <div class = "modal-footer">

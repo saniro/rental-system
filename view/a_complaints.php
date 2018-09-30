@@ -151,26 +151,24 @@
                         <h4 class ="modal-title"> Mark as Completed </h4>
                       </div>
                       <div class="modal-body">
-                        <form>
-                            <table>
-                            <tr>
-                                <td> ID: </td>
-                                <td> 1</td>
-                            </tr>
-                            <tr>
-                                <td> Subject: </td>
-                                <td> Neighbor</td>
-                            </tr>
-                            <tr>
-                                <td> Date: </td>
-                                <td> Jan 18 2019</td>
-                            </tr>
-                            <tr>
-                                <td> Complainant: </td>
-                                <td> Dessuh Desu</td>
-                            </tr>
-                        </table>
-                      </form>
+                       <form>
+                            <div class="form-group">
+                                <label> ID: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Subject: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Date: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Complainant: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                        </form>
                       </div>
                       <div class = "modal-footer">
                         <button type="button" class = "btn btn-primary" data-dismiss = "modal">COMPLETED </button>
@@ -192,29 +190,27 @@
                       </div>
                       <div class="modal-body">
                         <form>
-                            <table>
-                            <tr>
-                                <td> ID: </td>
-                                <td> 1</td>
-                            </tr>
-                            <tr>
-                                <td> Subject: </td>
-                                <td> Neighbor</td>
-                            </tr>
-                            <tr>
-                                <td> Date: </td>
-                                <td> Jan 18 2019</td>
-                            </tr>
-                            <tr>
-                                <td> Complainant: </td>
-                                <td> Dessuh Desu</td>
-                            </tr>
-                            <tr>
-                                <td> Description: </td>
-                                <td> Noisy neigbor room 03</td>
-                            </tr>
-                        </table>
-                      </form>
+                            <div class="form-group">
+                                <label> ID: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Subject: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Date: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Complainant: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Description: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                        </form>
                       </div>
                       <div class = "modal-footer">
                         <!-- <button type="button" class = "btn btn-primary" data-dismiss = "modal">COMPLETED </button> -->

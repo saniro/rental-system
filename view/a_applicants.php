@@ -157,68 +157,68 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#room" data-toggle="tab" aria-expanded="false">Room</a>
                             </li>
-                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Tenant</a>
+                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Applicant</a>
                             </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="room">
-                                <h4>Room Information</h4>
-                                <table>
-                                    <tr>
-                                        <td> Picture: </td>
-                                        <td><label id="o_room_picture"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> ID: </td>
-                                        <td><label id="o_room_id"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Room Name: </td>
-                                        <td><label id="o_room_name"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Rent Rate: </td>
-                                        <td><label id="o_rent_rate"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Description: </td>
-                                        <td><label id="o_room_description"></label></td>
-                                    </tr>
-                                </table>
+                                <center><br><h4>Room Information</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label> Picture: </label>
+                                        <label id="o_room_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="o_room_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Room Name: </label>
+                                        <label id="o_room_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Rent Rate: </label>
+                                        <label id="o_rent_rate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Description: </label>
+                                        <label id="o_room_description" class="form-control"></label>
+                                    </div>
+                                </form>
                             </div>
                             <div class="tab-pane fade" id="profile">
-                                <h4>Tenant</h4>
-                                <table>
-                                    <tr>
-                                        <td>Profile Picture: </td>
-                                        <td id="o_profile_picture"></td>
-                                    </tr>
-                                    <tr>
-                                        <td> ID: </td>
-                                        <td><label id="o_user_id"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Name: </td>
-                                        <td><label id="o_name"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Birthdate: </td>
-                                        <td><label id="o_birthdate"></label> </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Gender: </td>
-                                        <td><label id="o_gender"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Contact No: </td>
-                                        <td><label id="o_contactno"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Email: </td>
-                                        <td><label id="o_email"></label></td>
-                                    </tr>
-                                </table>
+                                <center><br><h4>Applicant Information</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label>Profile Picture: </label>
+                                        <label id="o_profile_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="o_user_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Name: </label>
+                                        <label id="o_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Birthdate: </label>
+                                        <label id="o_birthdate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Gender: </label>
+                                        <label id="o_gender" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Contact No: </label>
+                                        <label id="o_contactno" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Email: </label>
+                                        <label id="o_email" class="form-control"></label>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -247,68 +247,68 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#room" data-toggle="tab" aria-expanded="false">Room</a>
                             </li>
-                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Tenant</a>
+                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Applicant</a>
                             </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="room">
-                                <h4>Room Information</h4>
-                                <table>
-                                    <tr>
-                                        <td> Picture: </td>
-                                        <td><label id="o_room_picture"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> ID: </td>
-                                        <td><label id="o_room_id"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Room Name: </td>
-                                        <td><label id="o_room_name"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Rent Rate: </td>
-                                        <td><label id="o_rent_rate"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Description: </td>
-                                        <td><label id="o_room_description"></label></td>
-                                    </tr>
-                                </table>
+                                <center><br><h4>Room Information</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label> Picture: </label>
+                                        <label id="o_room_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="o_room_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Room Name: </label>
+                                        <label id="o_room_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Rent Rate: </label>
+                                        <label id="o_rent_rate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Description: </label>
+                                        <label id="o_room_description" class="form-control"></label>
+                                    </div>
+                                </form>
                             </div>
                             <div class="tab-pane fade" id="profile">
-                                <h4>Tenant</h4>
-                                <table>
-                                    <tr>
-                                        <td>Profile Picture: </td>
-                                        <td id="o_profile_picture"></td>
-                                    </tr>
-                                    <tr>
-                                        <td> ID: </td>
-                                        <td><label id="o_user_id"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Name: </td>
-                                        <td><label id="o_name"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Birthdate: </td>
-                                        <td><label id="o_birthdate"></label> </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Gender: </td>
-                                        <td><label id="o_gender"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Contact No: </td>
-                                        <td><label id="o_contactno"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Email: </td>
-                                        <td><label id="o_email"></label></td>
-                                    </tr>
-                                </table>
+                                <center><br><h4>Applicant Information</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label>Profile Picture: </label>
+                                        <label id="o_profile_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="o_user_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Name: </label>
+                                        <label id="o_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Birthdate: </label>
+                                        <label id="o_birthdate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Gender: </label>
+                                        <label id="o_gender" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Contact No: </label>
+                                        <label id="o_contactno" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Email: </label>
+                                        <label id="o_email" class="form-control"></label>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -337,68 +337,68 @@
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#room" data-toggle="tab" aria-expanded="false">Room</a>
                             </li>
-                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Tenant</a>
+                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Applicant</a>
                             </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="room">
-                                <h4>Room Information</h4>
-                                <table>
-                                    <tr>
-                                        <td> Picture: </td>
-                                        <td><label id="o_room_picture"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> ID: </td>
-                                        <td><label id="o_room_id"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Room Name: </td>
-                                        <td><label id="o_room_name"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Rent Rate: </td>
-                                        <td><label id="o_rent_rate"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Description: </td>
-                                        <td><label id="o_room_description"></label></td>
-                                    </tr>
-                                </table>
+                                <center><br><h4>Room Information</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label> Picture: </label>
+                                        <label id="o_room_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="o_room_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Room Name: </label>
+                                        <label id="o_room_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Rent Rate: </label>
+                                        <label id="o_rent_rate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Description: </label>
+                                        <label id="o_room_description" class="form-control"></label>
+                                    </div>
+                                </form>
                             </div>
                             <div class="tab-pane fade" id="profile">
-                                <h4>Tenant</h4>
-                                <table>
-                                    <tr>
-                                        <td>Profile Picture: </td>
-                                        <td id="o_profile_picture"></td>
-                                    </tr>
-                                    <tr>
-                                        <td> ID: </td>
-                                        <td><label id="o_user_id"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Name: </td>
-                                        <td><label id="o_name"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Birthdate: </td>
-                                        <td><label id="o_birthdate"></label> </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Gender: </td>
-                                        <td><label id="o_gender"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Contact No: </td>
-                                        <td><label id="o_contactno"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Email: </td>
-                                        <td><label id="o_email"></label></td>
-                                    </tr>
-                                </table>
+                                <center><br><h4>Applicant Information</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label>Profile Picture: </label>
+                                        <label id="o_profile_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="o_user_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Name: </label>
+                                        <label id="o_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Birthdate: </label>
+                                        <label id="o_birthdate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Gender: </label>
+                                        <label id="o_gender" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Contact No: </label>
+                                        <label id="o_contactno" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Email: </label>
+                                        <label id="o_email" class="form-control"></label>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

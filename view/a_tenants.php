@@ -141,40 +141,41 @@
                     <h4 class ="modal-title"> Tenant's Information </h4>
                 </div>
                 <div class="modal-body">
-                    <table>
-                        <tr>
-                            <td>Profile Picture: </td>
-                            <!-- <td id = view_profilepic></td> -->
-                        </tr>
-                        <tr>
-                            <td> ID: </td>
-                            <!-- <td id = "view_id"></td> -->
-                        </tr>
-                        <tr>
-                            <td> Name: </td>
-                            <!-- <td id = "view_name"></td> -->
-                        </tr>
-                        <tr>
-                            <td> Room name: </td>
-                            <!-- <td id = "view_roomname"></td> -->
-                        </tr>
-                        <tr>
-                            <td> Birthdate: </td>
-                            <!-- <td id = "view_birthdate"></td> -->
-                        </tr>
-                        <tr>
-                            <td> Gender: </td>
-                            <!-- <td id = "view_gender"></td> -->
-                        </tr>
-                        <tr>
-                            <td> Contact No: </td>
-                            <!-- <td id = "view_contactno"></td> -->
-                        </tr>
-                        <tr>
-                            <td> Email: </td>
-                            <!-- <td id = "view_email"></td> -->
-                        </tr>
-                    </table>
+                    <form>
+                        <!-- <div class="form-group">
+                            <label>Profile Picture: </label>
+                            <label id="view_profilepic" class="form-control"></label>
+                        </div> -->
+                        <div class="form-group">
+                            <label> ID: </label>
+                            <!-- <label id="view_id" class="form-control"></label> -->
+                        </div>
+                        <div class="form-group">
+                            <label> Name: </label>
+                            <!-- <label id="view_name" class="form-control"></label> -->
+                        </div>
+                        <div class="form-group">
+                            <label> Room name: </label>
+                            <!-- <label id="view_roomname" class="form-control"></label> -->
+                        </div>
+                        <div class="form-group">
+                            <label> Birthdate: </label>
+                            <!-- <label id="view_birthdate" class="form-control"></label> -->
+                        </div>
+                        <div class="form-group">
+                            <label> Gender: </label>
+                            <!-- <label id="view_gender" class="form-control"></label> -->
+                        </div>
+                        <div class="form-group">
+                            <label> Contact No: </label>
+                            <!-- <label id="view_contactno" class="form-control"></label> -->
+                        </div>
+                        <div class="form-group">
+                            <label> Email: </label>
+                            <!-- <label id="view_email" class="form-control"></label> -->
+                        </div>
+                    </form>
+
                 </div>
                 <div class = "modal-footer">
                     <!-- <button type="button" class = "btn btn-success" data-dismiss = "modal" id="SubmitEdit">SAVE CHANGES</button> -->
@@ -194,40 +195,40 @@
                     <h4 class ="modal-title"> Edit Tenant's Information </h4>
                 </div>
                 <div class="modal-body">
-                    <table>
-                        <tr>
-                            <td>Profile Picture: </td>
-                            <td id = view_profilepic></td>
-                        </tr>
-                        <tr>
-                            <td> ID: </td>
-                            <td id = "view_id"></td>
-                        </tr>
-                        <tr>
-                            <td> Name: </td>
-                            <td id = "view_name"></td>
-                        </tr>
-                        <tr>
-                            <td> Room name: </td>
-                            <td id = "view_roomname"></td>
-                        </tr>
-                        <tr>
-                            <td> Birthdate: </td>
-                            <td id = "view_birthdate"></td>
-                        </tr>
-                        <tr>
-                            <td> Gender: </td>
-                            <td id = "view_gender"></td>
-                        </tr>
-                        <tr>
-                            <td> Contact No: </td>
-                            <td id = "view_contactno"></td>
-                        </tr>
-                        <tr>
-                            <td> Email: </td>
-                            <td id = "view_email"></td>
-                        </tr>
-                    </table>
+                     <form>
+                        <!-- <div class="form-group">
+                            <label>Profile Picture: </label>
+                            <label id="view_profilepic" class="form-control"></label>
+                        </div> -->
+                        <div class="form-group">
+                            <label> ID: </label>
+                            <label id="view_id" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Name: </label>
+                            <label id="view_name" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Room name: </label>
+                            <label id="view_roomname" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Birthdate: </label>
+                            <label id="view_birthdate" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Gender: </label>
+                            <label id="view_gender" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Contact No: </label>
+                            <label id="view_contactno" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Email: </label>
+                            <label id="view_email" class="form-control"></label>
+                        </div>
+                    </form>
                 </div>
                 <div class = "modal-footer">
                     <button type="button" class = "btn btn-success" data-dismiss = "modal" id="SubmitEdit">SAVE CHANGES</button>
@@ -301,40 +302,41 @@
                     <h4 class ="modal-title"> Deactivate Tenant </h4>
                 </div>
                 <div class="modal-body">
-                    <table>
-                        <tr>
-                            <td>Profile Picture: </td>
-                            <td id = "delete_profilepic"></td>
-                        </tr>
-                        <tr>
-                            <td> ID: </td>
-                            <td id = "delete_id"></td>
-                        </tr>
-                        <tr>
-                            <td> Name: </td>
-                            <td id = "delete_name"></td>
-                        </tr>
-                        <tr>
-                            <td> Room name: </td>
-                            <td id = "delete_roomname"></td>
-                        </tr>
-                        <tr>
-                            <td> Birthdate: </td>
-                            <td id = "delete_birthdate"></td>
-                        </tr>
-                        <tr>
-                            <td> Gender: </td>
-                            <td id = "delete_gender"></td>
-                        </tr>
-                        <tr>
-                            <td> Contact No: </td>
-                            <td id = "delete_contactno"></td>
-                        </tr>
-                        <tr>
-                            <td> Email: </td>
-                            <td id = "delete_email"></td>
-                        </tr>
-                    </table>
+                    
+                    <form>
+                        <!-- <div class="form-group">
+                            <label>Profile Picture: </label>
+                            <label id="delete_profilepic" class="form-control"></label>
+                        </div> -->
+                        <div class="form-group">
+                            <label> ID: </label>
+                            <label id="delete_id" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Name: </label>
+                            <label id="delete_name" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Room name: </label>
+                            <label id="delete_roomname" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Birthdate: </label>
+                            <label id="delete_birthdate" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Gender: </label>
+                            <label id="delete_gender" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Contact No: </label>
+                            <label id="delete_contactno" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Email: </label>
+                            <label id="delete_email" class="form-control"></label>
+                        </div>
+                    </form>
                 </div>
                 <div class = "modal-footer">
                     <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitDelete">DEACTIVATE </button>

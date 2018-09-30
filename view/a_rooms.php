@@ -147,69 +147,69 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="v_room">
-                                <h4>Room Information</h4>
-                                <table>
-                                    <tr>
-                                        <td> Picture: </td>
-                                        <td><label id="v_room_picture"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> ID: </td>
-                                        <td><label id="v_room_id"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Room Name: </td>
-                                        <td><label id="v_room_name"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Rent Rate: </td>
-                                        <td><label id="v_rent_rate"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Description: </td>
-                                        <td><label id="v_room_description"></label></td>
-                                    </tr>
-                                </table>
+                                <center><br><h4>Room Information</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label> Picture: </label>
+                                        <label id="v_room_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="v_room_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Room Name: </label>
+                                        <label id="v_room_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Rent Rate: </label>
+                                        <label id="v_rent_rate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Description: </label>
+                                        <label id="v_room_description" class="form-control"></label>
+                                    </div>
+                                </form>
                             </div>
                             <div class="tab-pane fade" id="v_add">
-                                <h4>Tenant</h4>
-                                <table>
-                                    <tr>
-                                        <td> First Name: </td>
-                                        <td><input type="text" id="a_first_name"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Middle Name: </td>
-                                        <td><input type="text" id="a_middle_name"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Last Name: </td>
-                                        <td><input type="text" id="a_last_name"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Birthdate: </td>
-                                        <td><input type="date" id="a_birth_date"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Gender: </td>
-                                        <td>
-                                            <input type="radio" name="a_gender" id="a_gender" value="1" checked />Male
-                                            <input type="radio" name="a_gender" id="a_gender" value="0"/>Female
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Contact No: </td>
-                                        <td><input type="text" id="a_contactno"></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Email: </td>
-                                        <td><input type="text" id="a_email"> </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Profile Picture: </td>
-                                        <td><input type="file" id="a_profile_picture"></td>
-                                    </tr>
-                                </table>
+                                <center><br><h4>Tenant</h4></center>
+                                <form>
+                                    <div class="form-group">
+                                        <label> First Name: </label>
+                                        <input type="text" id="a_first_name" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Middle Name: </label>
+                                        <input type="text" id="a_middle_name" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Last Name: </label>
+                                        <input type="text" id="a_last_name" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Birthdate:</label>
+                                        <input type="date" id="a_birth_date" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Gender:</label>
+                                        <div class="form-control">
+                                            <input style="width:30%;" type="radio" name="a_gender" id="a_gender" value="1" checked />Male
+                                            <input style="width:30%;" type="radio" name="a_gender" id="a_gender" value="0"/>Female
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contact No:</label>
+                                        <input type="text" id="a_contactno" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email:</label>
+                                        <input type="text" id="a_email" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Profile Picture:</label>
+                                        <input type="file" id="a_profile_picture" class="form-control">
+                                    </div>
+                                </form>
                                 <br>
                                 <button type="button" id="AddTenantSubmit" class="btn btn-primary btn-lg btn-block">ADD TENANT</button>
                             </div>
@@ -242,62 +242,62 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="room">
-                                <h4>Room Information</h4>
-                                <table>
-                                    <tr>
-                                        <td> Picture: </td>
-                                        <td><label id="o_room_picture"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> ID: </td>
-                                        <td><label id="o_room_id"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Room Name: </td>
-                                        <td><label id="o_room_name"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Rent Rate: </td>
-                                        <td><label id="o_rent_rate"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Description: </td>
-                                        <td><label id="o_room_description"></label></td>
-                                    </tr>
-                                </table>
+                                <center><br><h4>Room Information</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label> Picture: </label>
+                                        <label id="o_room_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="o_room_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Room Name: </label>
+                                        <label id="o_room_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Rent Rate: </label>
+                                        <label id="o_rent_rate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Description: </label>
+                                        <label id="o_room_description" class="form-control"></label>
+                                    </div>
+                                </form>
                             </div>
                             <div class="tab-pane fade" id="profile">
-                                <h4>Tenant</h4>
-                                <table>
-                                    <tr>
-                                        <td>Profile Picture: </td>
-                                        <td id="o_profile_picture"></td>
-                                    </tr>
-                                    <tr>
-                                        <td> ID: </td>
-                                        <td><label id="o_user_id"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Name: </td>
-                                        <td><label id="o_name"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Birthdate: </td>
-                                        <td><label id="o_birthdate"></label> </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Gender: </td>
-                                        <td><label id="o_gender"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Contact No: </td>
-                                        <td><label id="o_contactno"></label></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Email: </td>
-                                        <td><label id="o_email"></label></td>
-                                    </tr>
-                                </table>
+                                <center><br><h4>Tenant</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label>Profile Picture: </label>
+                                        <label id="o_profile_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="o_user_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Name: </label>
+                                        <label id="o_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Birthdate: </label>
+                                        <label id="o_birthdate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Gender: </label>
+                                        <label id="o_gender" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Contact No: </label>
+                                        <label id="o_contactno" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Email: </label>
+                                        <label id="o_email" class="form-control"></label>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -318,16 +318,16 @@
                     <h4 class ="modal-title"> Terminate Rental </h4>
                 </div>
                 <div class="modal-body">
-                    <table>
-                        <tr>
-                            <td> Room name: </td>
-                            <td id = "c_room_name"></td>
-                        </tr>
-                        <tr>
-                            <td> Name: </td>
-                            <td id = "c_name"></td>
-                        </tr>
-                    </table>
+                    <form>
+                        <div class="form-group">
+                            <label> Room name: </label>
+                            <label id = "c_room_name" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Name: </label>
+                            <label id = "c_name" class="form-control"></label>
+                        </div>
+                    </form>
                 </div>
                 <div class = "modal-footer">
                     <button type="button" class = "btn btn-success" id="SubmitTerminate" data-dismiss = "modal"> YES </button>
