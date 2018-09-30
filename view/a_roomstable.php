@@ -88,20 +88,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php
+                                    $all_rooms = all_rooms();
+                                    $all_rooms = json_decode($all_rooms);
+
+                                    foreach ($all_rooms as $value) {
+                                    ?>
                                     <tr class="odd gradeX">
-                                        <td>1</td>
-                                        <td>Room 01</td>
-                                        <td>10000</td>
-                                        <td>Located at fourth floor, right corner. In good condition to be rented.</td>
+                                        <td><?php echo $value -> {'room_id'}; ?></td>
+                                        <td><?php echo $value -> {'room_name'}; ?></td>
+                                        <td><?php echo $value -> {'rent_rate'}; ?></td>
+                                        <td><?php echo $value -> {'room_description'}; ?></td>
                                         <td>Vacant</td>
                                         <td class="center">
                                             <center>
                                                 <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails"><span class="fa fa-file-text-o"></span></button>
-                                                <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit"><span class="fa fa-edit"></span></button>
+                                                <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit" data-id="<?php echo $value -> {'room_id'}; ?>"><span class="fa fa-edit"></span></button>
                                                 <!-- <button data-toggle="tooltip" title="Delete" class="btn btn-danger" id="btnCancel"><span class="glyphicon glyphicon-remove"></span></button> -->
                                             </center>
                                         </td>
                                     </tr>
+                                    <?php
+                                    }
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -433,37 +442,26 @@
                   </div>
                   <div class="modal-body">
                     <form>
-
-                      <div class = "form-group">
-                        <table>
-                            <tr>
-                                <td> Room ID: </td>
-                                <td><input type="text" value="1" disabled="true"></td>
-                            </tr>
-                            <tr>
-                                <td> Room Name: </td>
-                                <td><input type="text" placeholder="Enter Room Name" required></td>
-                            </tr>
-                            <tr>
-                                <td> Room Rate: </td>
-                                <td><input type="text" placeholder="Enter Room Rate" required></td>
-                            </tr>
-                            <tr>
-                                <td> Description: </td>
-                                <td><textarea placeholder="Describe here..."></textarea></td>
-                            </tr>
-                            <tr>
-                                <td> Status: </td>
-                                <td>
-                                    <select>
-                                        <option>Vacant</option>
-                                        <option>Occupied</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
-                      </div><br>
-
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input class="form-control" id="e_room_id" placeholder="Room ID" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Room Name</label>
+                            <input class="form-control" id="e_room_name" placeholder="Room Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Room Rate</label>
+                            <input class="form-control" id="e_room_rate" placeholder="Room ID">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input class="form-control" id="e_room_description" placeholder="Description">
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <input class="form-control" id="e_status" placeholder=Status">
+                        </div>
                     </form>
                   </div>
                   <div class = "modal-footer">

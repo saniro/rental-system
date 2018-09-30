@@ -42,4 +42,16 @@
 		$results = json_encode($results);
 		return $results;
 	}
+
+	// a_roomstable.php
+	function all_rooms(){
+		require("./connection/connection.php");
+		$query = "SELECT room_id, room_name, rent_rate, room_description FROM room_tbl";
+		$stmt = $con->prepare($query);
+		$stmt->execute();
+		$results = $stmt->fetchAll();
+		$rowCount = $stmt->rowCount();
+		$results = json_encode($results);
+		return $results;
+	}
 ?>

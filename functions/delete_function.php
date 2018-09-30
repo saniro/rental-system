@@ -43,8 +43,14 @@
 		$stmt = $con->prepare($query);
 		$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
 		$stmt->execute();
+
+		$query = "SELECT room_id FROM rental_tbl WHERE rental_id = :rental_id;";
+		$stmt = $con->prepare($query);
+		$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$row = $stmt->fetch();
 		
-		$data = array("success" => "true", "message" => "Rental terminated.");
+		$data = array("success" => "true", "message" => "Rental terminated.", "room_id"=> $row['room_id']);
 		$output = json_encode($data);
 		echo $output;
 	}
