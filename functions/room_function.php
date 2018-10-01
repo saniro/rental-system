@@ -26,7 +26,7 @@
 					$stmt->execute();
 					$room_results = $stmt->fetch();
 
-					$query = "SELECT profile_picture, user_id, concat(last_name,  ', ', first_name, ' ', middle_name) AS name, DATE_FORMAT(birth_date,'%b %d, %Y') AS birth_date, gender, contact_no, email FROM user_tbl WHERE user_id = :user_id";
+					$query = "SELECT profile_picture, user_id, concat(last_name,  ', ', first_name, ' ', middle_name) AS name, DATE_FORMAT(birth_date,'%b %d, %Y') AS birth_date, (CASE WHEN gender = 1 THEN 'Male' WHEN gender = 0 THEN 'Female' END) AS gender, contact_no, email FROM user_tbl WHERE user_id = :user_id";
 					$stmt = $con->prepare($query);
 					$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 					$stmt->execute();

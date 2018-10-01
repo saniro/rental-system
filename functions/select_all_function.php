@@ -46,7 +46,7 @@
 	// a_roomstable.php
 	function all_rooms(){
 		require("./connection/connection.php");
-		$query = "SELECT room_id, room_name, rent_rate, room_description FROM room_tbl";
+		$query = "SELECT room_id, room_name, rent_rate, room_description, (CASE WHEN (SELECT rental_id FROM rental_tbl AS RL WHERE RL.room_id = RM.room_id AND status = 1) IS NULL THEN 'Vacant' ELSE 'Occupied' END) AS status FROM room_tbl AS RM";
 		$stmt = $con->prepare($query);
 		$stmt->execute();
 		$results = $stmt->fetchAll();
