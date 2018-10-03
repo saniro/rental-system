@@ -3,6 +3,9 @@
         header("location:index");
     }
 ?>
+<?php
+    require("functions/select_all_function.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,20 +69,24 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Subject</th>
                                         <th>Date</th>
                                         <th>Complainant</th>
-                                        <th>Description</th>
+                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php
+                                    $all_complaints = all_complaints();
+                                    $all_complaints = json_decode($all_complaints);
+
+                                    foreach ($all_complaints as $value) {
+                                    ?>
                                     <tr class="odd gradeX">
-                                        <td>1</td>
-                                        <td>Neighbor</td>
-                                        <td>Jan 23 2019</td>
-                                        <td>Dessuh Albuh</td>
-                                        <td>Noisy neighbor room 03</td>
+                                        <td><?php echo $value -> {'complaint_id'}; ?></td>
+                                        <td><?php echo $value -> {'message_date'}; ?></td>
+                                        <td><?php echo $value -> {'name'}; ?></td>
+                                        <td><?php echo $value -> {'status'}; ?></td>
                                         <td class="center">
                                             <center>
                                                 <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnDetails"><span class="fa fa-file-text-o"></span></button>
@@ -87,6 +94,9 @@
                                             </center>
                                         </td>
                                     </tr>
+                                    <?php
+                                    }
+                                ?>
                                 </tbody>
                             </table>
                         </div>

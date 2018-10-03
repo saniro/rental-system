@@ -340,95 +340,6 @@
         </div>
     </div>
 
-
-<!-- modalViewDetails -->
-    <div id = "modalViewDetails" class = "modal fade"  role = "dialog">
-        <div class = "modal-dialog">
-            <div class="modal-content">
-                <div class = "modal-header">
-                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                    <h4 class ="modal-title"> Room Details </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="panel-body">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#room" data-toggle="tab" aria-expanded="false">Room</a>
-                            </li>
-                            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Tenant</a>
-                            </li>
-                        </ul>
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div class="tab-pane fade active in" id="room">
-                                <center><br><h4>Room Information</h4></center>
-                                <form>
-                                    <!-- <div class="form-group">
-                                        <label> Picture: </label>
-                                        <label id="o_room_picture" class="form-control"></label>
-                                    </div> -->
-                                    <div class="form-group">
-                                        <label> ID: </label>
-                                        <label id="v_d_room_id" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Room Name: </label>
-                                        <label id="v_d_room_name" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Rent Rate: </label>
-                                        <label id="v_d_rent_rate" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Description: </label>
-                                        <label id="v_d_room_description" class="form-control"></label>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="tab-pane fade" id="profile">
-                                <center><br><h4>Tenant</h4></center>
-                                <form>
-                                    <!-- <div class="form-group">
-                                        <label>Profile Picture: </label>
-                                        <label id="o_profile_picture" class="form-control"></label>
-                                    </div> -->
-                                    <div class="form-group">
-                                        <label> ID: </label>
-                                        <label id="v_d_user_id" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Name: </label>
-                                        <label id="v_d_name" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Birthdate: </label>
-                                        <label id="v_d_birthdate" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Gender: </label>
-                                        <label id="v_d_gender" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Contact No: </label>
-                                        <label id="v_d_contactno" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Email: </label>
-                                        <label id="v_d_email" class="form-control"></label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class = "modal-footer">
-                    <button type="button" class = "btn btn-danger" id="btnTerminate" data-dismiss = "modal">TERMINATE </button>
-                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
  <!-- modalEditRoomDetails -->
       <div class = "modal fade" id = "modalEditRoomDetails" role = "dialog">
         <div class = "modal-dialog">
@@ -501,7 +412,8 @@
             $(document).on('click', '#btnViewDetails', function(){
                 var room_id = $(this).attr('data-id');
                 var view_room_details_check = 'selected';
-
+                table_row = $(this).parents('tr');
+                
                 $.ajax({
                     url: 'functions/select_function.php',
                     method: 'POST',
@@ -513,34 +425,30 @@
                         var data = JSON.parse(data);
                         if(data.success == "true"){
                             if(data.status == "occupied"){
-                                $("#v_d_room_id").html(data.room_id);
-                                $("#v_d_room_name").html(data.room_name);
-                                $("#v_d_rent_rate").html(data.rent_rate);
-                                $("#v_d_room_description").html(data.room_description);
+                                $("#o_room_id").html(data.room_id);
+                                $("#o_room_name").html(data.room_name);
+                                $("#o_rent_rate").html(data.rent_rate);
+                                $("#o_room_description").html(data.room_description);
 
-                                $("#v_d_user_id").html(data.user_id);
-                                $("#v_d_name").html(data.name);
-                                $("#v_d_birthdate").html(data.birth_date);
-                                $("#v_d_gender").html(data.gender);
-                                $("#v_d_contactno").html(data.contact_no);
-                                $("#v_d_email").html(data.email);
+                                $("#o_user_id").html(data.user_id);
+                                $("#o_name").html(data.name);
+                                $("#o_birthdate").html(data.birth_date);
+                                $("#o_gender").html(data.gender);
+                                $("#o_contactno").html(data.contact_no);
+                                $("#o_email").html(data.email);
+                                $("#btnTerminate").attr('data-id', data.rental_id);
 
-                                $('#modalViewDetails').modal('show');
+                                $('#modalOccupiedRoom').modal('show');
                             }
                             else if(data.status == "vacant"){
-                                //$('#modalViewDetails').modal('show');
-                                alert(data.message);
+                                $('#v_room_id').html(data.room_id);
+                                $('#v_room_name').html(data.room_name);
+                                $('#v_rent_rate').html(data.rent_rate);
+                                $('#v_room_description').html(data.room_description);
+
+                                $('#AddTenantSubmit').attr('data-id', data.room_id);
+                                $('#modalVacantRoom').modal('show');
                             }
-                            // $("#e_room_id").html(data.room_id);
-                            // $("#e_room_name").val(data.room_name);
-                            // $("#e_room_rate").val(data.room_rate);
-                            // $("#e_rent_rate").val(data.rent_rate);
-                            // $("#e_room_description").val(data.room_description);
-                            // $("#e_status").html(data.status);
-                            // $("#SubmitUpdate").attr('data-id', data.room_id);
-                            // $('#modalEditRoomDetails').modal('show');
-                            // var table = $('#table-contents').DataTable();
-                            //table.row('#'+tenant_id).remove().draw();
                         }
                         else if (data.success == "false"){
                             alert(data.message);
@@ -575,8 +483,6 @@
                             $("#e_status").html(data.status);
                             $("#SubmitUpdate").attr('data-id', data.room_id);
                             $('#modalEditRoomDetails').modal('show');
-                            // var table = $('#table-contents').DataTable();
-                            //table.row('#'+tenant_id).remove().draw();
                         }
                         else if (data.success == "false"){
                             alert(data.message);
@@ -594,7 +500,7 @@
                 var room_name =  $("#e_room_name").val();
                 var rent_rate = $("#e_rent_rate").val();
                 var room_description = $("#e_room_description").val();
-                //alert('room id : ' + room_id + ', room name : ' + room_name + ', rent rate : ' + rent_rate + ', room description : ' + room_description);
+
                 $.ajax({
                     url: 'functions/update_function.php',
                     method: 'POST',
@@ -614,8 +520,6 @@
  
                             alert(data.message);
                             $('#modalEditRoomDetails').modal('toggle');
-                            // var table = $('#table-contents').DataTable();
-                            //table.row('#'+tenant_id).remove().draw();
                         }
                         else if (data.success == "false"){
                             if(data.error == "minor"){
@@ -633,6 +537,107 @@
                 });
             });
 
+            $(document).on('click', '#btnTerminate', function(){
+                var view_terminate_details = 'selected';
+                var rental_id = $(this).attr('data-id');
+
+                $.ajax({
+                    url: 'functions/select_function.php',
+                    method: 'POST',
+                    data: {
+                        view_terminate_details_data: view_terminate_details,
+                        rental_id_data: rental_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            $('#c_room_name').html(data.room_name);
+                            $('#c_name').html(data.name);
+                            $('#SubmitTerminate').attr('data-id', data.rental_id);
+                            $('#modalTerminate').modal('show');
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
+
+            $(document).on('click', '#SubmitTerminate', function(){
+                var rental_terminate_table = 'selected';
+                var rental_id = $(this).attr('data-id');
+
+                $.ajax({
+                    url: 'functions/delete_function.php',
+                    method: 'POST',
+                    data: {
+                        rental_terminate_table_data: rental_terminate_table,
+                        rental_id_data: rental_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            var table = $('#tblroom').DataTable();
+                            var rData = [ data.room_id, data.room_name, data.rent_rate, data.room_description, data.status, data.buttons];
+                            table.row( table_row ).data(rData).draw();
+                            alert(data.message);
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
+
+            $(document).on('click', '#AddTenantSubmit', function(){
+                var add_tenant_table = 'selected';
+                var room_id = $(this).attr('data-id');
+                var first_name = $('#a_first_name').val();
+                var middle_name = $('#a_middle_name').val();
+                var last_name = $('#a_last_name').val();
+                var birth_date = $('#a_birth_date').val();
+                var gender = $('#a_gender').val();
+                var contactno = $('#a_contactno').val();
+                var email = $('#a_email').val();
+
+                $.ajax({
+                    url: 'functions/insert_function.php',
+                    method: 'POST',
+                    data: {
+                        add_tenant_table_data: add_tenant_table,
+                        room_id_data: room_id,
+                        first_name_data: first_name,
+                        middle_name_data:  middle_name,
+                        last_name_data: last_name,
+                        birth_date_data: birth_date,
+                        gender_data: gender,
+                        contactno_data: contactno,
+                        email_data: email
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            var table = $('#tblroom').DataTable();
+                            var rData = [ data.room_id, data.room_name, data.rent_rate, data.room_description, data.status, data.buttons];
+                            table.row( table_row ).data(rData).draw();
+                            $('#modalVacantRoom').modal('toggle');
+                            alert(data.message);
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
 
             $('[data-toggle="tooltip"]').tooltip();
         });
