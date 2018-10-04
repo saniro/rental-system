@@ -20,7 +20,7 @@
 				echo $output;
 			}
 			else{
-				$_SESSION["user_id"] = $row['user_id'];
+				$_SESSION['admin_id'] = $row['user_id'];
 				$data = array("success" => "true", "first_name" => $row['first_name']);
 				$output = json_encode($data);
 				echo $output;

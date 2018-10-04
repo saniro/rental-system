@@ -95,17 +95,6 @@
 					$results = json_encode($data);
 					echo $results;
 				}
-
-
-				// $query = "SELECT room_id, room_name, rent_rate, room_description, (CASE WHEN (SELECT rental_id FROM rental_tbl AS RL WHERE RL.room_id = RM.room_id AND status = 1) IS NULL THEN 'Vacant' ELSE 'Occupied' END) AS status FROM room_tbl AS RM WHERE room_id = :room_id";
-				// $stmt = $con->prepare($query);
-				// $stmt->bindParam(':room_id', $room_id, PDO::PARAM_INT);
-				// $stmt->execute();
-				// $row = $stmt->fetch();
-
-				// $data = array("success" => "true", "room_id" => $row['room_id'], "room_name" => $row['room_name'], "rent_rate" => $row['rent_rate'], "room_description" => $row['room_description'], "status" => $row['status']);
-				// $results = json_encode($data);
-				// echo $results;
 			}
 			else{
 				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
@@ -140,6 +129,82 @@
 				$data = array("success" => "true", "rental_id" => $rental_id,"name" => $row['name'], "room_name" => $row['room_name']);
 					$results = json_encode($data);
 					echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_complaints.php view details
+	if(isset($_POST['view_and_reply_complaint_data'])){
+		$complaint_id = $_POST['complaint_id_data'];
+
+		if($complaint_id != NULL){
+			$query_check = "SELECT complaint_id FROM complaint_tbl WHERE complaint_id = :complaint_id";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query_check = "SELECT complaint_id, (CASE WHEN status = 1 THEN 'Not yet read' WHEN response IS NULL AND status = 2 THEN 'Read' ELSE 'Responded' END) AS status FROM complaint_tbl WHERE complaint_id = :complaint_id";
+				$stmt = $con->prepare($query_check);
+				$stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+				if($row['status'] == 'Not yet read'){
+					$query = "UPDATE complaint_tbl 
+								SET status = 2
+								WHERE complaint_id = :complaint_id";
+					$stmt = $con->prepare($query);
+					$stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+					$stmt->execute();
+
+					$query = "SELECT complaint_id, user_id, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = CT.user_id) AS name, DATE_FORMAT(message_date, '%M %d, %Y') AS message_date, message FROM complaint_tbl AS CT WHERE complaint_id = :complaint_id";
+					$stmt = $con->prepare($query);
+					$stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+					$stmt->execute();
+					$row = $stmt->fetch();
+
+					$data = array("success" => "true", "status" => "Not yet read", "complaint_id" => $row['complaint_id'], "user_id" => $row['user_id'], "name" => $row['name'], "message_date" => $row['message_date'], "message" => $row['message'], "buttons" => '<center><button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnDetails" data-id="'.$row['complaint_id'].'"><span class="fa fa-file-text-o"></span></button></center>');
+					$results = json_encode($data);
+					echo $results;
+				}
+				else if($row['status'] == 'Read'){
+					$query = "SELECT complaint_id, user_id, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = CT.user_id) AS name, DATE_FORMAT(message_date, '%M %d, %Y') AS message_date, message FROM complaint_tbl AS CT WHERE complaint_id = :complaint_id";
+					$stmt = $con->prepare($query);
+					$stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+					$stmt->execute();
+					$row = $stmt->fetch();
+					
+					$data = array("success" => "true", "status" => "Read", "complaint_id" => $row['complaint_id'], "user_id" => $row['user_id'], "name" => $row['name'], "message_date" => $row['message_date'], "message" => $row['message']);
+					$results = json_encode($data);
+					echo $results;
+				}
+				else if($row['status'] == 'Responded'){
+					$query = "SELECT complaint_id, user_id, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = CT.user_id) AS name, DATE_FORMAT(message_date, '%M %d, %Y') AS message_date, message, response, DATE_FORMAT(response_date, '%M %d, %Y') AS response_date FROM complaint_tbl AS CT WHERE complaint_id = :complaint_id";
+					$stmt = $con->prepare($query);
+					$stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+					$stmt->execute();
+					$row = $stmt->fetch();
+
+					$data = array("success" => "true", "status" => "Responded", "complaint_id" => $row['complaint_id'], "user_id" => $row['user_id'], "name" => $row['name'], "message_date" => $row['message_date'], "message" => $row['message'], "response" => $row['response'], "response_date" => $row['response_date']);
+					$results = json_encode($data);
+					echo $results;
+				}
+				else{
+					$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+					$results = json_encode($data);
+					echo $results;
+				}
 			}
 			else{
 				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");

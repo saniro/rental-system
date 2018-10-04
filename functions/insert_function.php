@@ -221,4 +221,49 @@
 			echo $output;
 		}
 	}
+
+	//a_complaints.php send reply
+	if(isset($_POST['submit_reply_complaint_data'])){
+		$complaint_id = $_POST['complaint_id_data'];
+		$response = $_POST['response_data'];
+		//$profilepic = $_POST['profilepic_data'];
+
+		if(($complaint_id) && ($response != NULL)){
+			$query_check = "SELECT complaint_id FROM complaint_tbl WHERE complaint_id = :complaint_id AND response IS NULL";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				//Check if room exist
+				$query = "UPDATE complaint_tbl
+						 SET response = :response, response_date = CURDATE()
+						 WHERE complaint_id = :complaint_id";
+
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+				$stmt->bindParam(':response', $response, PDO::PARAM_STR);
+				$stmt->execute();
+				
+				$query_check = "SELECT complaint_id, DATE_FORMAT(message_date, '%M %d, %Y') AS message_date, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = CT.user_id) AS name FROM complaint_tbl AS CT WHERE complaint_id = :complaint_id";
+				$stmt = $con->prepare($query_check);
+				$stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+				$data = array("success" => "true", "message" => "Your response has been sent.", "complaint_id" => $row['complaint_id'], "message_date" => $row['message_date'], "name" => $row['name'], "status" => "Responded", "buttons" => '<center><button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnDetails" data-id="'.$row['complaint_id'].'"><span class="fa fa-file-text-o"></span></button></center>');
+					$output = json_encode($data);
+					echo $output;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$output = json_encode($data);
+				echo $output;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Some required fields are empty.");
+			$output = json_encode($data);
+			echo $output;
+		}
+	}
 ?>
