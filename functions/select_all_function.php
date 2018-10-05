@@ -66,4 +66,14 @@
 		$results = json_encode($results);
 		return $results;
 	}
+
+	function rules_list(){
+		require("./connection/connection.php");
+		$query = "SELECT rules_id, description FROM rules_tbl WHERE flag = 1";
+		$stmt = $con->prepare($query);
+		$stmt->execute();
+		$results = $stmt->fetchAll();
+		$results = json_encode($results);
+		return $results;
+	}
 ?>

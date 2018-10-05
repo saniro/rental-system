@@ -137,7 +137,7 @@
 
 		//$profilepic = $_POST['profilepic_data'];
 
-		if(($room_id) && ($firstname != NULL) && ($lastname != NULL) && ($birthdate != NULL) && ($gender != NULL) && ($contactno != NULL) && ($email != NULL)){
+		if(($room_id != NULL) && ($firstname != NULL) && ($lastname != NULL) && ($birthdate != NULL) && ($gender != NULL) && ($contactno != NULL) && ($email != NULL)){
 			$query_check = "SELECT user_id FROM user_tbl WHERE email = :email";
 			$stmt = $con->prepare($query_check);
 			$stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -228,7 +228,7 @@
 		$response = $_POST['response_data'];
 		//$profilepic = $_POST['profilepic_data'];
 
-		if(($complaint_id) && ($response != NULL)){
+		if(($complaint_id != NULL) && ($response != NULL)){
 			$query_check = "SELECT complaint_id FROM complaint_tbl WHERE complaint_id = :complaint_id AND response IS NULL";
 			$stmt = $con->prepare($query_check);
 			$stmt->bindParam(':complaint_id', $complaint_id, PDO::PARAM_INT);
@@ -259,6 +259,28 @@
 				$output = json_encode($data);
 				echo $output;
 			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Some required fields are empty.");
+			$output = json_encode($data);
+			echo $output;
+		}
+	}
+
+	// a_tncs insert new tncs
+	if(isset($_POST['add_tncs_data'])){
+		$description = $_POST['description_data'];
+
+		if($description != NULL){
+			$query = "INSERT INTO rules_tbl (description) VALUES (:description)";
+			$stmt = $con->prepare($query);
+			$stmt->bindParam(':description', $description, PDO::PARAM_STR);
+			$stmt->execute();
+			$rulesLastInsertedID = $con->lastInsertId();
+
+			$data = array("success" => "true", "message" => "New Terms and Requirements added.", "tnc_id" => $rulesLastInsertedID, "description" => $description, "buttons" => '<button data-toggle="tooltip" data-id="'.$rulesLastInsertedID.'" title="Edit" class="btn btn-success btn_edit" id="btnEdit"><span class="fa fa-edit"></span></button> <button data-toggle="tooltip" data-id="'.$rulesLastInsertedID.'" title="Delete" class="btn btn-danger" id="btnDelete"><span class="glyphicon glyphicon-trash"></span></button>');
+			$output = json_encode($data);
+			echo $output;
 		}
 		else{
 			$data = array("success" => "false", "message" => "Some required fields are empty.");

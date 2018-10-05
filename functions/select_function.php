@@ -218,4 +218,39 @@
 			echo $results;
 		}
 	}
+
+	//a_tncs.php view details to be edited
+	if(isset($_POST['view_edit_tncs_data'])){
+		$tnc_id = $_POST['tnc_id_data'];
+
+		if($tnc_id != NULL){
+			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND flag = 1";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':rules_id', $tnc_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT rules_id, description FROM rules_tbl WHERE rules_id = :rules_id";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':rules_id', $tnc_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+
+				$data = array("success" => "true", "tnc_id" => $row['rules_id'], "description" => $row['description']);
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("substr_compare(main_str, str, offset)cess" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
 ?>

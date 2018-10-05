@@ -75,6 +75,9 @@
                     <a href="index?route=complaints"><i class="fa fa-exclamation-triangle fa-fw"></i> Complaints</a>
                 </li>
                 <li>
+                    <a href="index?route=tncs"><i class="fa fa-list fa-fw"></i> Terms and Conditions</a>
+                </li>
+                <li>
                     <a href="index?route=notifications"><i class="fa fa-bell fa-fw"></i> Notifications</a>
                 </li>
                 <!-- <li>

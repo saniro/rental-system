@@ -32,6 +32,9 @@
 		case 'complaints':
 			require("view/a_complaints.php");
 			break;
+		case 'tncs':
+			require("view/a_tncs.php");
+			break;
 		case 'notifications':
 			require("view/a_notifications.php");
 			break;
