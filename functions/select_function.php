@@ -301,7 +301,7 @@
 		$user_id = $_POST['tenant_id_data'];
 
 		if($user_id != NULL){
-			$query_check = "SELECT user_id FROM user_tbl AS UR WHERE user_id = :user_id AND (SELECT room_id FROM room_tbl AS RM WHERE RM.room_id = (SELECT room_id FROM rental_tbl AS RL WHERE Rl.user_id = UR.user_id)) = :apartment_id AND flag = 1";
+			$query_check = "SELECT user_id FROM user_tbl AS UR WHERE user_id = :user_id AND (SELECT apartment_id FROM room_tbl AS RM WHERE RM.room_id = (SELECT room_id FROM rental_tbl AS RL WHERE Rl.user_id = UR.user_id)) = :apartment_id AND flag = 1";
 			$stmt = $con->prepare($query_check);
 			$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);

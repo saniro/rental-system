@@ -497,7 +497,7 @@
                     success: function(data) {
                         var data = JSON.parse(data);
                         if(data.success == "true"){
-
+                            
                             table.row.add( [
                                 data.room_id,
                                 data.room_name,
