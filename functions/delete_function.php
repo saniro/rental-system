@@ -1,5 +1,6 @@
 <?php
 	require("../connection/connection.php");
+	session_start();
 	if(isset($_POST['tenant_delete_data'])){
 		$user_id = $_POST['tenant_id_data'];
 		$query = "UPDATE user_tbl 
@@ -119,6 +120,54 @@
 		}
 		else{
 			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_roomstable.php delete room tables
+	if(isset($_POST['submit_delete_room_data'])){
+		$room_id = $_POST['room_id_data'];
+
+		if($room_id != NULL){
+			$query_check = "SELECT room_id FROM room_tbl WHERE room_id = :room_id AND apartment_id = :apartment_id AND flag = 1";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':room_id', $room_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT room_id, room_name, (SELECT count(rental_id) FROM rental_tbl AS RL WHERE RL.room_id = RM.room_id) AS roomCount FROM room_tbl AS RM WHERE room_id = :room_id";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':room_id', $room_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+				if($row['roomCount'] > 0){
+					$data = array("success" => "false", "message" => "Cannot delete room that still have a tenant.");
+					$results = json_encode($data);
+					echo $results;
+				}else{
+					$query = "UPDATE room_tbl 
+							SET flag = 0 
+							WHERE room_id = :room_id";
+					$stmt = $con->prepare($query);
+					$stmt->bindParam(':room_id', $room_id, PDO::PARAM_INT);
+					$stmt->execute();
+
+					$data = array("success" => "true", "message" => "Room deleted successfully.");
+					$results = json_encode($data);
+					echo $results;
+				}
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("sucess" => "false", "message" => "Required fields must not be empty.");
 			$results = json_encode($data);
 			echo $results;
 		}

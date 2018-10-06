@@ -72,6 +72,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <button title="Add New Room" class="btn btn-info" id="btnAdd"><span class="glyphicon glyphicon-plus"></span> Add</button>
                             <!-- <button data-toggle="tooltip" title="Add Complaint" class="btn btn-info" id="btnAdd"><span class="glyphicon glyphicon-plus"></span> Add</button> -->
                         </div>
                         <!-- /.panel-heading -->
@@ -104,7 +105,7 @@
                                             <center>
                                                 <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails" data-id="<?php echo $value -> {'room_id'}; ?>"><span class="fa fa-file-text-o"></span></button>
                                                 <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit" data-id="<?php echo $value -> {'room_id'}; ?>"><span class="fa fa-edit"></span></button>
-                                                <!-- <button data-toggle="tooltip" title="Delete" class="btn btn-danger" id="btnCancel"><span class="glyphicon glyphicon-remove"></span></button> -->
+                                                <button data-toggle="tooltip" title="Delete" class="btn btn-danger" id="btnDelete" data-id="<?php echo $value -> {'room_id'}; ?>"><span class="glyphicon glyphicon-remove"></span></button>
                                             </center>
                                         </td>
                                     </tr>
@@ -381,7 +382,70 @@
           </div>
         </div>
 
+    <!-- This is the Modal that will be called for add btn -->
+    <div id = "modalAdd" class = "modal fade"  role = "dialog">
+        <div class = "modal-dialog">
+            <div class="modal-content">
+                <div class = "modal-header">
+                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                    <h4 class ="modal-title"> Add New Room </h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label> Room Name: </label>
+                            <input class="form-control" id="a_room_name" placeholder="Room name" required />
+                        </div>
+                        <div class="form-group">
+                            <label> Rent Rate: </label>
+                            <input class="form-control" id="a_rent_rate" placeholder="Rent rate" required />
+                        </div>
+                        <div class="form-group">
+                            <label> Description: </label>
+                            <textarea class="form-control" id="a_description" placeholder="Describe room here ..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label> Room Picture: </label>
+                            <input type="file" class="form-control" />
+                        </div>
+                    </form>
+                </div>
+                <div class = "modal-footer">
+                    <button type="button" class = "btn btn-primary" id="SubmitAdd" data-dismiss = "modal"> ADD ROOM </button>
+                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- This is the Modal that will be called for delete btn -->
+    <div id = "modalDelete" class = "modal fade"  role = "dialog">
+        <div class = "modal-dialog">
+            <div class="modal-content">
+                <div class = "modal-header">
+                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                    <h4 class ="modal-title"> Confirmation </h4>
+                </div>
+                <div class="modal-body">
+                    By clicking yes, this room will be deleted.
+                    <form>
+                        <div class="form-group">
+                            <label> ID: </label>
+                            <label class="form-control" id="v_d_room_id" placeholder="Room name"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Room Name: </label>
+                            <label class="form-control" id="v_d_room_name" placeholder="Rent rate"></label>
+                        </div>
+                    </form>
+                </div>
+                <div class = "modal-footer">
+                    <button type="button" class = "btn btn-primary" id="SubmitDelete" data-dismiss = "modal"> YES </button>
+                    <button type ="button" class = "btn btn-danger" data-dismiss = "modal"> NO </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- jQuery -->
@@ -405,8 +469,112 @@
     <script>
         $(document).ready(function() {
             var table_row;
+
             $('#tblroom').DataTable({
                 responsive: true
+            });
+
+            var table = $('#tblroom').DataTable();
+            $(document).on('click', '#btnAdd', function(){
+                $('#modalAdd').modal('show');
+            });
+
+            $(document).on('click', '#SubmitAdd', function(){
+                var add_room = 'selected';
+                var room_name = $('#a_room_name').val();
+                var rent_rate = $('#a_rent_rate').val();
+                var description = $('#a_description').val();
+
+                $.ajax({
+                    url: 'functions/insert_function.php',
+                    method: 'POST',
+                    data: {
+                        add_room_data: add_room,
+                        room_name_data: room_name,
+                        rent_rate_data: rent_rate,
+                        description_data: description
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+
+                            table.row.add( [
+                                data.room_id,
+                                data.room_name,
+                                data.rent_rate,
+                                data.description,
+                                data.status,
+                                data.buttons
+                            ] ).draw( false );
+                            alert(data.message);
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
+
+            $(document).on('click', '#btnDelete', function(){
+                var view_delete_room = 'selected';
+                var room_id = $(this).attr('data-id');
+                table_row = $(this).parents('tr');
+
+                $.ajax({
+                    url: 'functions/select_function.php',
+                    method: 'POST',
+                    data: {
+                        view_delete_room_data: view_delete_room,
+                        room_id_data: room_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            $("#v_d_room_id").html(data.room_id);
+                            $("#v_d_room_name").html(data.room_name);
+
+                            $('#SubmitDelete').attr('data-id', room_id);
+                            $('#modalDelete').modal('show');
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
+
+            $(document).on('click', '#SubmitDelete', function(){
+                var room_id = $(this).attr('data-id');
+                var submit_delete_room = 'selected';
+
+                $.ajax({
+                    url: 'functions/delete_function.php',
+                    method: 'POST',
+                    data: {
+                        submit_delete_room_data: submit_delete_room,
+                        room_id_data: room_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            table.row( table_row ).remove().draw();
+                            alert(data.message);
+
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
             });
 
             $(document).on('click', '#btnViewDetails', function(){
@@ -514,7 +682,6 @@
                     success: function(data) {
                         var data = JSON.parse(data);
                         if(data.success == "true"){
-                            var table = $('#tblroom').DataTable();
                             var rData = [ data.room_id, data.room_name, data.rent_rate, data.room_description, data.status, data.buttons];
                             table.row( table_row ).data(rData).draw();
  
@@ -580,7 +747,6 @@
                     success: function(data) {
                         var data = JSON.parse(data);
                         if(data.success == "true"){
-                            var table = $('#tblroom').DataTable();
                             var rData = [ data.room_id, data.room_name, data.rent_rate, data.room_description, data.status, data.buttons];
                             table.row( table_row ).data(rData).draw();
                             alert(data.message);
@@ -623,7 +789,6 @@
                     success: function(data) {
                         var data = JSON.parse(data);
                         if(data.success == "true"){
-                            var table = $('#tblroom').DataTable();
                             var rData = [ data.room_id, data.room_name, data.rent_rate, data.room_description, data.status, data.buttons];
                             table.row( table_row ).data(rData).draw();
                             $('#modalVacantRoom').modal('toggle');

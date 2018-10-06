@@ -238,6 +238,10 @@
                             </li>
                             <li class=""><a href="#profile" data-toggle="tab" aria-expanded="true">Tenant</a>
                             </li>
+                            <li class=""><a href="#rental" data-toggle="tab" aria-expanded="false">Rental Payment</a>
+                            </li>
+                            <li class=""><a href="#utility" data-toggle="tab" aria-expanded="true">Utility Payment</a>
+                            </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
@@ -299,6 +303,66 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="tab-pane fade" id="rental">
+                                <center><br><h4>Rental Payment</h4></center>
+
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#full" data-toggle="tab" aria-expanded="false">Full Payment</a>
+                                        </li>
+                                        <li class=""><a href="#partial" data-toggle="tab" aria-expanded="true">Partial Payment</a>
+                                        </li>
+                                    </ul>
+
+
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade active in" id="full">
+                                        <form>
+                                            <div class="form-group">
+                                                <label> Amount: </label>
+                                                <label id="" class="form-control"></label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label> Due Date: </label>
+                                                <label id="" class="form-control"></label>
+                                            </div>
+                                            <button id="" type="button" class="form-control btn btn-primary">Mark as Fully Paid</button>
+                                        </form>
+                                        </div>
+                                        <div class="tab-pane fade" id="partial">
+                                        <form>
+                                            <div class="form-group">
+                                                <label> Amount: </label>
+                                                <label id="" class="form-control"></label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label> Due Date: </label>
+                                                <label id="" class="form-control"></label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label> Partial Payment: </label>
+                                                <input type="text" name="" class="form-control">
+                                            </div>
+                                            <button id="" type="button" class="form-control btn btn-primary">Add Partial Payment</button>
+                                        </form>
+                                        </div>
+                                    </div>
+
+
+                            </div>
+                            <div class="tab-pane fade" id="utility">
+                                <center><br><h4>Utility Payment</h4></center>
+                                <form>
+                                    <div class="form-group">
+                                        <label> Amount: </label>
+                                        <label id="" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Due Date: </label>
+                                        <label id="" class="form-control"></label>
+                                    </div>
+                                    <button id="" type="button" class="form-control btn btn-primary">Mark as Fully Paid</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -337,6 +401,63 @@
         </div>
     </div>
 
+<!-- 
+    <div id = "modalRentalConfirm" class = "modal fade"  role = "dialog">
+        <div class = "modal-dialog">
+            <div class="modal-content">
+                <div class = "modal-header">
+                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                    <h4 class ="modal-title"> Mark as Fully Paid </h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label> Room name: </label>
+                            <label id = "" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Name: </label>
+                            <label id = "" class="form-control"></label>
+                        </div>
+                    </form>
+                </div>
+                <div class = "modal-footer">
+                    <button type="button" class = "btn btn-primary" id="" data-dismiss = "modal"> YES </button>
+                    <button type ="button" class = "btn btn-danger" data-dismiss = "modal"> NO </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id = "modalUtilityConfirm" class = "modal fade"  role = "dialog">
+        <div class = "modal-dialog">
+            <div class="modal-content">
+                <div class = "modal-header">
+                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                    <h4 class ="modal-title"> Mark as Fully Paid </h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label> Room name: </label>
+                            <label id = "" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Name: </label>
+                            <label id = "" class="form-control"></label>
+                        </div>
+                    </form>
+                </div>
+                <div class = "modal-footer">
+                    <button type="button" class = "btn btn-primary" id="" data-dismiss = "modal"> YES </button>
+                    <button type ="button" class = "btn btn-danger" data-dismiss = "modal"> NO </button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
 
@@ -360,6 +481,14 @@
             $('#dataTables-example').DataTable({
                 responsive: true
             });
+
+            // $(document).on('click', '#btnRentalConfirm', function(){
+            //     $('#modalRentalConfirm').modal('show');
+            // });
+
+            // $(document).on('click', '#btnUtilityConfirm', function(){
+            //     $('#modalUtilityConfirm').modal('show');
+            // });
 
             $(document).on('click', '.room', function(){
                 var room_id = $(this).attr('data-id');

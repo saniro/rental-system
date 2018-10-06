@@ -141,41 +141,76 @@
                     <h4 class ="modal-title"> Tenant's Information </h4>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <!-- <div class="form-group">
-                            <label>Profile Picture: </label>
-                            <label id="view_profilepic" class="form-control"></label>
-                        </div> -->
-                        <div class="form-group">
-                            <label> ID: </label>
-                            <!-- <label id="view_id" class="form-control"></label> -->
+                    <div class="panel-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#o_profile" data-toggle="tab" aria-expanded="true">Tenant</a>
+                            </li>
+                            <li><a href="#o_room" data-toggle="tab" aria-expanded="false">Room</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="o_profile">
+                                <center><br><h4>Tenant</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label>Profile Picture: </label>
+                                        <label id="o_profile_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="v_user_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Name: </label>
+                                        <label id="v_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Birthdate: </label>
+                                        <label id="v_birthdate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Gender: </label>
+                                        <label id="v_gender" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Contact No: </label>
+                                        <label id="v_contactno" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Email: </label>
+                                        <label id="v_email" class="form-control"></label>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="o_room">
+                                <center><br><h4>Room Information</h4></center>
+                                <form>
+                                    <!-- <div class="form-group">
+                                        <label> Picture: </label>
+                                        <label id="o_room_picture" class="form-control"></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label> ID: </label>
+                                        <label id="v_room_id" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Room Name: </label>
+                                        <label id="v_room_name" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Rent Rate: </label>
+                                        <label id="v_rent_rate" class="form-control"></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Description: </label>
+                                        <label id="v_room_description" class="form-control"></label>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label> Name: </label>
-                            <!-- <label id="view_name" class="form-control"></label> -->
-                        </div>
-                        <div class="form-group">
-                            <label> Room name: </label>
-                            <!-- <label id="view_roomname" class="form-control"></label> -->
-                        </div>
-                        <div class="form-group">
-                            <label> Birthdate: </label>
-                            <!-- <label id="view_birthdate" class="form-control"></label> -->
-                        </div>
-                        <div class="form-group">
-                            <label> Gender: </label>
-                            <!-- <label id="view_gender" class="form-control"></label> -->
-                        </div>
-                        <div class="form-group">
-                            <label> Contact No: </label>
-                            <!-- <label id="view_contactno" class="form-control"></label> -->
-                        </div>
-                        <div class="form-group">
-                            <label> Email: </label>
-                            <!-- <label id="view_email" class="form-control"></label> -->
-                        </div>
-                    </form>
-
+                    </div>
                 </div>
                 <div class = "modal-footer">
                     <!-- <button type="button" class = "btn btn-success" data-dismiss = "modal" id="SubmitEdit">SAVE CHANGES</button> -->
@@ -372,7 +407,41 @@
             $('[data-toggle="tooltip"]').tooltip();
 
             $(document).on('click', '#btnDetails', function(){
-                $('#modalDetails').modal('show');
+                var tenant_id = $(this).attr('data-id');
+                var view_tenant_selected = 'selected';
+
+                $.ajax({
+                    url: 'functions/select_function.php',
+                    method: 'POST',
+                    data: {
+                        view_tenant_selected_data: view_tenant_selected,
+                        tenant_id_data: tenant_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            $('#v_user_id').html(data.user_id);
+                            $('#v_name').html(data.name);
+                            $('#v_birthdate').html(data.birth_date);
+                            $('#v_gender').html(data.gender);
+                            $('#v_contactno').html(data.contact_no);
+                            $('#v_email').html(data.email);
+
+                            $('#v_room_id').html(data.room_id);
+                            $('#v_room_name').html(data.room_name);
+                            $('#v_rent_rate').html(data.rent_rate);
+                            $('#v_room_description').html(data.room_description);
+
+                            $('#modalDetails').modal('show');
+                        }
+                        else if(data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
             });
 
             $(document).on('click', '#btnEdit', function(){

@@ -1,5 +1,6 @@
 <?php
 	require("../connection/connection.php");
+	session_start();
 	if(isset($_POST['tenant_selected_data'])){
 		$user_id = $_POST['tenant_id_data'];
 		$query = "SELECT user_id, concat(last_name,  ', ', first_name, ' ', middle_name) AS name, (SELECT room_name FROM room_tbl WHERE room_id = (SELECT room_id FROM rental_tbl AS RL WHERE RL.user_id = UR.user_id)) AS room_name, DATE_FORMAT(birth_date,'%b %d, %Y %r') AS birth_date, gender, contact_no, email, profile_picture FROM user_tbl AS UR WHERE user_id = :user_id";
@@ -248,9 +249,94 @@
 			}
 		}
 		else{
-			$data = array("substr_compare(main_str, str, offset)cess" => "false", "message" => "Required fields must not be empty.");
+			$data = array("sucess" => "false", "message" => "Required fields must not be empty.");
 			$results = json_encode($data);
 			echo $results;
 		}
 	}
+
+	//a_roomstable.php view details to be deleted
+	if(isset($_POST['view_delete_room_data'])){
+		$room_id = $_POST['room_id_data'];
+
+		if($room_id != NULL){
+			$query_check = "SELECT room_id FROM room_tbl WHERE room_id = :room_id AND apartment_id = :apartment_id AND flag = 1";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':room_id', $room_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT room_id, room_name, (SELECT count(rental_id) FROM rental_tbl AS RL WHERE RL.room_id = RM.room_id) AS roomCount FROM room_tbl AS RM WHERE room_id = :room_id";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':room_id', $room_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+				if($row['roomCount'] > 0){
+					$data = array("success" => "false", "message" => "Cannot delete room that still have a tenant.");
+					$results = json_encode($data);
+					echo $results;
+				}else{
+					$data = array("success" => "true", "room_id" => $row['room_id'], "room_name" => $row['room_name']);
+					$results = json_encode($data);
+					echo $results;
+				}
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("sucess" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_tenants.php view details
+	if(isset($_POST['view_tenant_selected_data'])){
+		$user_id = $_POST['tenant_id_data'];
+
+		if($user_id != NULL){
+			$query_check = "SELECT user_id FROM user_tbl AS UR WHERE user_id = :user_id AND (SELECT room_id FROM room_tbl AS RM WHERE RM.room_id = (SELECT room_id FROM rental_tbl AS RL WHERE Rl.user_id = UR.user_id)) = :apartment_id AND flag = 1";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT user_id, concat(last_name, ', ', first_name, ' ', middle_name) AS name, DATE_FORMAT(birth_date, '%M %d, %Y') AS birth_date, (CASE WHEN gender = 1 THEN 'Male' WHEN gender = 0 THEN 'Female' END) AS gender, contact_no, email, (SELECT room_id FROM room_tbl AS RM WHERE RM.room_id = (SELECT room_id FROM rental_tbl AS RL WHERE Rl.user_id = UR.user_id)) AS room_id FROM user_tbl AS UR WHERE user_id = :user_id";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$rowUser = $stmt->fetch();
+
+				$room_id = $rowUser['room_id'];
+				$query = "SELECT room_id, room_name, rent_rate, room_description FROM room_tbl AS RM WHERE room_id = :room_id";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':room_id', $room_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$rowRoom = $stmt->fetch();
+
+				$data = array("success" => "true", "user_id" => $rowUser['user_id'], "name" => $rowUser['name'], "birth_date" => $rowUser['birth_date'], "gender" => $rowUser['gender'], "contact_no" => $rowUser['contact_no'], "email" => $rowUser['email'], "room_id" => $rowRoom['room_id'], "room_name" => $rowRoom['room_name'], "rent_rate" => $rowRoom['rent_rate'], "room_description" => $rowRoom['room_description']);
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("sucess" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
 ?>

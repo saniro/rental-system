@@ -1,5 +1,7 @@
 <?php
 	require("../connection/connection.php");
+	session_start();
+
 	if(isset($_POST['bill_type_data']) && isset($_POST['bill_desc_data'])){
 		$bill_type = $_POST['bill_type_data'];
 		$bill_desc = $_POST['bill_desc_data'];
@@ -198,7 +200,7 @@
 						$stmt->execute();
 						$row = $stmt->fetch();
 
-						$data = array("success" => "true", "message" => "New tenant has been added.", "room_id" => $row['room_id'], "room_name" => $row['room_name'], "rent_rate" => $row['rent_rate'], "room_description" => $row['room_description'], "status" => "Occupied", "buttons" => '<center><button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails" data-id="' .$room_id.'"><span class="fa fa-file-text-o"></span></button> <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit" data-id="' .$room_id.'"><span class="fa fa-edit"></span></button></center>');
+						$data = array("success" => "true", "message" => "New tenant has been added.", "room_id" => $row['room_id'], "room_name" => $row['room_name'], "rent_rate" => $row['rent_rate'], "room_description" => $row['room_description'], "status" => "Occupied", "buttons" => '<center><button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails" data-id="' .$room_id.'"><span class="fa fa-file-text-o"></span></button> <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit" data-id="' .$room_id.'"><span class="fa fa-edit"></span></button> <button data-toggle="tooltip" title="Delete" class="btn btn-danger" id="btnDelete" data-id="'.$row['room_id'].'"><span class="glyphicon glyphicon-remove"></span></button></center>');
 						$output = json_encode($data);
 						echo $output;
 					}
@@ -279,6 +281,40 @@
 			$rulesLastInsertedID = $con->lastInsertId();
 
 			$data = array("success" => "true", "message" => "New Terms and Requirements added.", "tnc_id" => $rulesLastInsertedID, "description" => $description, "buttons" => '<button data-toggle="tooltip" data-id="'.$rulesLastInsertedID.'" title="Edit" class="btn btn-success btn_edit" id="btnEdit"><span class="fa fa-edit"></span></button> <button data-toggle="tooltip" data-id="'.$rulesLastInsertedID.'" title="Delete" class="btn btn-danger" id="btnDelete"><span class="glyphicon glyphicon-trash"></span></button>');
+			$output = json_encode($data);
+			echo $output;
+		}
+		else{
+			$data = array("success" => "false", "message" => "Some required fields are empty.");
+			$output = json_encode($data);
+			echo $output;
+		}
+	}
+
+	// a_tncs insert new tncs
+	if(isset($_POST['add_room_data'])){
+
+	    $room_name = $_POST['room_name_data'];
+	    $rent_rate = $_POST['rent_rate_data'];
+	    $description = $_POST['description_data'];
+
+		if(($room_name != NULL) && ($rent_rate != NULL) && ($description != NULL)){
+			$query = "INSERT INTO room_tbl (apartment_id, room_name, rent_rate, room_description) VALUES (:apartment_id, :room_name, :rent_rate, :description)";
+			$stmt = $con->prepare($query);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->bindParam(':room_name', $room_name, PDO::PARAM_STR);
+			$stmt->bindParam(':rent_rate', $rent_rate, PDO::PARAM_STR);
+			$stmt->bindParam(':description', $description, PDO::PARAM_STR);
+			$stmt->execute();
+			$roomLastInsertedID = $con->lastInsertId();
+
+			$query = "SELECT room_id, room_name, rent_rate, room_description FROM room_tbl WHERE room_id = :room_id AND flag = 1";
+			$stmt = $con->prepare($query);
+			$stmt->bindParam(':room_id', $roomLastInsertedID, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+
+			$data = array("success" => "true", "message" => "New room added.", "room_id" => $row['room_id'], "room_name" => $row['room_name'], "rent_rate" => $row['rent_rate'], "description" => $row['room_description'], "status" => 'Vacant', "buttons" => '<center><button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails" data-id="'.$row['room_id'].'"><span class="fa fa-file-text-o"></span></button> <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit" data-id="'.$row['room_id'].'"><span class="fa fa-edit"></span></button> <button data-toggle="tooltip" title="Delete" class="btn btn-danger" id="btnDelete" data-id="'.$row['room_id'].'"><span class="glyphicon glyphicon-remove"></span></button> </center>');
 			$output = json_encode($data);
 			echo $output;
 		}

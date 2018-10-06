@@ -52,7 +52,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Payments</h1>
+                    <h1 class="page-header">Payments History</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -72,7 +72,9 @@
                                         <th>Name</th>
                                         <th>Contact No.</th>
                                         <th>Room Name</th>
+                                        <th>Amount Paid</th>
                                         <th>Due Date</th>
+                                        <th>Date of Payment</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -87,7 +89,9 @@
                                             <td><?php echo $value -> {'user_name'}; ?></td>
                                             <td><?php echo $value -> {'contact_no'}; ?></td>
                                             <td class="center"><?php echo $value -> {'room_name'}; ?></td>
+                                            <td></td>
                                             <td class="center"><?php echo $value -> {'due_date'}; ?></td>
+                                            <td class="center"></td>
                                             <td class="center">
                                                 <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnDetails"><span class="fa fa-file-text-o"></span></button>
                                             </td>
@@ -144,7 +148,7 @@
     });
     </script>
 
-    
+
 
 <!-- This is the Modal that will be called for view btn -->
           <div id = "modalDetails" class = "modal fade"  role = "dialog">
@@ -174,7 +178,15 @@
                                 <label id="" class="form-control"></label>
                             </div>
                             <div class="form-group">
+                                <label> Amount Paid: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
                                 <label> Due Date: </label>
+                                <label id="" class="form-control"></label>
+                            </div>
+                            <div class="form-group">
+                                <label> Date of Payment: </label>
                                 <label id="" class="form-control"></label>
                             </div>
                       </form>
