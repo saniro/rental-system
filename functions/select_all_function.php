@@ -60,8 +60,9 @@
 	// a_complaints.php
 	function all_complaints(){
 		require("./connection/connection.php");
-		$query = "SELECT complaint_id, DATE_FORMAT(message_date, '%M %d, %Y') AS message_date, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = CT.user_id) AS name, (CASE WHEN status = 1 THEN 'Not yet read' WHEN response IS NULL AND status = 2 THEN 'Read' ELSE 'Responded' END) AS status FROM complaint_tbl AS CT";
+		$query = "SELECT complaint_id, DATE_FORMAT(message_date, '%M %d, %Y') AS message_date, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = CT.user_id) AS name, (CASE WHEN status = 1 THEN 'Not yet read' WHEN response IS NULL AND status = 2 THEN 'Read' ELSE 'Responded' END) AS status FROM complaint_tbl AS CT WHERE (SELECT apartment_id FROM room_tbl AS RM WHERE RM.room_id = CT.room_id) = :apartment_id";
 		$stmt = $con->prepare($query);
+		$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
 		$stmt->execute();
 		$results = $stmt->fetchAll();
 		$rowCount = $stmt->rowCount();
