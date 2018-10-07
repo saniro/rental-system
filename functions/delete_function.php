@@ -3,11 +3,33 @@
 	session_start();
 	if(isset($_POST['tenant_delete_data'])){
 		$user_id = $_POST['tenant_id_data'];
+
+		$query_select = "SELECT rental_id FROM rental_tbl WHERE user_id = :user_id";
+		$stmt = $con->prepare($query_select);
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->execute();
+		$rental_results = $stmt->fetch();
+		$rental_id = $rental_results['rental_id'];
+
 		$query = "UPDATE user_tbl 
 					SET flag = 0 
 					WHERE user_id = :user_id";
 		$stmt = $con->prepare($query);
 		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->execute();
+		
+		$query = "UPDATE monthly_rent_tbl 
+					SET status = 0 
+					WHERE rental_id = :rental_id";
+		$stmt = $con->prepare($query);
+		$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+		$stmt->execute();
+
+		$query = "UPDATE rental_tbl 
+					SET status = 0, end_date = CURDATE() 
+					WHERE rental_id = :rental_id";
+		$stmt = $con->prepare($query);
+		$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
 		$stmt->execute();
 		
 		$data = array("success" => "true", "message" => "Account has been deactivated.");
@@ -108,7 +130,7 @@
 				$stmt->execute();
 				$row = $stmt->fetch();
 
-				$data = array("success" => "true", "message" => "Rental terminated.", "room_id"=> $row['room_id'], "room_name" => $row['room_name'], "rent_rate" => $row['rent_rate'], "room_description" => $row['room_description'], "status" => "Vacant", "buttons" => '<center><button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails" data-id="' .$room_id.'"><span class="fa fa-file-text-o"></span></button> <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit" data-id="' .$room_id.'"><span class="fa fa-edit"></span></button></center>');
+				$data = array("success" => "true", "message" => "Rental terminated.", "room_id"=> $row['room_id'], "room_name" => $row['room_name'], "rent_rate" => $row['rent_rate'], "room_description" => $row['room_description'], "status" => "Vacant", "buttons" => '<center><button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails" data-id="' .$room_id.'"><span class="fa fa-file-text-o"></span></button> <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit" data-id="' .$room_id.'"><span class="fa fa-edit"></span></button> <button data-toggle="tooltip" title="Delete" class="btn btn-danger" id="btnDelete" data-id="'.$room_id.'"><span class="glyphicon glyphicon-remove"></span></button></center>');
 				$output = json_encode($data);
 				echo $output;
 			}

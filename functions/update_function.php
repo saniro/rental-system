@@ -1,5 +1,6 @@
 <?php
 	require("../connection/connection.php");
+	session_start();
 	if(isset($_POST['tenant_delete_data'])){
 		$user_id = $_POST['tenant_id_data'];
 		$query = "UPDATE user_tbl 
@@ -49,6 +50,50 @@
 			}
 			else{
 				$data = array("success" => "false", "error" => "severe", "message" => "Room doesn't exist.");
+				$output = json_encode($data);
+				echo $output;
+			}
+		}
+		else{
+			$data = array("success" => "false", "error" => "minor", "message" => "Required fields must not be empty.");
+			$output = json_encode($data);
+			echo $output;
+		}
+	}
+
+	//a_tncs.php update tncs
+	if(isset($_POST['update_tncs_data'])){
+		$rules_id = $_POST['tnc_id_data'];
+		$description = $_POST['description_data'];
+
+		if(($rules_id != NULL) && ($description != NULL)){
+			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND apartment_id = :apartment_id AND flag = 1";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':rules_id', $rules_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->execute();
+
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query_update = "UPDATE rules_tbl 
+								SET description = :description 
+								WHERE rules_id = :rules_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':rules_id', $rules_id, PDO::PARAM_INT);
+				$stmt->bindParam(':description', $description, PDO::PARAM_STR);
+				$stmt->execute();
+
+				$query_select = "SELECT rules_id, description FROM rules_tbl WHERE rules_id = :rules_id";
+				$stmt = $con->prepare($query_select);
+				$stmt->bindParam(':rules_id', $rules_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+				$data = array("success" => "true", "message" => "Terms and condition updated successfully.", "rules_id" => $row['rules_id'], "description" => $row['description'], "buttons" => '<button data-toggle="tooltip"'.$row['rules_id'].'" title="Edit" class="btn btn-success btn_edit" id="btnEdit"><span class="fa fa-edit"></span></button> <button data-toggle="tooltip" data-id="'.$row['rules_id'].'" title="Delete" class="btn btn-danger" id="btnDelete"><span class="glyphicon glyphicon-trash"></span></button>');
+				$output = json_encode($data);
+				echo $output;
+			}
+			else{
+				$data = array("success" => "false", "error" => "severe", "message" => "Item doesn't exist.");
 				$output = json_encode($data);
 				echo $output;
 			}

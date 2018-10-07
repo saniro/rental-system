@@ -274,8 +274,9 @@
 		$description = $_POST['description_data'];
 
 		if($description != NULL){
-			$query = "INSERT INTO rules_tbl (description) VALUES (:description)";
+			$query = "INSERT INTO rules_tbl (apartment_id, description) VALUES (:apartment_id, :description)";
 			$stmt = $con->prepare($query);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
 			$stmt->bindParam(':description', $description, PDO::PARAM_STR);
 			$stmt->execute();
 			$rulesLastInsertedID = $con->lastInsertId();

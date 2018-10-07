@@ -256,6 +256,37 @@
             });
         });
 
+        $(document).on('click', '#SubmitUpdate', function(){
+            var update_tncs = 'selected';
+            var tnc_id = $(this).attr('data-id');
+            var description = $('#e_description').val();
+
+            $.ajax({
+                url: 'functions/update_function.php',
+                method: 'POST',
+                data: {
+                    update_tncs_data: update_tncs,
+                    tnc_id_data: tnc_id,
+                    description_data: description
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    var table = $("#contents").DataTable();
+                    if(data.success == "true"){
+                        var rData = [ data.rules_id, data.description, data.buttons];
+                            table.row( table_row ).data(rData).draw();
+                        alert(data.message);
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
+        });
+
         $(document).on('click', '#btnDelete', function(){
             $('#modalDelete').modal('show');
         });

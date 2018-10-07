@@ -273,9 +273,7 @@
         </div>
     </div>
 
-
-
-    <!-- This is the Modal that will be called for edit column -->
+<!-- This is the Modal that will be called for edit column -->
    <!--  <div id = "modalEdit" class = "modal fade"  role = "dialog">
         <div class = "modal-dialog">
             <div class="modal-content">
@@ -404,6 +402,9 @@
                 responsive: true
             });
 
+            var table = $('#table-contents').DataTable();
+            var table_row;
+            
             $('[data-toggle="tooltip"]').tooltip();
 
             $(document).on('click', '#btnDetails', function(){
@@ -543,7 +544,6 @@
                         var data = JSON.parse(data);
                         if(data.success = "true"){
                             alert(data.message);
-                            var table = $('#table-contents').DataTable();
                             table.row('#'+tenant_id).remove().draw();
                         }
                     },
