@@ -35,6 +35,9 @@
 		case 'tncs':
 			require("view/a_tncs.php");
 			break;
+		case 'utilitybills':
+			require("view/a_utilitybills.php");
+			break;
 		case 'notifications':
 			require("view/a_notifications.php");
 			break;

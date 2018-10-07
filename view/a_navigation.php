@@ -107,7 +107,15 @@
                     <a href="index?route=complaints"><i class="fa fa-exclamation-triangle fa-fw"></i> Complaints</a>
                 </li>
                 <li>
-                    <a href="index?route=tncs"><i class="fa fa-list fa-fw"></i> Terms and Conditions</a>
+                    <a href="#"><i class="fa fa-gear fa-fw"></i> Maintenance<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="index?route=tncs">Terms and Conditions</a>
+                        </li>
+                        <li>
+                            <a href="index?route=utilitybills">Utility Bills</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="index?route=notifications"><i class="fa fa-bell fa-fw"></i> Notifications</a>
