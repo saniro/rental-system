@@ -104,4 +104,50 @@
 			echo $output;
 		}
 	}
+
+	//a_utilitybills.php view details
+	if(isset($_POST['update_utility_bills_data'])){
+		$id = $_POST['utility_bill_type_id_data'];
+		$type = $_POST['type_data'];
+		$description = $_POST['description_data'];
+
+		if(($id != NULL) && ($type != NULL) && ($description != NULL)){
+			$query_check = "SELECT utility_bill_type_id FROM utility_bill_type_tbl WHERE utility_bill_type_id = :utility_bill_type_id AND apartment_id = :apartment_id AND flag = 1";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':utility_bill_type_id', $id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query_update = "UPDATE utility_bill_type_tbl 
+								SET utility_bill_type = :type, description = :description 
+								WHERE utility_bill_type_id = :id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+				$stmt->bindParam(':type', $type, PDO::PARAM_STR);
+				$stmt->bindParam(':description', $description, PDO::PARAM_STR);
+				$stmt->execute();
+
+				$query_select = "SELECT utility_bill_type_id, utility_bill_type, description FROM utility_bill_type_tbl WHERE utility_bill_type_id = :id";
+				$stmt = $con->prepare($query_select);
+				$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+				$data = array("success" => "true", "message" => "Utility bill updated successfully.", "id" => $row['utility_bill_type_id'], "type" => $row['utility_bill_type'], "description" => $row['description'], "buttons" => '<button data-toggle="tooltip" data-id="'.$row['utility_bill_type_id'].'" title="Edit" class="btn btn-success btn_edit" id="btnEdit"><span class="fa fa-edit"></span></button> <button data-toggle="tooltip" data-id="'.$row['utility_bill_type_id'].'" title="Delete" class="btn btn-danger" id="btnDelete" ><span class="glyphicon glyphicon-trash"></span></button>');
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
 ?>

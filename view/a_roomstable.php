@@ -475,6 +475,7 @@
             });
 
             var table = $('#tblroom').DataTable();
+            
             $(document).on('click', '#btnAdd', function(){
                 $('#modalAdd').modal('show');
             });
@@ -565,7 +566,6 @@
                         if(data.success == "true"){
                             table.row( table_row ).remove().draw();
                             alert(data.message);
-
                         }
                         else if (data.success == "false"){
                             alert(data.message);

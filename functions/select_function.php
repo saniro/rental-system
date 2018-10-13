@@ -225,9 +225,10 @@
 		$tnc_id = $_POST['tnc_id_data'];
 
 		if($tnc_id != NULL){
-			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND flag = 1";
+			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND apartment_id = :apartment_id AND flag = 1";
 			$stmt = $con->prepare($query_check);
 			$stmt->bindParam(':rules_id', $tnc_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
 			$stmt->execute();
 			$row = $stmt->fetch();
 			$rowCount = $stmt->rowCount();
@@ -249,7 +250,43 @@
 			}
 		}
 		else{
-			$data = array("sucess" => "false", "message" => "Required fields must not be empty.");
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_tncs.php view details to be deleted
+	if(isset($_POST['view_delete_tncs_data'])){
+		$tnc_id = $_POST['tnc_id_data'];
+
+		if($tnc_id != NULL){
+			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND apartment_id = :apartment_id AND flag = 1";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':rules_id', $tnc_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT rules_id, description FROM rules_tbl WHERE rules_id = :rules_id";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':rules_id', $tnc_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+
+				$data = array("success" => "true", "tnc_id" => $row['rules_id'], "description" => $row['description']);
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
 			$results = json_encode($data);
 			echo $results;
 		}
@@ -290,7 +327,7 @@
 			}
 		}
 		else{
-			$data = array("sucess" => "false", "message" => "Required fields must not be empty.");
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
 			$results = json_encode($data);
 			echo $results;
 		}
@@ -333,7 +370,43 @@
 			}
 		}
 		else{
-			$data = array("sucess" => "false", "message" => "Required fields must not be empty.");
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_utilitybills.php view details
+	if(isset($_POST['view_utility_bills_data'])){
+		$utility_bill_type_id = $_POST['utility_bill_type_id_data'];
+
+		if($utility_bill_type_id != NULL){
+			$query_check = "SELECT utility_bill_type_id FROM utility_bill_type_tbl WHERE utility_bill_type_id = :utility_bill_type_id AND apartment_id = :apartment_id AND flag = 1";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':utility_bill_type_id', $utility_bill_type_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT utility_bill_type_id, utility_bill_type, description FROM utility_bill_type_tbl WHERE utility_bill_type_id = :utility_bill_type_id";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':utility_bill_type_id', $utility_bill_type_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+
+				$data = array("success" => "true", "id" => $row['utility_bill_type_id'], "type" => $row['utility_bill_type'], "description" => $row['description']);
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
 			$results = json_encode($data);
 			echo $results;
 		}

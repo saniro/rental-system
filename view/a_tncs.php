@@ -118,7 +118,7 @@
                     <h4 class ="modal-title"> Add New Policy </h4>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id = "formAdd">
                         <table>
                             <div class="form-group">
                                 <label> Description: </label>
@@ -181,17 +181,17 @@
                         <table>
                             <div class="form-group">
                                 <label> ID: </label>
-                                <label class="form-control">3</label>
+                                <label class="form-control" id="d_rules_id"></label>
                             </div>
                             <div class="form-group">
                                 <label> Description: </label>
-                                <textarea class="form-control" placeholder="Describe new policy here ..." disabled>Transferring of room is allowed only upon approval of change room request. Transferring of stuffs must be done the next day after approval.</textarea>
+                                <textarea class="form-control" placeholder="Describe new policy here ..." id="d_description" disabled></textarea>
                             </div>
                         </table>
                     </form>
                 </div>
                 <div class = "modal-footer">
-                    <button type="button" class = "btn btn-danger" data-dismiss = "modal"> DELETE POLICY </button>
+                    <button type="button" class = "btn btn-danger" id="SubmitDelete" data-dismiss = "modal"> DELETE POLICY </button>
                     <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
                 </div>
             </div>
@@ -221,6 +221,8 @@
             responsive: true
         });
 
+        var table = $("#contents").DataTable();
+
         $(document).on('click', '#btnAdd', function(){
             $('#modalAdd').modal('show');
         });
@@ -239,7 +241,7 @@
                 },
                 success: function(data) {
                     var data = JSON.parse(data);
-                    var table = $("#contents").DataTable();
+
                     if(data.success == "true"){
                         $('#e_rules_id').html(data.tnc_id);
                         $('#e_description').val(data.description);
@@ -271,7 +273,7 @@
                 },
                 success: function(data) {
                     var data = JSON.parse(data);
-                    var table = $("#contents").DataTable();
+
                     if(data.success == "true"){
                         var rData = [ data.rules_id, data.description, data.buttons];
                             table.row( table_row ).data(rData).draw();
@@ -288,7 +290,34 @@
         });
 
         $(document).on('click', '#btnDelete', function(){
-            $('#modalDelete').modal('show');
+            var view_delete_tncs = 'selected';
+            var tnc_id = $(this).attr('data-id');
+            table_row = $(this).parents('tr');
+
+            $.ajax({
+                url: 'functions/select_function.php',
+                method: 'POST',
+                data: {
+                    view_delete_tncs_data: view_delete_tncs,
+                    tnc_id_data: tnc_id
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+
+                    if(data.success == "true"){
+                        $('#d_rules_id').html(data.tnc_id);
+                        $('#d_description').val(data.description);
+                        $('#SubmitDelete').attr('data-id', data.tnc_id);
+                        $('#modalDelete').modal('show');
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
         });
 
         $(document).on('click', '#SubmitAdd', function(){
@@ -303,13 +332,40 @@
                 },
                 success: function(data) {
                     var data = JSON.parse(data);
-                    var table = $("#contents").DataTable();
+
                     if(data.success == "true"){
                         table.row.add([
                             data.tnc_id,
                             data.description,
                             data.buttons
                         ]).draw(true);
+                        $("#formAdd").trigger('reset');
+                        alert(data.message);
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
+        });
+
+        $(document).on('click', '#SubmitDelete', function(){
+            var delete_tncs = 'selected';
+            var tnc_id = $(this).attr('data-id');
+            $.ajax({
+                url: 'functions/delete_function.php',
+                method: 'POST',
+                data: {
+                    delete_tncs_data: delete_tncs,
+                    tnc_id_data: tnc_id
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        table.row( table_row ).remove().draw();
                         alert(data.message);
                     }
                     else if (data.success == "false"){

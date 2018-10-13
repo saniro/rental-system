@@ -76,15 +76,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="odd gradeX">
-                                        <td>1</td>
-                                        <td>Water Bill</td>
-                                        <td>Water consumption is measured and billed right here.</td>
-                                        <td>
-                                            <button data-toggle="tooltip" data-id="" title="Edit" class="btn btn-success btn_edit" id="btnEdit"><span class="fa fa-edit"></span></button> 
-                                            <button data-toggle="tooltip" data-id="" title="Delete" class="btn btn-danger" id="btnDelete"><span class="glyphicon glyphicon-trash"></span></button>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $all_bill_types = bill_types_list();
+                                    $all_bill_types = json_decode($all_bill_types);
+
+                                    foreach ($all_bill_types as $value) {
+                                        ?>
+                                        <tr class="odd gradeX">
+                                            <td><?php echo $value -> {'utility_bill_type_id'}; ?></td>
+                                            <td><?php echo $value -> {'utility_bill_type'}; ?></td>
+                                            <td><?php echo $value -> {'description'}; ?></td>
+                                            <td>
+                                                <button data-toggle="tooltip" data-id="<?php echo $value -> {'utility_bill_type_id'}; ?>" title="Edit" class="btn btn-success btn_edit" id="btnEdit"><span class="fa fa-edit"></span></button> 
+                                                <button data-toggle="tooltip" data-id="<?php echo $value -> {'utility_bill_type_id'}; ?>" title="Delete" class="btn btn-danger" id="btnDelete" ><span class="glyphicon glyphicon-trash"></span></button>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    }
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -114,22 +123,18 @@
                     <form>
                         <table>
                             <div class="form-group">
-                                <label> ID: </label>
-                                <label class="form-control" id="">
-                            </div>
-                            <div class="form-group">
                                 <label> Type: </label>
-                                <input class="form-control" id="" required>
+                                <input class="form-control" id="a_type" required>
                             </div>
                             <div class="form-group">
                                 <label> Description: </label>
-                                <textarea class="form-control" id="" placeholder="Describe new utility bill here ..." required></textarea>
+                                <textarea class="form-control" id="a_description" placeholder="Describe new utility bill here ..." required></textarea>
                             </div>
                         </table>
                     </form>
                 </div>
                 <div class = "modal-footer">
-                    <button type="button" class = "btn btn-primary" id="SubmitAdd" data-dismiss = "modal"> ADD UTILITY BILL </button>
+                    <button type="button" class = "btn btn-primary" id="SubmitAdd"> ADD UTILITY BILL </button>
                     <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
                 </div>
             </div>
@@ -150,21 +155,21 @@
                                 <table>
                                     <div class="form-group">
                                         <label> ID: </label>
-                                        <label class="form-control" id="">
+                                        <label class="form-control" id="e_id">
                                     </div>
                                     <div class="form-group">
                                         <label> Type: </label>
-                                        <input class="form-control" id="" required>
+                                        <input class="form-control" id="e_type" required>
                                     </div>
                                     <div class="form-group">
                                         <label> Description: </label>
-                                        <textarea class="form-control" id="" placeholder="Describe utility bill here ..." required></textarea>
+                                        <textarea class="form-control" id="e_description" placeholder="Describe utility bill here ..." required></textarea>
                                     </div>
                                 </table>
                             </form>
                       </div>
                       <div class = "modal-footer">
-                        <button type="button" class="btn btn-success" id="SubmitUpdate" data-dismiss="modal"> SAVE CHANGES </button>
+                        <button type="button" class="btn btn-success" id="SubmitUpdate"> SAVE CHANGES </button>
                         <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
                       </div>
                     </div>
@@ -186,21 +191,21 @@
                         <table>
                             <div class="form-group">
                                 <label> ID: </label>
-                                <label class="form-control" id="">
+                                <label class="form-control" id="d_id">
                             </div>
                             <div class="form-group">
                                 <label> Type: </label>
-                                <label class="form-control" id=""></label>
+                                <label class="form-control" id="d_type"></label>
                             </div>
                             <div class="form-group">
                                 <label> Description: </label>
-                                <textarea class="form-control" id="" disabled="true"></textarea>
+                                <textarea class="form-control" id="d_description" disabled="true"></textarea>
                             </div>
                         </table>
                     </form>
                 </div>
                 <div class = "modal-footer">
-                    <button type="button" class = "btn btn-danger" data-dismiss = "modal"> DELETE UTILITY BILL </button>
+                    <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitDelete"> DELETE UTILITY BILL </button>
                     <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
                 </div>
             </div>
@@ -225,23 +230,175 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
+        var table_row;
 
         $('#tblutility').DataTable({
             responsive: true
         });
 
+        var table = $('#tblutility').DataTable();
+
         $(document).on('click', '#btnAdd', function(){
             $('#modalAdd').modal('show');
         });
 
+        $(document).on('click', '#SubmitAdd', function(){
+            var add_utility_bills = 'selected';
+            var type  = $('#a_type').val();
+            var description = $('#a_description').val();
+
+            $.ajax({
+                url: 'functions/insert_function.php',
+                method: 'POST',
+                data: {
+                    add_utility_bills_data: add_utility_bills,
+                    type_data: type,
+                    description_data: description
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        table.row.add( [
+                            data.utility_bill_type_id,
+                            data.type,
+                            data.description,
+                            data.buttons
+                        ] ).draw( false );
+                        $('#modalAdd').modal('toggle');
+                        $("#formAdd").trigger('reset');
+                        alert(data.message);
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
+        });
+
         $(document).on('click', '#btnEdit', function(){
-            $('#modalEdit').modal('show');
+            var view_utility_bills = 'selected';
+            var utility_bill_type_id  = $(this).attr('data-id');
+            table_row = $(this).parents('tr');
+
+            $.ajax({
+                url: 'functions/select_function.php',
+                method: 'POST',
+                data: {
+                    view_utility_bills_data: view_utility_bills,
+                    utility_bill_type_id_data: utility_bill_type_id
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        $('#e_id').html(data.id);
+                        $('#e_type').val(data.type);
+                        $('#e_description').val(data.description);
+                        $('#SubmitUpdate').attr('data-id', data.id);
+                        $('#modalEdit').modal('show');
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
+        });
+
+        $(document).on('click', '#SubmitUpdate', function(){
+            var update_utility_bills = 'selected';
+            var utility_bill_type_id  = $(this).attr('data-id');
+            var type  = $('#e_type').val();
+            var description = $('#e_description').val();
+
+            $.ajax({
+                url: 'functions/update_function.php',
+                method: 'POST',
+                data: {
+                    update_utility_bills_data: update_utility_bills,
+                    utility_bill_type_id_data: utility_bill_type_id,
+                    type_data: type,
+                    description_data: description
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        var rData = [ data.id, data.type, data.description, data.buttons];
+                            table.row( table_row ).data(rData).draw();
+                        $('#modalEdit').modal('toggle');
+                        alert(data.message);
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
         });
 
         $(document).on('click', '#btnDelete', function(){
-            $('#modalDelete').modal('show');
+            var view_utility_bills = 'selected';
+            var utility_bill_type_id  = $(this).attr('data-id');
+            table_row = $(this).parents('tr');
+
+            $.ajax({
+                url: 'functions/select_function.php',
+                method: 'POST',
+                data: {
+                    view_utility_bills_data: view_utility_bills,
+                    utility_bill_type_id_data: utility_bill_type_id
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        $('#d_id').html(data.id);
+                        $('#d_type').html(data.type);
+                        $('#d_description').val(data.description);
+                        $('#SubmitDelete').attr('data-id', data.id);
+                        $('#modalDelete').modal('show');
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
         });
-    
+
+        $(document).on('click', '#SubmitDelete', function(){
+            var delete_utility_bills = 'selected';
+            var id  = $(this).attr('data-id');
+
+            $.ajax({
+                url: 'functions/delete_function.php',
+                method: 'POST',
+                data: {
+                    delete_utility_bills_data: delete_utility_bills,
+                    id_data: id,
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        table.row( table_row ).remove().draw();
+                        alert(data.message);
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
+        });
     });
         
     </script>

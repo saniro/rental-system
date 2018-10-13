@@ -325,4 +325,36 @@
 			echo $output;
 		}
 	}
+
+	// a_tncs insert new tncs
+	if(isset($_POST['add_utility_bills_data'])){
+
+	    $type = $_POST['type_data'];
+	    $description = $_POST['description_data'];
+
+		if(($type != NULL) && ($description != NULL)){
+			$query = "INSERT INTO utility_bill_type_tbl (apartment_id, utility_bill_type, description) VALUES (:apartment_id, :type, :description)";
+			$stmt = $con->prepare($query);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->bindParam(':type', $type, PDO::PARAM_STR);
+			$stmt->bindParam(':description', $description, PDO::PARAM_STR);
+			$stmt->execute();
+			$roomLastInsertedID = $con->lastInsertId();
+
+			$query = "SELECT utility_bill_type_id, utility_bill_type, description FROM utility_bill_type_tbl WHERE utility_bill_type_id = :utility_bill_type_id AND flag = 1";
+			$stmt = $con->prepare($query);
+			$stmt->bindParam(':utility_bill_type_id', $roomLastInsertedID, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+
+			$data = array("success" => "true", "message" => "New utility bill type added.", "utility_bill_type_id" => $row['utility_bill_type_id'], "type" => $row['utility_bill_type'], "description" => $row['description'], "buttons" => '<button data-toggle="tooltip" data-id="'.$roomLastInsertedID.'" title="Edit" class="btn btn-success btn_edit" id="btnEdit"><span class="fa fa-edit"></span></button> <button data-toggle="tooltip" data-id="'.$roomLastInsertedID.'" title="Delete" class="btn btn-danger" id="btnDelete"><span class="glyphicon glyphicon-trash"></span></button>');
+			$output = json_encode($data);
+			echo $output;
+		}
+		else{
+			$data = array("success" => "false", "message" => "Some required fields are empty.");
+			$output = json_encode($data);
+			echo $output;
+		}
+	}
 ?>

@@ -80,4 +80,15 @@
 		$results = json_encode($results);
 		return $results;
 	}
+
+	function bill_types_list(){
+		require("./connection/connection.php");
+		$query = "SELECT utility_bill_type_id, utility_bill_type, description FROM utility_bill_type_tbl WHERE apartment_id = :apartment_id AND flag = 1";
+		$stmt = $con->prepare($query);
+		$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+		$stmt->execute();
+		$results = $stmt->fetchAll();
+		$results = json_encode($results);
+		return $results;
+	}
 ?>
