@@ -305,7 +305,7 @@
 			$row = $stmt->fetch();
 			$rowCount = $stmt->rowCount();
 			if($rowCount > 0){
-				$query = "SELECT room_id, room_name, (SELECT count(rental_id) FROM rental_tbl AS RL WHERE RL.room_id = RM.room_id) AS roomCount FROM room_tbl AS RM WHERE room_id = :room_id";
+				$query = "SELECT room_id, room_name, (SELECT count(rental_id) FROM rental_tbl AS RL WHERE RL.room_id = RM.room_id AND status = 1) AS roomCount FROM room_tbl AS RM WHERE room_id = :room_id";
 				$stmt = $con->prepare($query);
 				$stmt->bindParam(':room_id', $room_id, PDO::PARAM_INT);
 				$stmt->execute();
