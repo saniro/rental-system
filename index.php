@@ -29,6 +29,12 @@
 		case 'payments':
 			require("view/a_payments.php");
 			break;
+		case 'trequests':
+			require("view/a_trequests.php");
+			break;
+		case 'crequests':
+			require("view/a_crequests.php");
+			break;
 		case 'complaints':
 			require("view/a_complaints.php");
 			break;

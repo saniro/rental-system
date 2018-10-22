@@ -104,6 +104,17 @@
                     <a href="index?route=payments"><i class="fa fa-ruble fa-fw"></i> Payments History</a>
                 </li>
                 <li>
+                    <a href="#"><i class="fa fa-pencil-square-o fa-fw"></i> Requests<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="index?route=trequests">Termination Requests</a>
+                        </li>
+                        <li>
+                            <a href="index?route=crequests">Change Room Requests</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
                     <a href="index?route=complaints"><i class="fa fa-exclamation-triangle fa-fw"></i> Complaints</a>
                 </li>
                 <li>
