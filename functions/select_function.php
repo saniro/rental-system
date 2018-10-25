@@ -412,4 +412,41 @@
 		}
 	}
 
+	//a_crequests.php view details of request
+	if(isset($_POST['view_request_pending_details_data'])){
+		$request_id = $_POST['request_id_data'];
+
+		if($request_id != NULL){
+			$query_check = "SELECT request_id FROM request_change_room_tbl WHERE request_id = :request_id AND apartment_id = :apartment_id AND status = 2";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':request_id', $request_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT request_id, date_requested, user_id, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS US WHERE US.user_id = RCR.user_id) AS name, (SELECT room_name FROM room_tbl AS RM WHERE RM.room_id = (SELECT RL.room_id FROM rental_tbl AS RL WHERE RL.rental_id = RCR.current_rental_id)) AS current_room, (SELECT room_name FROM room_tbl AS RM WHERE RM.room_id = RCR.requested_room) AS requested_room FROM request_change_room_tbl AS RCR WHERE request_id = :request_id AND apartment_id = :apartment_id AND status = 2";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':request_id', $request_id, PDO::PARAM_INT);
+				$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+
+				$data = array("success" => "true", "id" => $row['request_id'], "date" => $row['date_requested'], "user_id" => $row['user_id'], "name" => $row['name'], "current_room" => $row['current_room'], "requested_room" => $row['requested_room']);
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
 ?>

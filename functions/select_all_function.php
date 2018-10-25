@@ -91,4 +91,15 @@
 		$results = json_encode($results);
 		return $results;
 	}
+
+	function request_change_room_list(){
+		require("./connection/connection.php");
+		$query = "SELECT request_id, date_requested, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS US WHERE US.user_id = RCR.user_id) AS name, (SELECT room_name FROM room_tbl AS RM WHERE RM.room_id = (SELECT RL.room_id FROM rental_tbl AS RL WHERE RL.rental_id = RCR.current_rental_id)) AS current_room, (SELECT room_name FROM room_tbl AS RM WHERE RM.room_id = RCR.requested_room) AS requested_room FROM request_change_room_tbl AS RCR WHERE apartment_id = :apartment_id AND status = 2";
+		$stmt = $con->prepare($query);
+		$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+		$stmt->execute();
+		$results = $stmt->fetchAll();
+		$results = json_encode($results);
+		return $results;
+	}
 ?>

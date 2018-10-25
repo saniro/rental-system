@@ -73,26 +73,33 @@
                                         <th>Requester</th>
                                         <th>Current Room</th>
                                         <th>Room Requested</th>
-                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php
+                                    $request_change_room = request_change_room_list();
+                                    $request_change_room = json_decode($request_change_room);
+
+                                    foreach ($request_change_room as $value) {
+                                    ?>
                                     <tr class="odd gradeX">
-                                        <td>111</td>
-                                        <td>January 23, 2019</td>
-                                        <td>Nanimo Nanimo ~</td>
-                                        <td>Underground Room</td>
-                                        <td>Rooftop Room -  geh lipad</td>
-                                        <td>Approved</td>
+                                        <td><?php echo $value -> {'request_id'}; ?></td>
+                                        <td><?php echo $value -> {'date_requested'}; ?></td>
+                                        <td><?php echo $value -> {'name'}; ?></td>
+                                        <td><?php echo $value -> {'current_room'}; ?></td>
+                                        <td><?php echo $value -> {'requested_room'}; ?></td>
                                         <td class="center">
                                             <center>
-                                                <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnDetails"><span class="fa fa-file-text-o"></span></button>
-                                                <button data-toggle="tooltip" title="Approve Request" class="btn btn-primary" id="btnApprove"><span class="fa fa-check"></span></button>
-                                                <button data-toggle="tooltip" title="Reject Request" class="btn btn-danger" id="btnReject"><span class="fa fa-times"></span></button>
+                                                <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnDetails" data-id="<?php echo $value -> {'request_id'}; ?>"><span class="fa fa-file-text-o"></span></button>
+                                                <button data-toggle="tooltip" title="Approve Request" class="btn btn-primary" id="btnApprove" data-id="<?php echo $value -> {'request_id'}; ?>"><span class="fa fa-check"></span></button>
+                                                <button data-toggle="tooltip" title="Reject Request" class="btn btn-danger" id="btnReject" data-id="<?php echo $value -> {'request_id'}; ?>"><span class="fa fa-times"></span></button>
                                             </center>
                                         </td>
                                     </tr>
+                                    <?php
+                                    }
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -120,10 +127,10 @@
                         <h4 class ="modal-title"> Approve Request</h4>
                       </div>
                       <div class="modal-body">
-                           <p> &emsp; Are you sure you want to <label style="color:blue;">APPROVE</label> the request of <label>NAME_OF_TENANT</label> to transfer from room <label>CURRENT_ROOM_NAME</label> to <label>REQUESTED_ROOM_NAME</label>?</p>
+                           <p> &emsp; Are you sure you want to <label style="color:blue;">APPROVE</label> the request of <label id="a_name"></label> to transfer from room <label id="a_current_room"></label> to <label id="a_requested_room"></label>?</p>
                       </div>
                       <div class = "modal-footer">
-                        <button type="button" class = "btn btn-primary" data-dismiss = "modal">YES </button>
+                        <button type="button" class = "btn btn-primary" data-dismiss = "modal" id="SubmitApprove"> YES </button>
                         <button type ="button" class = "btn btn-default" data-dismiss = "modal"> NO </button>
                       </div>
                     </div>
@@ -164,31 +171,31 @@
                         <form>
                             <div class="form-group">
                                 <label> ID: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_id" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Date: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_date" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Requester ID: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_requester" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Requester Name: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_name" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Current Room: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_current_room" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Room Requested: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_room_requested" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Status: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_status" class="form-control"></label>
                             </div>
                         </form>
                     </div>
@@ -199,9 +206,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -231,18 +235,103 @@
             $('[data-toggle="tooltip"]').tooltip();
 
             $(document).on('click', '#btnApprove', function(){
-                $('#modalApprove').modal('show');
+                var request_id = $(this).attr('data-id');
+                var view_request_pending_details = 'selected';
+                //table_row = $(this).parents('tr');
+                
+                $.ajax({
+                    url: 'functions/select_function.php',
+                    method: 'POST',
+                    data: {
+                        view_request_pending_details_data: view_request_pending_details,
+                        request_id_data: request_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            $('#a_name').html(data.name);
+                            $('#a_current_room').html(data.current_room);
+                            $('#a_requested_room').html(data.requested_room);
+
+                            $('#SubmitApprove').attr('data-id', data.id);
+                            $('#modalApprove').modal('show');
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
             });
 
+            $(document).on('click', '#SubmitApprove', function(){
+                var request_id = $(this).attr('data-id');
+                var submit_approve_request = 'selected';
+                //table_row = $(this).parents('tr');
+                
+                $.ajax({
+                    url: 'functions/update_function.php',
+                    method: 'POST',
+                    data: {
+                        submit_approve_request_data: submit_approve_request,
+                        request_id_data: request_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            alert(data.message);
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
+            
             $(document).on('click', '#btnReject', function(){
                 $('#modalReject').modal('show');
             });
 
             $(document).on('click', '#btnDetails', function(){
-                $('#modalDetails').modal('show');
-            });
+                var request_id = $(this).attr('data-id');
+                var view_request_pending_details = 'selected';
+                //table_row = $(this).parents('tr');
+                
+                $.ajax({
+                    url: 'functions/select_function.php',
+                    method: 'POST',
+                    data: {
+                        view_request_pending_details_data: view_request_pending_details,
+                        request_id_data: request_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            $('#v_id').html(data.id);
+                            $('#v_date').html(data.date);
+                            $('#v_requester').html(data.user_id);
+                            $('#v_name').html(data.name);
+                            $('#v_current_room').html(data.current_room);
+                            $('#v_room_requested').html(data.requested_room);
+                            $('#v_status').html('Pending');
 
-            
+                            //$('#AddTenantSubmit').attr('data-id', data.room_id);
+                            $('#modalDetails').modal('show');
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            }); 
         });
     </script>
 
