@@ -102,4 +102,15 @@
 		$results = json_encode($results);
 		return $results;
 	}
+
+	function request_termination_list(){
+		require("./connection/connection.php");
+		$query = "SELECT request_terminate_id, date_requested, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS US WHERE US.user_id = (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = RT.rental_id)) AS name, (SELECT room_name FROM room_tbl AS RM WHERE RM.room_id = (SELECT RL.room_id FROM rental_tbl AS RL WHERE RL.rental_id = RT.rental_id)) AS room FROM request_terminate_tbl AS RT WHERE apartment_id = :apartment_id AND status = 2";
+		$stmt = $con->prepare($query);
+		$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+		$stmt->execute();
+		$results = $stmt->fetchAll();
+		$results = json_encode($results);
+		return $results;
+	}
 ?>

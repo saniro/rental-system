@@ -148,10 +148,10 @@
                         <h4 class ="modal-title"> Reject Request </h4>
                       </div>
                       <div class="modal-body">
-                           <p> &emsp; Are you sure you want to <label style="color:red;">REJECT</label> the request of <label>NAME_OF_TENANT</label> to transfer from room <label>CURRENT_ROOM_NAME</label> to <label>REQUESTED_ROOM_NAME</label>?</p>
+                           <p> &emsp; Are you sure you want to <label style="color:red;">REJECT</label> the request of <label id="t_name">NAME_OF_TENANT</label> to transfer from room <label id="t_room">CURRENT_ROOM_NAME</label> to <label id="t_requested_room">REQUESTED_ROOM_NAME</label>?</p>
                       </div>
                       <div class = "modal-footer">
-                        <button type="button" class = "btn btn-primary" data-dismiss = "modal">YES </button>
+                        <button type="button" class = "btn btn-primary" data-dismiss = "modal" id="SubmitReject">YES </button>
                         <button type ="button" class = "btn btn-default" data-dismiss = "modal"> NO </button>
                       </div>
                     </div>
@@ -232,12 +232,14 @@
                 responsive: true
             });
 
+            var table = $('#contents').DataTable();
+
             $('[data-toggle="tooltip"]').tooltip();
 
             $(document).on('click', '#btnApprove', function(){
                 var request_id = $(this).attr('data-id');
                 var view_request_pending_details = 'selected';
-                //table_row = $(this).parents('tr');
+                table_row = $(this).parents('tr');
                 
                 $.ajax({
                     url: 'functions/select_function.php',
@@ -269,7 +271,6 @@
             $(document).on('click', '#SubmitApprove', function(){
                 var request_id = $(this).attr('data-id');
                 var submit_approve_request = 'selected';
-                //table_row = $(this).parents('tr');
                 
                 $.ajax({
                     url: 'functions/update_function.php',
@@ -281,6 +282,7 @@
                     success: function(data) {
                         var data = JSON.parse(data);
                         if(data.success == "true"){
+                            table.row( table_row ).remove().draw();
                             alert(data.message);
                         }
                         else if (data.success == "false"){
@@ -294,7 +296,62 @@
             });
             
             $(document).on('click', '#btnReject', function(){
-                $('#modalReject').modal('show');
+                var request_id = $(this).attr('data-id');
+                var view_request_pending_details = 'selected';
+                table_row = $(this).parents('tr');
+                
+                $.ajax({
+                    url: 'functions/select_function.php',
+                    method: 'POST',
+                    data: {
+                        view_request_pending_details_data: view_request_pending_details,
+                        request_id_data: request_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            $('#t_name').html(data.name);
+                            $('#t_room').html(data.current_room);
+                            $('#t_requested_room').html(data.requested_room);
+
+                            $('#SubmitReject').attr('data-id', data.id);
+                            $('#modalReject').modal('show');
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
+
+            $(document).on('click', '#SubmitReject', function(){
+                var request_id = $(this).attr('data-id');
+                var submit_reject_request = 'selected';
+                
+                $.ajax({
+                    url: 'functions/update_function.php',
+                    method: 'POST',
+                    data: {
+                        submit_reject_request_data: submit_reject_request,
+                        request_id_data: request_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            table.row( table_row ).remove().draw();
+                            alert(data.message);
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
             });
 
             $(document).on('click', '#btnDetails', function(){

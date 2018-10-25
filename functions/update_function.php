@@ -220,7 +220,166 @@
 				$stmt->bindParam(':due_date', $due_date, PDO::PARAM_STR);
 				$stmt->execute();
 
-				$data = array("success" => "true", "message" => "Change of room request accepted.");
+				$data = array("success" => "true", "message" => "Room change request accepted.");
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_crequests.php view reject of request
+	if(isset($_POST['submit_reject_request_data'])){
+		$request_id = $_POST['request_id_data'];
+		$apartment_id = $_SESSION['admin_id'];
+		if($request_id != NULL){
+			$query_check = "SELECT request_id FROM request_change_room_tbl WHERE request_id = :request_id AND apartment_id = :apartment_id AND status = 2";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':request_id', $request_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query_update = "UPDATE request_change_room_tbl 
+								SET status = 0 
+								WHERE request_id = :request_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':request_id', $request_id, PDO::PARAM_INT);
+				$stmt->execute();
+
+				$data = array("success" => "true", "message" => "Room change request rejected.");
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_crequests.php accept reject of request
+	if(isset($_POST['approve_termination_data'])){
+		$termination_id = $_POST['termination_id_data'];
+		$apartment_id = $_SESSION['admin_id'];
+		if($termination_id != NULL){
+			$query_check = "SELECT request_terminate_id FROM request_terminate_tbl WHERE request_terminate_id = :request_terminate_id AND apartment_id = :apartment_id AND status = 2";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':request_terminate_id', $termination_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query_select = "SELECT (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = RT.rental_id) AS user_id, (SELECT room_id FROM rental_tbl AS RL WHERE RL.rental_id = RT.rental_id) AS room_id, rental_id FROM request_terminate_tbl AS RT WHERE request_terminate_id = :terminate_id";
+				$stmt = $con->prepare($query_select);
+				$stmt->bindParam(':terminate_id', $termination_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+
+				$user_id = $row['user_id'];
+				$room_id = $row['room_id'];
+				$rental_id = $row['rental_id'];
+
+				$query_select = "SELECT m_rent_id FROM monthly_rent_tbl WHERE rental_id = :rental_id";
+				$stmt = $con->prepare($query_select);
+				$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$results = $stmt->fetchAll();
+
+				foreach ($results as $row) {
+					$m_rent_id = $row['m_rent_id'];
+				}
+
+				$query_update = "UPDATE request_terminate_tbl 
+								SET status = 1 
+								WHERE request_terminate_id = :termination_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':termination_id', $termination_id, PDO::PARAM_INT);
+				$stmt->execute();
+
+				$query_update = "UPDATE user_tbl 
+								SET flag = 0 
+								WHERE user_id = :user_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+				$stmt->execute();
+
+				$query_update = "UPDATE monthly_rent_tbl 
+								SET status = 0 
+								WHERE m_rent_id = :m_rent_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':m_rent_id', $m_rent_id, PDO::PARAM_INT);
+				$stmt->execute();
+
+				$query_update = "UPDATE rental_tbl 
+								SET status = 0 
+								WHERE rental_id = :rental_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+				$stmt->execute();
+
+				$query_update = "UPDATE request_change_room_tbl 
+								SET status = 0 
+								WHERE current_rental_id = :rental_id AND status = 2";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+				$stmt->execute();
+
+				$data = array("success" => "true", "message" => "Request termination accepted.");
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_crequests.php rejec the reject of request
+	if(isset($_POST['reject_termination_data'])){
+		$termination_id = $_POST['termination_id_data'];
+		$apartment_id = $_SESSION['admin_id'];
+		if($termination_id != NULL){
+			$query_check = "SELECT request_terminate_id FROM request_terminate_tbl WHERE request_terminate_id = :request_terminate_id AND apartment_id = :apartment_id AND status = 2";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':request_terminate_id', $termination_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query_update = "UPDATE request_terminate_tbl 
+								SET status = 0 
+								WHERE request_terminate_id = :termination_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':termination_id', $termination_id, PDO::PARAM_INT);
+				$stmt->execute();
+
+				$data = array("success" => "true", "message" => "Request termination rejected.");
 				$results = json_encode($data);
 				echo $results;
 			}

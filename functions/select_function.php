@@ -449,4 +449,41 @@
 		}
 	}
 
+	//a_crequests.php view details of request
+	if(isset($_POST['termination_id_data'])){
+		$termination_id = $_POST['termination_id_data'];
+
+		if($termination_id != NULL){
+			$query_check = "SELECT request_terminate_id FROM request_terminate_tbl WHERE request_terminate_id = :request_terminate_id AND apartment_id = :apartment_id AND status = 2";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':request_terminate_id', $termination_id, PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT request_terminate_id, date_requested, (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = RT.rental_id) AS user_id, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS US WHERE US.user_id = (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = RT.rental_id)) AS name, (SELECT CASE WHEN gender = 1 THEN 'his' WHEN gender = 0 THEN 'her' END FROM user_tbl AS US WHERE US.user_id = (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = RT.rental_id)) AS gender, (SELECT room_name FROM room_tbl AS RM WHERE RM.room_id = (SELECT RL.room_id FROM rental_tbl AS RL WHERE RL.rental_id = RT.rental_id)) AS room FROM request_terminate_tbl AS RT WHERE request_terminate_id = :request_terminate_id AND apartment_id = :apartment_id AND status = 2";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':request_terminate_id', $termination_id, PDO::PARAM_INT);
+				$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+
+				$data = array("success" => "true", "id" => $row['request_terminate_id'], "date" => $row['date_requested'], "user_id" => $row['user_id'], "name" => $row['name'], "room" => $row['room'], "gender" => $row['gender']);
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
 ?>

@@ -71,28 +71,33 @@
                                         <th>ID</th>
                                         <th>Date</th>
                                         <th>Requester</th>
-                                        <th>Current Room</th>
-                                        <th>Rental ID</th>
-                                        <th>Status</th>
+                                        <th>Room</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php
+                                    $request_termination = request_termination_list();
+                                    $request_termination = json_decode($request_termination);
+
+                                    foreach ($request_termination as $value) {
+                                    ?>
                                     <tr class="odd gradeX">
-                                        <td>111</td>
-                                        <td>January 23, 2019</td>
-                                        <td>Nanimo Nanimo ~</td>
-                                        <td>Underground Room</td>
-                                        <td>54</td>
-                                        <td>Rejected</td>
+                                        <td><?php echo $value -> {'request_terminate_id'}; ?></td>
+                                        <td><?php echo $value -> {'date_requested'}; ?></td>
+                                        <td><?php echo $value -> {'name'}; ?></td>
+                                        <td><?php echo $value -> {'room'}; ?></td>
                                         <td class="center">
                                             <center>
-                                                <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnDetails"><span class="fa fa-file-text-o"></span></button>
-                                                <button data-toggle="tooltip" title="Approve Request" class="btn btn-primary" id="btnApprove"><span class="fa fa-check"></span></button>
-                                                <button data-toggle="tooltip" title="Reject Request" class="btn btn-danger" id="btnReject"><span class="fa fa-times"></span></button>
+                                                <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnDetails" data-id="<?php echo $value -> {'request_terminate_id'}; ?>"><span class="fa fa-file-text-o"></span></button>
+                                                <button data-toggle="tooltip" title="Approve Request" class="btn btn-primary" id="btnApprove" data-id="<?php echo $value -> {'request_terminate_id'}; ?>"><span class="fa fa-check"></span></button>
+                                                <button data-toggle="tooltip" title="Reject Request" class="btn btn-danger" id="btnReject" data-id="<?php echo $value -> {'request_terminate_id'}; ?>"><span class="fa fa-times"></span></button>
                                             </center>
                                         </td>
                                     </tr>
+                                    <?php
+                                    }
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -120,10 +125,10 @@
                         <h4 class ="modal-title"> Approve Request</h4>
                       </div>
                       <div class="modal-body">
-                           <p> &emsp; Are you sure you want to <label style="color:blue;">APPROVE</label> the request of <label>NAME_OF_TENANT</label> to terminate his/her rental?</p>
+                           <p> &emsp; Are you sure you want to <label style="color:blue;">APPROVE</label> the request of <label id="a_name">NAME_OF_TENANT</label> to terminate <label id="a_gender"></label> rental?</p>
                       </div>
                       <div class = "modal-footer">
-                        <button type="button" class = "btn btn-primary" data-dismiss = "modal">YES </button>
+                        <button type="button" class = "btn btn-primary" data-dismiss = "modal" id="SubmitApprove">YES </button>
                         <button type ="button" class = "btn btn-default" data-dismiss = "modal"> NO </button>
                       </div>
                     </div>
@@ -141,10 +146,10 @@
                         <h4 class ="modal-title"> Reject Request </h4>
                       </div>
                       <div class="modal-body">
-                           <p> &emsp; Are you sure you want to <label style="color:red;">REJECT</label> the request of <label>NAME_OF_TENANT</label> to terminate his/her rental?</p>
+                           <p> &emsp; Are you sure you want to <label style="color:red;">REJECT</label> the request of <label id="t_name"></label> to terminate <label id="t_gender"></label> rental?</p>
                       </div>
                       <div class = "modal-footer">
-                        <button type="button" class = "btn btn-primary" data-dismiss = "modal">YES </button>
+                        <button type="button" class = "btn btn-primary" data-dismiss = "modal" id="SubmitReject">YES </button>
                         <button type ="button" class = "btn btn-default" data-dismiss = "modal"> NO </button>
                       </div>
                     </div>
@@ -164,31 +169,27 @@
                         <form>
                             <div class="form-group">
                                 <label> ID: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_id" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Date: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_date" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Requester ID: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_requester_id" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Requester Name: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_name" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Current Room: </label>
-                                <label id="" class="form-control"></label>
-                            </div>
-                            <div class="form-group">
-                                <label> Rental ID: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_room" class="form-control"></label>
                             </div>
                             <div class="form-group">
                                 <label> Status: </label>
-                                <label id="" class="form-control"></label>
+                                <label id="v_status" class="form-control"></label>
                             </div>
                         </form>
                     </div>
@@ -228,18 +229,160 @@
                 responsive: true
             });
 
+            var table = $('#contents').DataTable();
             $('[data-toggle="tooltip"]').tooltip();
 
             $(document).on('click', '#btnApprove', function(){
-                $('#modalApprove').modal('show');
+                var termination_id = $(this).attr('data-id');
+                var view_termination_details = 'selected';
+                //table_row = $(this).parents('tr');
+                
+                $.ajax({
+                    url: 'functions/select_function.php',
+                    method: 'POST',
+                    data: {
+                        view_termination_details_data: view_termination_details,
+                        termination_id_data: termination_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            $('#a_name').html(data.name);
+                            $('#a_gender').html(data.gender);
+
+                            $('#SubmitApprove').attr('data-id', data.id);
+                            $('#modalApprove').modal('show');
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
+
+            $(document).on('click', '#SubmitApprove', function(){
+                var termination_id = $(this).attr('data-id');
+                var approve_termination = 'selected';
+                //table_row = $(this).parents('tr');
+                
+                $.ajax({
+                    url: 'functions/update_function.php',
+                    method: 'POST',
+                    data: {
+                        approve_termination_data: approve_termination,
+                        termination_id_data: termination_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            table.row( table_row ).remove().draw();
+                            alert(data.message);
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
             });
 
             $(document).on('click', '#btnReject', function(){
-                $('#modalReject').modal('show');
+                var termination_id = $(this).attr('data-id');
+                var view_termination_details = 'selected';
+                table_row = $(this).parents('tr');
+                
+                $.ajax({
+                    url: 'functions/select_function.php',
+                    method: 'POST',
+                    data: {
+                        view_termination_details_data: view_termination_details,
+                        termination_id_data: termination_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            $('#t_name').html(data.name);
+                            $('#t_gender').html(data.gender);
+
+                            $('#SubmitReject').attr('data-id', data.id);
+                            $('#modalReject').modal('show');
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
+            });
+
+            $(document).on('click', '#SubmitReject', function(){
+                var termination_id = $(this).attr('data-id');
+                var reject_termination = 'selected';
+                //table_row = $(this).parents('tr');
+                
+                $.ajax({
+                    url: 'functions/update_function.php',
+                    method: 'POST',
+                    data: {
+                        reject_termination_data: reject_termination,
+                        termination_id_data: termination_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            table.row( table_row ).remove().draw();
+                            alert(data.message);
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
             });
 
             $(document).on('click', '#btnDetails', function(){
-                $('#modalDetails').modal('show');
+                var termination_id = $(this).attr('data-id');
+                var view_termination_details = 'selected';
+                //table_row = $(this).parents('tr');
+                
+                $.ajax({
+                    url: 'functions/select_function.php',
+                    method: 'POST',
+                    data: {
+                        view_termination_details_data: view_termination_details,
+                        termination_id_data: termination_id
+                    },
+                    success: function(data) {
+                        var data = JSON.parse(data);
+                        if(data.success == "true"){
+                            $('#v_id').html(data.id);
+                            $('#v_date').html(data.date);
+                            $('#v_requester_id').html(data.user_id);
+                            $('#v_name').html(data.name);
+                            $('#v_room').html(data.room);
+                            $('#v_status').html('Pending');
+
+                            //$('#AddTenantSubmit').attr('data-id', data.room_id);
+                            $('#modalDetails').modal('show');
+                        }
+                        else if (data.success == "false"){
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.status + ":" + xhr.statusText);
+                    }
+                });
             });
 
             
