@@ -213,9 +213,10 @@
 				$stmt->bindParam(':m_rent_id', $m_rent_id, PDO::PARAM_INT);
 				$stmt->execute();
 
-				$query_insert = "INSERT INTO monthly_rent_tbl (rental_id, payables, due_date) VALUES (:rental_id, :payables, :due_date)";
+				$query_insert = "INSERT INTO monthly_rent_tbl (rental_id, apartment_id, payables, due_date) VALUES (:rental_id, :payables, :due_date)";
 				$stmt = $con->prepare($query_insert);
 				$stmt->bindParam(':rental_id', $last_inserted_id, PDO::PARAM_INT);
+				$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
 				$stmt->bindParam(':payables', $payables, PDO::PARAM_INT);
 				$stmt->bindParam(':due_date', $due_date, PDO::PARAM_STR);
 				$stmt->execute();

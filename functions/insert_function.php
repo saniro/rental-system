@@ -44,6 +44,7 @@
 		$gender = $_POST['gender_data'];
 		$contactno = $_POST['contactno_data'];
 		$email = $_POST['email_data'];
+		$apartment_id = $_SESSION['admin_id'];
 
 		//$profilepic = $_POST['profilepic_data'];
 
@@ -96,9 +97,10 @@
 						$stmt->execute();
 						$rentalLastInsertedID = $con->lastInsertId();
 
-						$query = "INSERT INTO monthly_rent_tbl (rental_id, payables, due_date) VALUES (:lastInsertedID, :rent_rate, DATE_ADD(curdate(), INTERVAL 1 MONTH) )";
+						$query = "INSERT INTO monthly_rent_tbl (rental_id, apartment_id, payables, due_date) VALUES (:lastInsertedID, :apartment_id, :rent_rate, DATE_ADD(curdate(), INTERVAL 1 MONTH) )";
 						$stmt = $con->prepare($query);
 						$stmt->bindParam(':lastInsertedID', $rentalLastInsertedID, PDO::PARAM_INT);
+						$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
 						$stmt->bindParam(':rent_rate', $rent_rate, PDO::PARAM_INT);
 						$stmt->execute();
 
@@ -136,7 +138,7 @@
 		$gender = $_POST['gender_data'];
 		$contactno = $_POST['contactno_data'];
 		$email = $_POST['email_data'];
-
+		$apartment_id = $_SESSION['admin_id'];
 		//$profilepic = $_POST['profilepic_data'];
 
 		if(($room_id != NULL) && ($firstname != NULL) && ($lastname != NULL) && ($birthdate != NULL) && ($gender != NULL) && ($contactno != NULL) && ($email != NULL)){
@@ -188,9 +190,10 @@
 						$stmt->execute();
 						$rentalLastInsertedID = $con->lastInsertId();
 
-						$query = "INSERT INTO monthly_rent_tbl (rental_id, payables, due_date) VALUES (:lastInsertedID, :rent_rate, DATE_ADD(curdate(), INTERVAL 1 MONTH) )";
+						$query = "INSERT INTO monthly_rent_tbl (rental_id, apartment_id, payables, due_date) VALUES (:lastInsertedID, :apartment_id, :rent_rate, DATE_ADD(curdate(), INTERVAL 1 MONTH) )";
 						$stmt = $con->prepare($query);
 						$stmt->bindParam(':lastInsertedID', $rentalLastInsertedID, PDO::PARAM_INT);
+						$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
 						$stmt->bindParam(':rent_rate', $rent_rate, PDO::PARAM_INT);
 						$stmt->execute();
 

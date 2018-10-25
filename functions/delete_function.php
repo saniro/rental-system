@@ -31,6 +31,20 @@
 		$stmt = $con->prepare($query);
 		$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
 		$stmt->execute();
+
+		$query = "UPDATE request_change_room_tbl 
+					SET status = 0 
+					WHERE current_rental_id = :rental_id AND status = 2";
+		$stmt = $con->prepare($query);
+		$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+		$stmt->execute();
+
+		$query = "UPDATE request_terminate_tbl 
+					SET status = 0 
+					WHERE rental_id = :rental_id AND status = 2";
+		$stmt = $con->prepare($query);
+		$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+		$stmt->execute();
 		
 		$data = array("success" => "true", "message" => "Account has been deactivated.");
 		$output = json_encode($data);

@@ -35,8 +35,9 @@
 
 	function all_payments(){
 		require("./connection/connection.php");
-		$query = "SELECT m_rent_id, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = MT.rental_id)) AS user_name, (SELECT contact_no FROM user_tbl AS UR WHERE UR.user_id = (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = MT.rental_id)) AS contact_no, (SELECT room_name FROM room_tbl AS RM WHERE room_id = (SELECT room_id FROM rental_tbl AS RL WHERE RL.rental_id = MT.rental_id)) AS room_name, payables, due_date FROM monthly_rent_tbl AS MT";
+		$query = "SELECT m_rent_id, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = MT.rental_id)) AS user_name, (SELECT contact_no FROM user_tbl AS UR WHERE UR.user_id = (SELECT user_id FROM rental_tbl AS RL WHERE RL.rental_id = MT.rental_id)) AS contact_no, (SELECT room_name FROM room_tbl AS RM WHERE room_id = (SELECT room_id FROM rental_tbl AS RL WHERE RL.rental_id = MT.rental_id)) AS room_name, payables, due_date FROM monthly_rent_tbl AS MT WHERE apartment_id = :apartment_id";
 		$stmt = $con->prepare($query);
+		$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
 		$stmt->execute();
 		$results = $stmt->fetchAll();
 		$rowCount = $stmt->rowCount();
