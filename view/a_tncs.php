@@ -325,7 +325,7 @@
             var description = $('#a_description').val();
             $.ajax({
                 url: 'functions/insert_function.php',
-                method: 'POST',
+                method: 'POST', 
                 data: {
                     add_tncs_data: add_tncs,
                     description_data: description
