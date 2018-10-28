@@ -136,4 +136,16 @@
 		$results = json_encode($results);
 		return $results;
 	}
+
+	function all_applicants(){
+		require("./connection/connection.php");
+		// $query = "SELECT rental_id, room_id, (SELECT room_name FROM room_tbl AS RM WHERE RM.room_id = RL.room_id) AS room_name, (SELECT rent_rate FROM room_tbl AS RM WHERE RM.room_id = RL.room_id) AS rent_rate, (SELECT room_description FROM room_tbl AS RM WHERE RM.room_id = RL.room_id) AS description, apartment_name FROM rental_tbl AS RL WHERE host_id = :host_id AND status = 1 AND flag = 1";
+		$query = "SELECT rental_id, (SELECT room_name FROM room_tbl AS RM WHERE RM.room_id = RL.room_id) AS room_name, (SELECT rent_rate FROM room_tbl AS RM WHERE RM.room_id = RL.room_id) AS rent_rate, (SELECT room_description FROM room_tbl AS RM WHERE RM.room_id = RL.room_id) AS description, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = RL.user_id) AS name, (SELECT contact_no FROM user_tbl AS UR WHERE UR.user_id = RL.user_id) AS contact_no, (SELECT email FROM user_tbl AS UR WHERE UR.user_id = RL.user_id) AS email FROM rental_tbl AS RL WHERE (SELECT host_id FROM apartment_tbl WHERE apartment_id = (SELECT apartment_id FROM room_tbl AS UR WHERE UR.room_id = RL.room_id)) = :host_id AND status = 2";
+		$stmt = $con->prepare($query);
+		$stmt->bindParam(':host_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+		$stmt->execute();
+		$results = $stmt->fetchAll();
+		$results = json_encode($results);
+		return $results;
+	}
 ?>

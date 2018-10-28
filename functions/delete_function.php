@@ -217,7 +217,7 @@
 			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND host_id = :host_id AND flag = 1";
 			$stmt = $con->prepare($query_check);
 			$stmt->bindParam(':rules_id', $rules_id, PDO::PARAM_INT);
-			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->bindParam(':host_id', $_SESSION['admin_id'], PDO::PARAM_INT);
 			$stmt->execute();
 			$row = $stmt->fetch();
 			$rowCount = $stmt->rowCount();
@@ -247,41 +247,41 @@
 	}
 
 	//a_tncs.php delete tnc
-	if(isset($_POST['delete_tncs_data'])){
-		$rules_id = $_POST['tnc_id_data'];
+	// if(isset($_POST['delete_tncs_data'])){
+	// 	$rules_id = $_POST['tnc_id_data'];
 
-		if($rules_id != NULL){
-			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND apartment_id = :apartment_id AND flag = 1";
-			$stmt = $con->prepare($query_check);
-			$stmt->bindParam(':rules_id', $rules_id, PDO::PARAM_INT);
-			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
-			$stmt->execute();
-			$row = $stmt->fetch();
-			$rowCount = $stmt->rowCount();
-			if($rowCount > 0){
-				$query = "UPDATE rules_tbl 
-						SET flag = 0 
-						WHERE rules_id = :rules_id";
-				$stmt = $con->prepare($query);
-				$stmt->bindParam(':rules_id', $rules_id, PDO::PARAM_INT);
-				$stmt->execute();
+	// 	if($rules_id != NULL){
+	// 		$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND apartment_id = :apartment_id AND flag = 1";
+	// 		$stmt = $con->prepare($query_check);
+	// 		$stmt->bindParam(':rules_id', $rules_id, PDO::PARAM_INT);
+	// 		$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+	// 		$stmt->execute();
+	// 		$row = $stmt->fetch();
+	// 		$rowCount = $stmt->rowCount();
+	// 		if($rowCount > 0){
+	// 			$query = "UPDATE rules_tbl 
+	// 					SET flag = 0 
+	// 					WHERE rules_id = :rules_id";
+	// 			$stmt = $con->prepare($query);
+	// 			$stmt->bindParam(':rules_id', $rules_id, PDO::PARAM_INT);
+	// 			$stmt->execute();
 
-				$data = array("success" => "true", "message" => "Terms and conditions deleted.");
-				$results = json_encode($data);
-				echo $results;
-			}
-			else{
-				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
-				$results = json_encode($data);
-				echo $results;
-			}
-		}
-		else{
-			$data = array("sucess" => "false", "message" => "Required fields must not be empty.");
-			$results = json_encode($data);
-			echo $results;
-		}
-	}
+	// 			$data = array("success" => "true", "message" => "Terms and conditions deleted.");
+	// 			$results = json_encode($data);
+	// 			echo $results;
+	// 		}
+	// 		else{
+	// 			$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+	// 			$results = json_encode($data);
+	// 			echo $results;
+	// 		}
+	// 	}
+	// 	else{
+	// 		$data = array("sucess" => "false", "message" => "Required fields must not be empty.");
+	// 		$results = json_encode($data);
+	// 		echo $results;
+	// 	}
+	// }
 
 	//a_utilitybills.php delete utility bills
 	if(isset($_POST['delete_utility_bills_data'])){

@@ -2,6 +2,7 @@
     if(!isset($_SESSION['admin_id'])){
         header("location:index");
     }
+    require("functions/select_all_function.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,23 +70,32 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Contact No.</th>
-                                        <th>Room No.</th>
+                                        <th>Room Name</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php
+                                    $all_applicants = all_applicants();
+                                    $all_applicants = json_decode($all_applicants);
+
+                                    foreach ($all_applicants as $value) {
+                                    ?>
                                     <tr class="odd gradeX">
-                                        <td>Trident</td>
-                                        <td>Internet Explorer 4.0</td>
-                                        <td>Win 95+</td>
-                                        <td class="center">4</td>
-                                        <td class="center">X</td>
+                                        <td><?php echo $value -> {'rental_id'}; ?></td>
+                                        <td><?php echo $value -> {'name'}; ?></td>
+                                        <td><?php echo $value -> {'email'}; ?></td>
+                                        <td><?php echo $value -> {'contact_no'}; ?></td>
+                                        <td class="center"><?php echo $value -> {'room_name'}; ?></td>
                                         <td class="center">
-                                            <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnView"><span class="fa fa-file-text-o"></span></button>
-                                            <button data-toggle="tooltip" title="Approve" class="btn btn-primary" id="btnApprove"><span class="fa fa-check"></span></button>
-                                            <button data-toggle="tooltip" title="Reject" class="btn btn-danger" id="btnReject"><span class="fa fa-times"></span></button>
+                                            <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnView" data-id="<?php echo $value -> {'rental_id'}; ?>"><span class="fa fa-file-text-o"></span></button>
+                                            <button data-toggle="tooltip" title="Approve" class="btn btn-primary" id="btnApprove" data-id="<?php echo $value -> {'rental_id'}; ?>"><span class="fa fa-check"></span></button>
+                                            <button data-toggle="tooltip" title="Reject" class="btn btn-danger" id="btnReject" data-id="<?php echo $value -> {'rental_id'}; ?>"><span class="fa fa-times"></span></button>
                                         </td>
                                     </tr>
+                                    <?php
+                                    }
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -131,19 +141,19 @@
                                     </div> -->
                                     <div class="form-group">
                                         <label> ID: </label>
-                                        <label id="o_room_id" class="form-control"></label>
+                                        <label class="form-control" id="v_room_id"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Room Name: </label>
-                                        <label id="o_room_name" class="form-control"></label>
+                                        <label class="form-control" id="v_room_name"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Rent Rate: </label>
-                                        <label id="o_rent_rate" class="form-control"></label>
+                                        <label class="form-control" id="v_rent_rate"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Description: </label>
-                                        <label id="o_room_description" class="form-control"></label>
+                                        <label class="form-control" id="v_description"></label>
                                     </div>
                                 </form>
                             </div>
@@ -156,27 +166,27 @@
                                     </div> -->
                                     <div class="form-group">
                                         <label> ID: </label>
-                                        <label id="o_user_id" class="form-control"></label>
+                                        <label class="form-control" id="v_user_id"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Name: </label>
-                                        <label id="o_name" class="form-control"></label>
+                                        <label class="form-control" id="v_name"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Birthdate: </label>
-                                        <label id="o_birthdate" class="form-control"></label>
+                                        <label class="form-control" id="v_birth"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Gender: </label>
-                                        <label id="o_gender" class="form-control"></label>
+                                        <label class="form-control" id="v_gender"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Contact No: </label>
-                                        <label id="o_contactno" class="form-control"></label>
+                                        <label class="form-control" id="v_no"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Email: </label>
-                                        <label id="o_email" class="form-control"></label>
+                                        <label class="form-control" id="v_email"></label>
                                     </div>
                                 </form>
                             </div>
@@ -221,19 +231,19 @@
                                     </div> -->
                                     <div class="form-group">
                                         <label> ID: </label>
-                                        <label id="o_room_id" class="form-control"></label>
+                                        <label class="form-control" id="a_room_id"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Room Name: </label>
-                                        <label id="o_room_name" class="form-control"></label>
+                                        <label class="form-control" id="a_room_name"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Rent Rate: </label>
-                                        <label id="o_rent_rate" class="form-control"></label>
+                                        <label class="form-control" id="a_rent_rate"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Description: </label>
-                                        <label id="o_room_description" class="form-control"></label>
+                                        <label class="form-control" id="a_description"></label>
                                     </div>
                                 </form>
                             </div>
@@ -246,27 +256,27 @@
                                     </div> -->
                                     <div class="form-group">
                                         <label> ID: </label>
-                                        <label id="o_user_id" class="form-control"></label>
+                                        <label class="form-control" id="a_user_id"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Name: </label>
-                                        <label id="o_name" class="form-control"></label>
+                                        <label class="form-control" id="a_name"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Birthdate: </label>
-                                        <label id="o_birthdate" class="form-control"></label>
+                                        <label class="form-control" id="a_birth"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Gender: </label>
-                                        <label id="o_gender" class="form-control"></label>
+                                        <label class="form-control" id="a_gender"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Contact No: </label>
-                                        <label id="o_contactno" class="form-control"></label>
+                                        <label class="form-control" id="a_no"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Email: </label>
-                                        <label id="o_email" class="form-control"></label>
+                                        <label class="form-control" id="a_email"></label>
                                     </div>
                                 </form>
                             </div>
@@ -311,19 +321,19 @@
                                     </div> -->
                                     <div class="form-group">
                                         <label> ID: </label>
-                                        <label id="o_room_id" class="form-control"></label>
+                                        <label class="form-control" id="r_room_id"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Room Name: </label>
-                                        <label id="o_room_name" class="form-control"></label>
+                                        <label class="form-control" id="r_room_name"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Rent Rate: </label>
-                                        <label id="o_rent_rate" class="form-control"></label>
+                                        <label class="form-control" id="r_rent_rate"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Description: </label>
-                                        <label id="o_room_description" class="form-control"></label>
+                                        <label class="form-control" id="r_description"></label>
                                     </div>
                                 </form>
                             </div>
@@ -336,27 +346,27 @@
                                     </div> -->
                                     <div class="form-group">
                                         <label> ID: </label>
-                                        <label id="o_user_id" class="form-control"></label>
+                                        <label class="form-control" id="r_user_id"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Name: </label>
-                                        <label id="o_name" class="form-control"></label>
+                                        <label class="form-control" id="r_name"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Birthdate: </label>
-                                        <label id="o_birthdate" class="form-control"></label>
+                                        <label class="form-control" id="r_birth"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Gender: </label>
-                                        <label id="o_gender" class="form-control"></label>
+                                        <label class="form-control" id="r_gender"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Contact No: </label>
-                                        <label id="o_contactno" class="form-control"></label>
+                                        <label class="form-control" id="r_no"></label>
                                     </div>
                                     <div class="form-group">
                                         <label> Email: </label>
-                                        <label id="o_email" class="form-control"></label>
+                                        <label class="form-control" id="r_email"></label>
                                     </div>
                                 </form>
                             </div>
@@ -364,7 +374,7 @@
                     </div>
                 </div>
                       <div class = "modal-footer">
-                        <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitDelete">REJECT </button>
+                        <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitReject">REJECT </button>
                         <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CANCEL </button>
                       </div>
                     </div>
@@ -393,19 +403,182 @@
         $('#dataTables-example').DataTable({
             responsive: true
         });
-
+        var table = $('#dataTables-example').DataTable();
         $('[data-toggle="tooltip"]').tooltip();
 
         $(document).on('click', '#btnView', function(){
-            $('#modalView').modal('show');
+            var view_application_rent = 'selected';
+            var rental_id = $(this).attr('data-id');
+            table_row = $(this).parents('tr');
+
+            $.ajax({
+                url: 'functions/select_function.php',
+                method: 'POST',
+                data: {
+                    view_application_rent_data: view_application_rent,
+                    rental_id_data: rental_id
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        $("#v_room_id").html(data.room_id);
+                        $("#v_room_name").html(data.room_name);
+                        $("#v_rent_rate").html(data.rent_rate);
+                        $("#v_description").html(data.description);
+
+                        $("#v_user_id").html(data.user_id);
+                        $("#v_name").html(data.name);
+                        $("#v_birth").html(data.birth);
+                        $("#v_gender").html(data.gender);
+                        $("#v_no").html(data.no);
+                        $("#v_email").html(data.email);
+
+                        // $('#SubmitDelete').attr('data-id', room_id);
+                        $('#modalView').modal('show');
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
+
         });
 
         $(document).on('click', '#btnApprove', function(){
-            $('#modalApprove').modal('show');
+            var view_application_rent = 'selected';
+            var rental_id = $(this).attr('data-id');
+            table_row = $(this).parents('tr');
+
+            $.ajax({
+                url: 'functions/select_function.php',
+                method: 'POST',
+                data: {
+                    view_application_rent_data: view_application_rent,
+                    rental_id_data: rental_id
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        $("#a_room_id").html(data.room_id);
+                        $("#a_room_name").html(data.room_name);
+                        $("#a_rent_rate").html(data.rent_rate);
+                        $("#a_description").html(data.description);
+
+                        $("#a_user_id").html(data.user_id);
+                        $("#a_name").html(data.name);
+                        $("#a_birth").html(data.birth);
+                        $("#a_gender").html(data.gender);
+                        $("#a_no").html(data.no);
+                        $("#a_email").html(data.email);
+
+                        $('#SubmitApprove').attr('data-id', data.rental_id);
+                        $('#modalApprove').modal('show');
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
         });
 
         $(document).on('click', '#btnReject', function(){
-            $('#modalReject').modal('show');
+            var view_application_rent = 'selected';
+            var rental_id = $(this).attr('data-id');
+            table_row = $(this).parents('tr');
+
+            $.ajax({
+                url: 'functions/select_function.php',
+                method: 'POST',
+                data: {
+                    view_application_rent_data: view_application_rent,
+                    rental_id_data: rental_id
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        $("#r_room_id").html(data.room_id);
+                        $("#r_room_name").html(data.room_name);
+                        $("#r_rent_rate").html(data.rent_rate);
+                        $("#r_description").html(data.description);
+
+                        $("#r_user_id").html(data.user_id);
+                        $("#r_name").html(data.name);
+                        $("#r_birth").html(data.birth);
+                        $("#r_gender").html(data.gender);
+                        $("#r_no").html(data.no);
+                        $("#r_email").html(data.email);
+
+                        $('#SubmitReject').attr('data-id', data.rental_id);
+                        $('#modalReject').modal('show');
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
+        });
+
+        $(document).on('click', '#SubmitApprove', function(){
+            var approve_application_rent = 'selected';
+            var rental_id = $(this).attr('data-id');
+
+            $.ajax({
+                url: 'functions/update_function.php',
+                method: 'POST',
+                data: {
+                    approve_application_rent_data: approve_application_rent,
+                    rental_id_data: rental_id
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        table.row( table_row ).remove().draw();
+                        alert(data.message);
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
+        });
+
+        $(document).on('click', '#SubmitReject', function(){
+            var reject_application_rent = 'selected';
+            var rental_id = $(this).attr('data-id');
+
+            $.ajax({
+                url: 'functions/update_function.php',
+                method: 'POST',
+                data: {
+                    reject_application_rent_data: reject_application_rent,
+                    rental_id_data: rental_id
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    if(data.success == "true"){
+                        table.row( table_row ).remove().draw();
+                        alert(data.message);
+                    }
+                    else if (data.success == "false"){
+                        alert(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.status + ":" + xhr.statusText);
+                }
+            });
         });
     });
     </script>

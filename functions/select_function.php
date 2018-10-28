@@ -225,7 +225,7 @@
 		$tnc_id = $_POST['tnc_id_data'];
 
 		if($tnc_id != NULL){
-			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND host_id = :apartment_id AND flag = 1";
+			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND host_id = :host_id AND flag = 1";
 			$stmt = $con->prepare($query_check);
 			$stmt->bindParam(':rules_id', $tnc_id, PDO::PARAM_INT);
 			$stmt->bindParam(':host_id', $_SESSION['admin_id'], PDO::PARAM_INT);
@@ -540,6 +540,41 @@
 				$row = $stmt->fetch();
 
 				$data = array("success" => "true", "apartment_id" => $row['apartment_id'], "apartment_name" => $row['apartment_name'], "apartment_desc" => $row['apartment_desc'], "apartment_address" => $row['apartment_address'], "status" => $row['status']);
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_applicants.php view details
+	if(isset($_POST['view_application_rent_data'])){
+		$rental_id = $_POST['rental_id_data'];
+		
+		if($rental_id != NULL){
+			$query_check = "SELECT rental_id FROM rental_tbl WHERE rental_id = :rental_id AND status = 2";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT rental_id, room_id, (SELECT room_name FROM room_tbl AS RM WHERE RM.room_id = RL.room_id) AS room_name, (SELECT rent_rate FROM room_tbl AS RM WHERE RM.room_id = RL.room_id) AS rent_rate, (SELECT room_description FROM room_tbl AS RM WHERE RM.room_id = RL.room_id) AS description, user_id, (SELECT concat(last_name, ', ', first_name, ' ', middle_name) FROM user_tbl AS UR WHERE UR.user_id = RL.user_id) AS name, (SELECT DATE_FORMAT(birth_date, '%M %d, %Y') FROM user_tbl AS UR WHERE UR.user_id = RL.user_id) AS birth, (SELECT CASE WHEN gender = 1 THEN 'Male' WHEN gender = 0 THEN 'Female' END FROM user_tbl AS UR WHERE UR.user_id = RL.user_id) AS gender, (SELECT contact_no FROM user_tbl AS UR WHERE UR.user_id = RL.user_id) AS contact_no, (SELECT email FROM user_tbl AS UR WHERE UR.user_id = RL.user_id) AS email FROM rental_tbl AS RL WHERE rental_id = :rental_id AND status = 2";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+
+				$data = array("success" => "true", "rental_id" => $row['rental_id'], "room_id" => $row['room_id'], "room_name" => $row['room_name'], "rent_rate" => $row['rent_rate'], "description" => $row['description'], "user_id" => $row['user_id'], "name" => $row['name'], "birth" => $row['birth'], "gender" => $row['gender'], "no" => $row['contact_no'], "email" => $row['email']);
 				$results = json_encode($data);
 				echo $results;
 			}

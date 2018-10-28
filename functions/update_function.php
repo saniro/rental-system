@@ -432,4 +432,90 @@
 			echo $results;
 		}
 	}
+
+	//a_applicants.php approve
+	if(isset($_POST['approve_application_rent_data'])){
+		$rental_id = $_POST['rental_id_data'];
+		
+		if($rental_id != NULL){
+			$query_check = "SELECT rental_id FROM rental_tbl WHERE rental_id = :rental_id AND status = 2";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query_update = "UPDATE rental_tbl 
+								SET status = 1, starting_date = CURDATE()  
+								WHERE rental_id = :rental_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+				$stmt->execute();
+
+				$query = "SELECT user_id FROM rental_tbl AS RL WHERE rental_id = :rental_id";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+
+				$query_update = "UPDATE user_tbl 
+								SET user_type = 0, flag = 1  
+								WHERE user_id = :user_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':user_id', $row['user_id'], PDO::PARAM_INT);
+				$stmt->execute();
+
+
+				$data = array("success" => "true", "message" => "Approved.");
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_applicants.php reject
+	if(isset($_POST['reject_application_rent_data'])){
+		$rental_id = $_POST['rental_id_data'];
+		
+		if($rental_id != NULL){
+			$query_check = "SELECT rental_id FROM rental_tbl WHERE rental_id = :rental_id AND status = 2";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query_update = "UPDATE rental_tbl 
+								SET status = 0  
+								WHERE rental_id = :rental_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':rental_id', $rental_id, PDO::PARAM_INT);
+				$stmt->execute();
+
+				$data = array("success" => "true", "message" => "Rejected.");
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
 ?>
