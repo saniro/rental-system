@@ -136,5 +136,4 @@
 		$results = json_encode($results);
 		return $results;
 	}
-	
 ?>
