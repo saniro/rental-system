@@ -72,6 +72,7 @@
                                         <th>Date</th>
                                         <th>Requester</th>
                                         <th>Room</th>
+                                        <th>Apartment</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -86,6 +87,7 @@
                                         <td><?php echo $value -> {'request_terminate_id'}; ?></td>
                                         <td><?php echo $value -> {'date_requested'}; ?></td>
                                         <td><?php echo $value -> {'name'}; ?></td>
+                                        <td><?php echo $value -> {'apartment_name'}; ?></td>
                                         <td><?php echo $value -> {'room'}; ?></td>
                                         <td class="center">
                                             <center>

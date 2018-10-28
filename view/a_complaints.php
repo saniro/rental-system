@@ -71,6 +71,7 @@
                                         <th>ID</th>
                                         <th>Date</th>
                                         <th>Complainant</th>
+                                        <th>Apartment</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -86,6 +87,7 @@
                                         <td><?php echo $value -> {'complaint_id'}; ?></td>
                                         <td><?php echo $value -> {'message_date'}; ?></td>
                                         <td><?php echo $value -> {'name'}; ?></td>
+                                        <td><?php echo $value -> {'apartment'}; ?></td>
                                         <td><?php echo $value -> {'status'}; ?></td>
                                         <td class="center">
                                             <center>

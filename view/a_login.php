@@ -91,7 +91,7 @@
                         var data = JSON.parse(data);
 
                         if(data.success == "true"){
-                            alert("Welcome " + data.first_name + "!");
+                            alert("Welcome " + data.name + "!");
                             window.location.href = "index?route=dashboard";
                         }
                         else if(data.success == "false"){

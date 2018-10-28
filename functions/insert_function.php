@@ -277,9 +277,9 @@
 		$description = $_POST['description_data'];
 
 		if($description != NULL){
-			$query = "INSERT INTO rules_tbl (apartment_id, description) VALUES (:apartment_id, :description)";
+			$query = "INSERT INTO rules_tbl (apartment_id, description) VALUES (:host_id, :description)";
 			$stmt = $con->prepare($query);
-			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->bindParam(':host_id', $_SESSION['admin_id'], PDO::PARAM_INT);
 			$stmt->bindParam(':description', $description, PDO::PARAM_STR);
 			$stmt->execute();
 			$rulesLastInsertedID = $con->lastInsertId();
@@ -298,14 +298,15 @@
 	// a_tncs insert new tncs
 	if(isset($_POST['add_room_data'])){
 
+		$apartment = $_POST['apartment_data'];
 	    $room_name = $_POST['room_name_data'];
 	    $rent_rate = $_POST['rent_rate_data'];
 	    $description = $_POST['description_data'];
 
-		if(($room_name != NULL) && ($rent_rate != NULL) && ($description != NULL)){
+		if(($apartment != NULL) && ($room_name != NULL) && ($rent_rate != NULL) && ($description != NULL)){
 			$query = "INSERT INTO room_tbl (apartment_id, room_name, rent_rate, room_description) VALUES (:apartment_id, :room_name, :rent_rate, :description)";
 			$stmt = $con->prepare($query);
-			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->bindParam(':apartment_id', $apartment, PDO::PARAM_INT);
 			$stmt->bindParam(':room_name', $room_name, PDO::PARAM_STR);
 			$stmt->bindParam(':rent_rate', $rent_rate, PDO::PARAM_STR);
 			$stmt->bindParam(':description', $description, PDO::PARAM_STR);
@@ -351,6 +352,41 @@
 			$row = $stmt->fetch();
 
 			$data = array("success" => "true", "message" => "New utility bill type added.", "utility_bill_type_id" => $row['utility_bill_type_id'], "type" => $row['utility_bill_type'], "description" => $row['description'], "buttons" => '<button data-toggle="tooltip" data-id="'.$roomLastInsertedID.'" title="Edit" class="btn btn-success btn_edit" id="btnEdit"><span class="fa fa-edit"></span></button> <button data-toggle="tooltip" data-id="'.$roomLastInsertedID.'" title="Delete" class="btn btn-danger" id="btnDelete"><span class="glyphicon glyphicon-trash"></span></button>');
+			$output = json_encode($data);
+			echo $output;
+		}
+		else{
+			$data = array("success" => "false", "message" => "Some required fields are empty.");
+			$output = json_encode($data);
+			echo $output;
+		}
+	}
+
+	// a_tncs insert new tncs
+	if(isset($_POST['add_apartment_data'])){
+
+	    $apartment = $_POST['apartment_name_data'];
+	    $description = $_POST['description_data'];
+	    $address = $_POST['address_data'];
+
+		if(($apartment != NULL) && ($description != NULL) && ($address != NULL)){
+			$query = "INSERT INTO apartment_tbl (host_id, apartment_name, apartment_desc, apartment_address, status, flag) VALUES (:host_id, :name, :description, :address, 2, 1)";
+			$stmt = $con->prepare($query);
+			
+			$stmt->bindParam(':host_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->bindParam(':name', $apartment, PDO::PARAM_STR);
+			$stmt->bindParam(':description', $description, PDO::PARAM_STR);
+			$stmt->bindParam(':address', $address, PDO::PARAM_STR);
+			$stmt->execute();
+			$apartmentLastInsertedID = $con->lastInsertId();
+
+			$query = "SELECT * FROM apartment_tbl WHERE apartment_id = :apartment_id AND flag = 1";
+			$stmt = $con->prepare($query);
+			$stmt->bindParam(':apartment_id', $apartmentLastInsertedID, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+
+			$data = array("success" => "true", "message" => "New room was added. Wait for the acceptance of admin to use.", "id" => $row['apartment_id'], "name" => $row['apartment_name'], "description" => $row['apartment_desc'], "address" => $row['apartment_address'], "buttons" => '<center><button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails" data-id="'.$row['apartment_id'].'"><span class="fa fa-file-text-o"></span></button> <button data-toggle="tooltip" title="Delete" class="btn btn-danger" id="btnDelete" data-id="'.$row['apartment_id'].'"><span class="glyphicon glyphicon-remove"></span></button></center>');
 			$output = json_encode($data);
 			echo $output;
 		}

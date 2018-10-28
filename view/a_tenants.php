@@ -55,7 +55,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>Email</th>
+                                        <th>Apartment</th>
                                         <th>Contact No.</th>
                                         <th>Room Name</th>
                                         <th>Actions</th>
@@ -71,7 +71,7 @@
                                         <tr class="odd gradeX" id = "<?php echo $value -> {'user_id'}; ?>">
                                             <td><?php echo $value -> {'user_id'}; ?></td>
                                             <td><?php echo $value -> {'name'}; ?></td>
-                                            <td><?php echo $value -> {'email'}; ?></td>
+                                            <td><?php echo $value -> {'apartment_name'}; ?></td>
                                             <td class="center"><?php echo $value -> {'contact_no'}; ?></td>
                                             <td class="center"><?php echo $value -> {'room_name'}; ?></td>
                                             <td class="center">

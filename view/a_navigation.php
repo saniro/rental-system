@@ -84,6 +84,9 @@
                     <a href="index?route=dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
                 <li>
+                    <a href="index?route=apartment"><i class="fa fa-dashboard fa-fw"></i> Apartment</a>
+                </li>
+                <li>
                     <a href="#"><i class="glyphicon glyphicon-home fa-fw"></i> Rooms<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>

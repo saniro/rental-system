@@ -214,7 +214,7 @@
 		$rules_id = $_POST['tnc_id_data'];
 
 		if($rules_id != NULL){
-			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND apartment_id = :apartment_id AND flag = 1";
+			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND host_id = :host_id AND flag = 1";
 			$stmt = $con->prepare($query_check);
 			$stmt->bindParam(':rules_id', $rules_id, PDO::PARAM_INT);
 			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);

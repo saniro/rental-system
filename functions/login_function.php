@@ -6,7 +6,7 @@
 		$password = $_POST['password_data'];
 
 		if(($email != NULL) || ($password != NULL)){
-			$query = "SELECT apartment_id, apartment_name, password FROM apartment_tbl WHERE email = :email AND password = :password AND status = 1 AND flag = 1";
+			$query = "SELECT host_id, concat(last_name, ', ', first_name, ' ', middle_name) AS name FROM host_tbl WHERE email = :email AND password = :password AND status = 1 AND flag = 1";
 			$stmt = $con->prepare($query);
 			$stmt->bindParam(':email', $email, PDO::PARAM_STR);
 			$stmt->bindParam(':password', $password, PDO::PARAM_STR);
@@ -20,9 +20,9 @@
 				echo $output;
 			}
 			else{
-				$_SESSION['admin_id'] = $row['apartment_id'];
-				$_SESSION['name'] = $row['apartment_name'];
-				$data = array("success" => "true", "first_name" => $row['apartment_name']);
+				$_SESSION['admin_id'] = $row['host_id'];
+				$_SESSION['name'] = $row['name'];
+				$data = array("success" => "true", "name" => $row['name']);
 				$output = json_encode($data);
 				echo $output;
 			}

@@ -14,6 +14,9 @@
 		case 'dashboard':
 			require("view/a_dashboard.php");
 			break;
+		case 'apartment':
+			require("view/a_apartment.php");
+			break;
 		case 'rooms':
 			require("view/a_rooms.php");
 			break;

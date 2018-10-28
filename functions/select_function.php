@@ -68,7 +68,7 @@
 				if($rowCount > 0){
 					$user_id = $row['user_id'];
 					$rental_id = $row['rental_id'];
-					$query = "SELECT room_id, room_name, rent_rate, room_description FROM room_tbl WHERE room_id = :room_id";
+					$query = "SELECT room_id, room_name, rent_rate, room_description, (SELECT apartment_name FROM apartment_tbl AS AT WHERE AT.apartment_id = RM.apartment_id) AS apartment FROM room_tbl AS RM WHERE room_id = :room_id";
 					$stmt = $con->prepare($query);
 					$stmt->bindParam(':room_id', $room_id, PDO::PARAM_INT);
 					$stmt->execute();
@@ -80,7 +80,7 @@
 					$stmt->execute();
 					$row_user = $stmt->fetch();
 
-					$data = array("success" => "true", "status" => "occupied", "rental_id" => $rental_id,"room_id" => $room_id, "room_name" => $row_room['room_name'], "rent_rate" => $row_room['rent_rate'], "room_description" => $row_room['room_description'], "user_id" => $row_user['user_id'], "name" => $row_user['name'], "birth_date" => $row_user['birth_date'], "gender" => $row_user['gender'], "contact_no" => $row_user['contact_no'], "email" => $row_user['email']);
+					$data = array("success" => "true", "status" => "occupied", "rental_id" => $rental_id,"room_id" => $room_id, "room_name" => $row_room['room_name'], "rent_rate" => $row_room['rent_rate'], "room_description" => $row_room['room_description'], "user_id" => $row_user['user_id'], "name" => $row_user['name'], "birth_date" => $row_user['birth_date'], "gender" => $row_user['gender'], "contact_no" => $row_user['contact_no'], "email" => $row_user['email'], "apartment" => $row_room['apartment']);
 					$results = json_encode($data);
 					echo $results;
 
@@ -225,10 +225,10 @@
 		$tnc_id = $_POST['tnc_id_data'];
 
 		if($tnc_id != NULL){
-			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND apartment_id = :apartment_id AND flag = 1";
+			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND host_id = :apartment_id AND flag = 1";
 			$stmt = $con->prepare($query_check);
 			$stmt->bindParam(':rules_id', $tnc_id, PDO::PARAM_INT);
-			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->bindParam(':host_id', $_SESSION['admin_id'], PDO::PARAM_INT);
 			$stmt->execute();
 			$row = $stmt->fetch();
 			$rowCount = $stmt->rowCount();
@@ -261,10 +261,10 @@
 		$tnc_id = $_POST['tnc_id_data'];
 
 		if($tnc_id != NULL){
-			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND apartment_id = :apartment_id AND flag = 1";
+			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND host_id = :host_id AND flag = 1";
 			$stmt = $con->prepare($query_check);
 			$stmt->bindParam(':rules_id', $tnc_id, PDO::PARAM_INT);
-			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->bindParam(':host_id', $_SESSION['admin_id'], PDO::PARAM_INT);
 			$stmt->execute();
 			$row = $stmt->fetch();
 			$rowCount = $stmt->rowCount();
@@ -486,4 +486,73 @@
 		}
 	}
 
+	//a_apartment.php view details
+	if(isset($_POST['view_apartment_details_check_data'])){
+		$apartment_id = $_POST['apartment_id_data'];
+		
+		if($apartment_id != NULL){
+			$query_check = "SELECT apartment_id FROM apartment_tbl WHERE apartment_id = :apartment_id AND (status = 2 OR status = 1)";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT apartment_id, apartment_name, apartment_desc, apartment_address, (CASE WHEN status = 1 THEN 'Accepted' WHEN status = 2 THEN 'Pending' END) AS status FROM apartment_tbl WHERE apartment_id = :apartment_id";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+
+				$data = array("success" => "true", "apartment_id" => $row['apartment_id'], "apartment_name" => $row['apartment_name'], "apartment_desc" => $row['apartment_desc'], "apartment_address" => $row['apartment_address'], "status" => $row['status']);
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_apartment.php view details
+	if(isset($_POST['view_cancel_apartment_data'])){
+		$apartment_id = $_POST['apartment_id_data'];
+		
+		if($apartment_id != NULL){
+			$query_check = "SELECT apartment_id FROM apartment_tbl WHERE apartment_id = :apartment_id AND status = 2";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query = "SELECT apartment_id, apartment_name, apartment_desc, apartment_address, (CASE WHEN status = 1 THEN 'Accepted' WHEN status = 2 THEN 'Pending' END) AS status FROM apartment_tbl WHERE apartment_id = :apartment_id";
+				$stmt = $con->prepare($query);
+				$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
+				$stmt->execute();
+				$row = $stmt->fetch();
+
+				$data = array("success" => "true", "apartment_id" => $row['apartment_id'], "apartment_name" => $row['apartment_name'], "apartment_desc" => $row['apartment_desc'], "apartment_address" => $row['apartment_address'], "status" => $row['status']);
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
 ?>

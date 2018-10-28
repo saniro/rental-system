@@ -67,10 +67,10 @@
 		$description = $_POST['description_data'];
 
 		if(($rules_id != NULL) && ($description != NULL)){
-			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND apartment_id = :apartment_id AND flag = 1";
+			$query_check = "SELECT rules_id FROM rules_tbl WHERE rules_id = :rules_id AND host_id = :host_id AND flag = 1";
 			$stmt = $con->prepare($query_check);
 			$stmt->bindParam(':rules_id', $rules_id, PDO::PARAM_INT);
-			$stmt->bindParam(':apartment_id', $_SESSION['admin_id'], PDO::PARAM_INT);
+			$stmt->bindParam(':host_id', $_SESSION['admin_id'], PDO::PARAM_INT);
 			$stmt->execute();
 
 			$rowCount = $stmt->rowCount();
@@ -381,6 +381,42 @@
 				$stmt->execute();
 
 				$data = array("success" => "true", "message" => "Request termination rejected.");
+				$results = json_encode($data);
+				echo $results;
+			}
+			else{
+				$data = array("success" => "false", "message" => "Something went wrong. Please try again.");
+				$results = json_encode($data);
+				echo $results;
+			}
+		}
+		else{
+			$data = array("success" => "false", "message" => "Required fields must not be empty.");
+			$results = json_encode($data);
+			echo $results;
+		}
+	}
+
+	//a_apartment.php cancel apartment
+	if(isset($_POST['submit_cancel_apartment_data'])){
+		$apartment_id = $_POST['apartment_id_data'];
+		
+		if($apartment_id != NULL){
+			$query_check = "SELECT apartment_id FROM apartment_tbl WHERE apartment_id = :apartment_id AND status = 2";
+			$stmt = $con->prepare($query_check);
+			$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
+			$stmt->execute();
+			$row = $stmt->fetch();
+			$rowCount = $stmt->rowCount();
+			if($rowCount > 0){
+				$query_update = "UPDATE apartment_tbl 
+								SET flag = 0 
+								WHERE apartment_id = :apartment_id";
+				$stmt = $con->prepare($query_update);
+				$stmt->bindParam(':apartment_id', $apartment_id, PDO::PARAM_INT);
+				$stmt->execute();
+
+				$data = array("success" => "true", "message" => "Apartment application cancelled.");
 				$results = json_encode($data);
 				echo $results;
 			}

@@ -54,8 +54,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Rooms Table</h1>
-                    <div class="floordivider"></div>
+                    <h1 class="page-header">Apartment</h1>
                 </div>
             </div>
             
@@ -81,31 +80,40 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Room Name</th>
-                                        <th>Room Rate</th>
-                                        <th>Apartment</th>
+                                        <th>Apartment Name</th>
+                                        <th>Apartment Description</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php
-                                    $all_rooms = all_rooms();
-                                    $all_rooms = json_decode($all_rooms);
+                                    $all_apartment = all_apartment();
+                                    $all_apartment = json_decode($all_apartment);
 
-                                    foreach ($all_rooms as $value) {
+                                    foreach ($all_apartment as $value) {
                                     ?>
                                     <tr class="odd gradeX">
-                                        <td><?php echo $value -> {'room_id'}; ?></td>
-                                        <td><?php echo $value -> {'room_name'}; ?></td>
-                                        <td><?php echo $value -> {'rent_rate'}; ?></td>
-                                        <td><?php echo $value -> {'apartment'}; ?></td>
+                                        <td><?php echo $value -> {'apartment_id'}; ?></td>
+                                        <td><?php echo $value -> {'apartment_name'}; ?></td>
+                                        <td><?php echo $value -> {'apartment_desc'}; ?></td>
                                         <td><?php echo $value -> {'status'}; ?></td>
                                         <td class="center">
                                             <center>
-                                                <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails" data-id="<?php echo $value -> {'room_id'}; ?>"><span class="fa fa-file-text-o"></span></button>
-                                                <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit" data-id="<?php echo $value -> {'room_id'}; ?>"><span class="fa fa-edit"></span></button>
-                                                <button data-toggle="tooltip" title="Delete" class="btn btn-danger" id="btnDelete" data-id="<?php echo $value -> {'room_id'}; ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                                                <?php
+                                                    if($value -> {'status'} == 'Accepted'){
+                                                ?>
+                                                <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails" data-id="<?php echo $value -> {'apartment_id'}; ?>"><span class="fa fa-file-text-o"></span></button>
+                                                <button data-toggle="tooltip" title="Edit Details" class="btn btn-success" id="btnEdit" data-id="<?php echo $value -> {'apartment_id'}; ?>"><span class="fa fa-edit"></span></button>
+                                                <?php
+                                                    }
+                                                    else{
+                                                ?>
+                                                <button data-toggle="tooltip" title="View Full Details" class="btn btn-info" id="btnViewDetails" data-id="<?php echo $value -> {'apartment_id'}; ?>"><span class="fa fa-file-text-o"></span></button>
+                                                <button data-toggle="tooltip" title="Delete" class="btn btn-danger" id="btnDelete" data-id="<?php echo $value -> {'apartment_id'}; ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                                                <?php
+                                                    }
+                                                ?>        
                                             </center>
                                         </td>
                                     </tr>
@@ -132,186 +140,43 @@
     </div>
     <!-- /#wrapper -->
 <!-- This is the Modal that will be called for vacant room btn -->
-    <div id = "modalVacantRoom" class = "modal fade"  role = "dialog">
+    <div id = "modalView" class = "modal fade"  role = "dialog">
         <div class = "modal-dialog">
             <div class="modal-content">
                 <div class = "modal-header">
                     <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                    <h4 class ="modal-title"> Add Room Tenant </h4>
+                    <h4 class ="modal-title"> Apartment </h4>
                 </div>
                 <div class="modal-body">
-                    <div class="panel-body">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#v_room" data-toggle="tab" aria-expanded="false">Room</a>
-                            </li>
-                            <li class=""><a href="#v_add" data-toggle="tab" aria-expanded="true">+ ADD</a>
-                            </li>
-                        </ul>
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div class="tab-pane fade active in" id="v_room">
-                                <center><br><h4>Room Information</h4></center>
-                                <form>
-                                    <!-- <div class="form-group">
-                                        <label> Picture: </label>
-                                        <label id="v_room_picture" class="form-control"></label>
-                                    </div> -->
-                                    <div class="form-group">
-                                        <label> ID: </label>
-                                        <label id="v_room_id" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Room Name: </label>
-                                        <label id="v_room_name" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Rent Rate: </label>
-                                        <label id="v_rent_rate" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Description: </label>
-                                        <label id="v_room_description" class="form-control"></label>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="tab-pane fade" id="v_add">
-                                <center><br><h4>Tenant</h4></center>
-                                <form>
-                                    <div class="form-group">
-                                        <label> First Name: </label>
-                                        <input type="text" id="a_first_name" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Middle Name: </label>
-                                        <input type="text" id="a_middle_name" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Last Name: </label>
-                                        <input type="text" id="a_last_name" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Birthdate:</label>
-                                        <input type="date" id="a_birth_date" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Gender:</label>
-                                        <div class="form-control">
-                                            <input style="width:30%;" type="radio" name="a_gender" id="a_gender" value="1" checked />Male
-                                            <input style="width:30%;" type="radio" name="a_gender" id="a_gender" value="0"/>Female
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Contact No:</label>
-                                        <input type="text" id="a_contactno" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Email:</label>
-                                        <input type="text" id="a_email" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Profile Picture:</label>
-                                        <input type="file" id="a_profile_picture" class="form-control">
-                                    </div>
-                                </form>
-                                <br>
-                                <button type="button" id="AddTenantSubmit" class="btn btn-primary btn-lg btn-block">ADD TENANT</button>
-                            </div>
+                    <center><br><h4>Apartment Information</h4></center>
+                    <form>
+                        <!-- <div class="form-group">
+                            <label> Picture: </label>
+                            <label id="v_room_picture" class="form-control"></label>
+                        </div> -->
+                        <div class="form-group">
+                            <label> ID: </label>
+                            <label id="v_id" class="form-control"></label>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label> Apartment Name: </label>
+                            <label id="v_apartment" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Description </label>
+                            <label id="v_apartment_desc" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Address </label>
+                            <label id="v_address" class="form-control"></label>
+                        </div>
+                        <div class="form-group">
+                            <label> Status </label>
+                            <label id="v_status" class="form-control"></label>
+                        </div>
+                    </form>
                 </div>
                 <div class = "modal-footer">
-                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
-                </div>
-            </div>
-        </div>
-    </div>
-<!-- This is the Modal that will be called for occupied room btn -->
-    <div id = "modalOccupiedRoom" class = "modal fade"  role = "dialog">
-        <div class = "modal-dialog">
-            <div class="modal-content">
-                <div class = "modal-header">
-                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                    <h4 class ="modal-title"> Room Details </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="panel-body">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#o_room" data-toggle="tab" aria-expanded="false">Room</a>
-                            </li>
-                            <li><a href="#o_profile" data-toggle="tab" aria-expanded="true">Tenant</a>
-                            </li>
-                        </ul>
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div class="tab-pane fade active in" id="o_room">
-                                <center><br><h4>Room Information</h4></center>
-                                <form>
-                                    <!-- <div class="form-group">
-                                        <label> Picture: </label>
-                                        <label id="o_room_picture" class="form-control"></label>
-                                    </div> -->
-                                    <div class="form-group">
-                                        <label> ID: </label>
-                                        <label id="o_room_id" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Room Name: </label>
-                                        <label id="o_room_name" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Rent Rate: </label>
-                                        <label id="o_rent_rate" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Description: </label>
-                                        <label id="o_room_description" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Apartment: </label>
-                                        <label id="o_apartment" class="form-control"></label>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="tab-pane fade" id="o_profile">
-                                <center><br><h4>Tenant</h4></center>
-                                <form>
-                                    <!-- <div class="form-group">
-                                        <label>Profile Picture: </label>
-                                        <label id="o_profile_picture" class="form-control"></label>
-                                    </div> -->
-                                    <div class="form-group">
-                                        <label> ID: </label>
-                                        <label id="o_user_id" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Name: </label>
-                                        <label id="o_name" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Birthdate: </label>
-                                        <label id="o_birthdate" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Gender: </label>
-                                        <label id="o_gender" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Contact No: </label>
-                                        <label id="o_contactno" class="form-control"></label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Email: </label>
-                                        <label id="o_email" class="form-control"></label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class = "modal-footer">
-                    <button type="button" class = "btn btn-danger" id="btnTerminate" data-dismiss = "modal">TERMINATE </button>
                     <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
                 </div>
             </div>
@@ -346,7 +211,7 @@
     </div>
 
  <!-- modalEditRoomDetails -->
-      <div class = "modal fade" id = "modalEditRoomDetails" role = "dialog">
+      <div class = "modal fade" id = "modalEdit" role = "dialog">
         <div class = "modal-dialog">
 
           <div class="modal-content">
@@ -358,19 +223,19 @@
                     <form>
                         <div class="form-group">
                             <label>ID:</label>
-                            <label class="form-control" id="e_room_id"></label>
+                            <label class="form-control" id="e_id"></label>
                         </div>
                         <div class="form-group">
-                            <label>Room Name:</label>
-                            <input class="form-control" id="e_room_name" placeholder="Room Name">
+                            <label>Apartment Name</label>
+                            <input class="form-control" id="e_name" placeholder="Room Name">
                         </div>
                         <div class="form-group">
-                            <label>Rent Rate:</label>
-                            <input class="form-control" id="e_rent_rate" placeholder="Room Rate">
+                            <label>Description</label>
+                            <input class="form-control" id="e_description">
                         </div>
                         <div class="form-group">
-                            <label>Description:</label>
-                            <input class="form-control" id="e_room_description" placeholder="Description">
+                            <label>Address:</label>
+                            <label class="form-control" id="e_address">
                         </div>
                         <div class="form-group">
                             <label>Status:</label>
@@ -392,40 +257,21 @@
             <div class="modal-content">
                 <div class = "modal-header">
                     <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                    <h4 class ="modal-title"> Add New Room </h4>
+                    <h4 class ="modal-title"> Add New Apartment </h4>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label>Apartment</label>
-                            <select class="form-control" id="a_apartment">
-                            <?php
-                                $select_apartment = select_apartment();
-                                $select_apartment = json_decode($select_apartment);
-
-                                foreach ($select_apartment as $value) {
-                                ?>
-                                <option value = "<?php echo $value -> {'apartment_id'}; ?>"><?php echo $value -> {'apartment_name'}; ?></option>
-                                <?php
-                                }
-                            ?>
-                            </select>
+                            <label> Apartment Name: </label>
+                            <input class="form-control" id="a_apartment" placeholder="Apartment name" required />
                         </div>
                         <div class="form-group">
-                            <label> Apartment: </label>
-                            
+                            <label> Apartment Description: </label>
+                            <input class="form-control" id="a_description" placeholder="Apartment description" required />
                         </div>
                         <div class="form-group">
-                            <label> Room Name: </label>
-                            <input class="form-control" id="a_room_name" placeholder="Room name" required />
-                        </div>
-                        <div class="form-group">
-                            <label> Rent Rate: </label>
-                            <input class="form-control" id="a_rent_rate" placeholder="Rent rate" required />
-                        </div>
-                        <div class="form-group">
-                            <label> Description: </label>
-                            <textarea class="form-control" id="a_description" placeholder="Describe room here ..." required></textarea>
+                            <label> Address: </label>
+                            <input class="form-control" id="a_address" placeholder="Address" required />
                         </div>
                         <div class="form-group">
                             <label> Room Picture: </label>
@@ -450,15 +296,15 @@
                     <h4 class ="modal-title"> Confirmation </h4>
                 </div>
                 <div class="modal-body">
-                    By clicking yes, this room will be deleted.
+                    By clicking yes, the application of this apartment will be cancelled.
                     <form>
                         <div class="form-group">
                             <label> ID: </label>
-                            <label class="form-control" id="v_d_room_id" placeholder="Room name"></label>
+                            <label class="form-control" id="v_d_apartment_id"></label>
                         </div>
                         <div class="form-group">
-                            <label> Room Name: </label>
-                            <label class="form-control" id="v_d_room_name" placeholder="Rent rate"></label>
+                            <label> Apartment: </label>
+                            <label class="form-control" id="v_d_apartment_name"></label>
                         </div>
                     </form>
                 </div>
@@ -504,32 +350,29 @@
             });
 
             $(document).on('click', '#SubmitAdd', function(){
-                var add_room = 'selected';
-                var apartment = $('#a_apartment').val();
-                var room_name = $('#a_room_name').val();
-                var rent_rate = $('#a_rent_rate').val();
+                var add_apartment = 'selected';
+                var apartment_name = $('#a_apartment').val();
                 var description = $('#a_description').val();
+                var address = $('#a_address').val();
 
                 $.ajax({
                     url: 'functions/insert_function.php',
                     method: 'POST',
                     data: {
-                        add_room_data: add_room,
-                        apartment_data: apartment,
-                        room_name_data: room_name,
-                        rent_rate_data: rent_rate,
-                        description_data: description
+                        add_apartment_data: add_apartment,
+                        apartment_name_data: apartment_name,
+                        description_data: description,
+                        address_data: address
                     },
                     success: function(data) {
                         var data = JSON.parse(data);
                         if(data.success == "true"){
                             
                             table.row.add( [
-                                data.room_id,
-                                data.room_name,
-                                data.rent_rate,
+                                data.id,
+                                data.name,
                                 data.description,
-                                data.status,
+                                'Pending',
                                 data.buttons
                             ] ).draw( false );
                             alert(data.message);
@@ -545,24 +388,24 @@
             });
 
             $(document).on('click', '#btnDelete', function(){
-                var view_delete_room = 'selected';
-                var room_id = $(this).attr('data-id');
+                var view_cancel_apartment = 'selected';
+                var apartment_id = $(this).attr('data-id');
                 table_row = $(this).parents('tr');
 
                 $.ajax({
                     url: 'functions/select_function.php',
                     method: 'POST',
                     data: {
-                        view_delete_room_data: view_delete_room,
-                        room_id_data: room_id
+                        view_cancel_apartment_data: view_cancel_apartment,
+                        apartment_id_data: apartment_id
                     },
                     success: function(data) {
                         var data = JSON.parse(data);
                         if(data.success == "true"){
-                            $("#v_d_room_id").html(data.room_id);
-                            $("#v_d_room_name").html(data.room_name);
+                            $("#v_d_apartment_id").html(data.apartment_id);
+                            $("#v_d_apartment_name").html(data.apartment_name);
 
-                            $('#SubmitDelete').attr('data-id', room_id);
+                            $('#SubmitDelete').attr('data-id', data.apartment_id);
                             $('#modalDelete').modal('show');
                         }
                         else if (data.success == "false"){
@@ -576,15 +419,15 @@
             });
 
             $(document).on('click', '#SubmitDelete', function(){
-                var room_id = $(this).attr('data-id');
-                var submit_delete_room = 'selected';
+                var apartment_id = $(this).attr('data-id');
+                var submit_cancel_apartment = 'selected';
 
                 $.ajax({
-                    url: 'functions/delete_function.php',
+                    url: 'functions/update_function.php',
                     method: 'POST',
                     data: {
-                        submit_delete_room_data: submit_delete_room,
-                        room_id_data: room_id
+                        submit_cancel_apartment_data: submit_cancel_apartment,
+                        apartment_id_data: apartment_id
                     },
                     success: function(data) {
                         var data = JSON.parse(data);
@@ -603,46 +446,27 @@
             });
 
             $(document).on('click', '#btnViewDetails', function(){
-                var room_id = $(this).attr('data-id');
-                var view_room_details_check = 'selected';
+                var apartment_id = $(this).attr('data-id');
+                var view_apartment_details_check = 'selected';
                 table_row = $(this).parents('tr');
                 
                 $.ajax({
                     url: 'functions/select_function.php',
                     method: 'POST',
                     data: {
-                        view_room_details_check_data: view_room_details_check,
-                        room_id_data: room_id
+                        view_apartment_details_check_data: view_apartment_details_check,
+                        apartment_id_data: apartment_id
                     },
                     success: function(data) {
                         var data = JSON.parse(data);
                         if(data.success == "true"){
-                            if(data.status == "occupied"){
-                                $("#o_room_id").html(data.room_id);
-                                $("#o_room_name").html(data.room_name);
-                                $("#o_rent_rate").html(data.rent_rate);
-                                $("#o_room_description").html(data.room_description);
-                                $("#o_apartment").html(data.apartment);
-
-                                $("#o_user_id").html(data.user_id);
-                                $("#o_name").html(data.name);
-                                $("#o_birthdate").html(data.birth_date);
-                                $("#o_gender").html(data.gender);
-                                $("#o_contactno").html(data.contact_no);
-                                $("#o_email").html(data.email);
-                                $("#btnTerminate").attr('data-id', data.rental_id);
-
-                                $('#modalOccupiedRoom').modal('show');
-                            }
-                            else if(data.status == "vacant"){
-                                $('#v_room_id').html(data.room_id);
-                                $('#v_room_name').html(data.room_name);
-                                $('#v_rent_rate').html(data.rent_rate);
-                                $('#v_room_description').html(data.room_description);
-
-                                $('#AddTenantSubmit').attr('data-id', data.room_id);
-                                $('#modalVacantRoom').modal('show');
-                            }
+                            $("#v_id").html(data.apartment_id);
+                            $("#v_apartment").html(data.apartment_name);
+                            $("#v_apartment_desc").html(data.apartment_desc);
+                            $("#v_address").html(data.apartment_address);
+                            $("#v_status").html(data.status);
+                            
+                            $('#modalView').modal('show');
                         }
                         else if (data.success == "false"){
                             alert(data.message);
@@ -655,28 +479,27 @@
             });
 
             $(document).on('click', '#btnEdit', function(){
-                var room_id = $(this).attr('data-id');
-                var view_edit_room = 'selected';
+                var apartment_id = $(this).attr('data-id');
+                var view_apartment_details_check = 'selected';
                 table_row = $(this).parents('tr');
 
                 $.ajax({
                     url: 'functions/select_function.php',
                     method: 'POST',
                     data: {
-                        view_edit_room_data: view_edit_room,
-                        room_id_data: room_id
+                        view_apartment_details_check_data: view_apartment_details_check,
+                        apartment_id_data: apartment_id
                     },
                     success: function(data) {
                         var data = JSON.parse(data);
                         if(data.success == "true"){
-                            $("#e_room_id").html(data.room_id);
-                            $("#e_room_name").val(data.room_name);
-                            $("#e_room_rate").val(data.room_rate);
-                            $("#e_rent_rate").val(data.rent_rate);
-                            $("#e_room_description").val(data.room_description);
+                            $("#e_id").html(data.apartment_id);
+                            $("#e_name").html(data.apartment_name);
+                            $("#e_description").html(data.apartment_desc);
+                            $("#e_address").html(data.apartment_address);
                             $("#e_status").html(data.status);
-                            $("#SubmitUpdate").attr('data-id', data.room_id);
-                            $('#modalEditRoomDetails').modal('show');
+                            
+                            $('#modalEdit').modal('show');
                         }
                         else if (data.success == "false"){
                             alert(data.message);
@@ -712,7 +535,7 @@
                             table.row( table_row ).data(rData).draw();
  
                             alert(data.message);
-                            $('#modalEditRoomDetails').modal('toggle');
+                            $('#modalEdit').modal('toggle');
                         }
                         else if (data.success == "false"){
                             if(data.error == "minor"){
@@ -720,7 +543,7 @@
                             }
                             else{
                                 alert(data.message);
-                                $('#modalEditRoomDetails').modal('toggle');
+                                $('#modalEdit').modal('toggle');
                             }
                         }
                     },
