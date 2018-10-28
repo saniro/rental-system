@@ -11,15 +11,15 @@
 		case 'login':
 			require("view/a_login.php");
 			break;
-		case 'dashboard':
-			require("view/a_dashboard.php");
-			break;
+		// case 'dashboard':
+		// 	require("view/a_dashboard.php");
+		// 	break;
 		case 'apartment':
 			require("view/a_apartment.php");
 			break;
-		case 'rooms':
-			require("view/a_rooms.php");
-			break;
+		// case 'rooms':
+		// 	require("view/a_rooms.php");
+		// 	break;
 		case 'roomstable':
 			require("view/a_roomstable.php");
 			break;
@@ -44,12 +44,12 @@
 		case 'tncs':
 			require("view/a_tncs.php");
 			break;
-		case 'utilitybills':
-			require("view/a_utilitybills.php");
-			break;
-		case 'notifications':
-			require("view/a_notifications.php");
-			break;
+		// case 'utilitybills':
+		// 	require("view/a_utilitybills.php");
+		// 	break;
+		// case 'notifications':
+		// 	require("view/a_notifications.php");
+		// 	break;
 		case 'bill_type':
 			require("view/a_bill_type.php");
 			break;

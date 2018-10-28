@@ -76,17 +76,20 @@
                         <!-- </button> -->
                     <!-- </span> -->
                     <img style="display:inline-block;margin-right:5px;width:13%;height:8%;" src="users/default-profile-picture.png" class="fa-fw">
-					<label style="text-align:center;">ADMINISTRATOR</label>
+					<label style="text-align:center;">HOST</label>
                     </div>
                     <!-- /input-group -->
                 </li>
-                <li>
+                <!-- <li>
                     <a href="index?route=dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                </li>
+                </li> -->
                 <li>
                     <a href="index?route=apartment"><i class="fa fa-dashboard fa-fw"></i> Apartment</a>
                 </li>
                 <li>
+                    <a href="index?route=roomstable"><i class="glyphicon glyphicon-home fa-fw"></i> Rooms</a>
+                </li>
+                <!-- <li>
                     <a href="#"><i class="glyphicon glyphicon-home fa-fw"></i> Rooms<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
@@ -96,7 +99,7 @@
                             <a href="index?route=roomstable">Rooms Table</a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <li>
                     <a href="index?route=applicants"><i class="fa fa-plus-square fa-fw"></i> Applicants</a>
                 </li>
@@ -120,7 +123,7 @@
                 <li>
                     <a href="index?route=complaints"><i class="fa fa-exclamation-triangle fa-fw"></i> Complaints</a>
                 </li>
-                <li>
+               <!--  <li>
                     <a href="#"><i class="fa fa-gear fa-fw"></i> Maintenance<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
@@ -130,10 +133,13 @@
                             <a href="index?route=utilitybills">Utility Bills</a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <li>
-                    <a href="index?route=notifications"><i class="fa fa-bell fa-fw"></i> Notifications</a>
+                    <a href="index?route=tncs"><i class="fa fa-list fa-fw"></i> Terms and Conditions</a>
                 </li>
+                <!-- <li>
+                    <a href="index?route=notifications"><i class="fa fa-bell fa-fw"></i> Notifications</a>
+                </li> -->
                 <!-- <li>
                     <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">

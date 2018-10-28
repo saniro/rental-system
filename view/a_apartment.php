@@ -273,10 +273,10 @@
                             <label> Address: </label>
                             <input class="form-control" id="a_address" placeholder="Address" required />
                         </div>
-                        <div class="form-group">
-                            <label> Room Picture: </label>
+                        <!-- <div class="form-group">
+                            <label> Apartment Picture: </label>
                             <input type="file" class="form-control" />
-                        </div>
+                        </div> -->
                     </form>
                 </div>
                 <div class = "modal-footer">

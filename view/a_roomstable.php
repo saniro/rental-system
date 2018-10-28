@@ -16,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Apartment Rental</title>
+    <title>Rental Platform</title>
     <link rel="icon" href="img/apicon.png">
 
     <!-- Bootstrap Core CSS -->
@@ -209,10 +209,10 @@
                                         <label>Email:</label>
                                         <input type="text" id="a_email" class="form-control">
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label>Profile Picture:</label>
                                         <input type="file" id="a_profile_picture" class="form-control">
-                                    </div>
+                                    </div> -->
                                 </form>
                                 <br>
                                 <button type="button" id="AddTenantSubmit" class="btn btn-primary btn-lg btn-block">ADD TENANT</button>
@@ -241,6 +241,8 @@
                             <li class="active"><a href="#o_room" data-toggle="tab" aria-expanded="false">Room</a>
                             </li>
                             <li><a href="#o_profile" data-toggle="tab" aria-expanded="true">Tenant</a>
+                            </li>
+                            <li class=""><a href="#rental" data-toggle="tab" aria-expanded="false">Rental Payment</a>
                             </li>
                         </ul>
                         <!-- Tab panes -->
@@ -307,6 +309,51 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="tab-pane fade" id="rental">
+                                <center><br><h4>Rental Payment</h4></center>
+
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#full" data-toggle="tab" aria-expanded="false">Full Payment</a>
+                                        </li>
+                                        <li class=""><a href="#partial" data-toggle="tab" aria-expanded="true">Partial Payment</a>
+                                        </li>
+                                    </ul>
+
+
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade active in" id="full">
+                                        <form>
+                                            <div class="form-group">
+                                                <label> Amount: </label>
+                                                <label id="" class="form-control"></label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label> Due Date: </label>
+                                                <label id="" class="form-control"></label>
+                                            </div>
+                                            <button id="" type="button" class="form-control btn btn-primary">Mark as Fully Paid</button>
+                                        </form>
+                                        </div>
+                                        <div class="tab-pane fade" id="partial">
+                                        <form>
+                                            <div class="form-group">
+                                                <label> Amount: </label>
+                                                <label id="" class="form-control"></label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label> Due Date: </label>
+                                                <label id="" class="form-control"></label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label> Partial Payment: </label>
+                                                <input type="text" name="" class="form-control">
+                                            </div>
+                                            <button id="" type="button" class="form-control btn btn-primary">Add Partial Payment</button>
+                                        </form>
+                                        </div>
+                                    </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -427,10 +474,10 @@
                             <label> Description: </label>
                             <textarea class="form-control" id="a_description" placeholder="Describe room here ..." required></textarea>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label> Room Picture: </label>
                             <input type="file" class="form-control" />
-                        </div>
+                        </div> -->
                     </form>
                 </div>
                 <div class = "modal-footer">
